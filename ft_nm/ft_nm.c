@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_nm.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/17 13:52:03 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/18 12:27:14 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <mach-o/loader.h>
+#include <mach-o/nlist.h>
 #include <mach-o/swap.h>
 #include <mach-o/fat.h>
 #include <sys/stat.h>
@@ -51,20 +52,37 @@ uint32_t	dump_mach_header(void *ptr, char is_64, char is_swap)
 	return (0);
 }
 
-void print_segname(struct segment_command_64 *segment, uint32_t ncmds)
+void					print_sym(struct symtab_command *symtab, void *ptr)
 {
-	if (ncmds == 0)
-		return;
-	write(0, segment->segname, 16);
-	write(0, "\n", 1);
-	print_segname(segment + 1, ncmds - 1);
+	struct nlist_64	*arr;
+	char			*stringable;
+	uint32_t		i;
+
+	stringable = ptr + symtab->stroff;
+	arr = ptr + symtab->symoff;
+	i = 0;
+	while (i < symtab->nsyms)
+	{
+		printf("%s\n", stringable + arr[i].n_un.n_strx);
+		i++;
+	}
 }
 
-void		dump_segments_command(void *ptr, char is_64, char is_swap, uint32_t ncmds)
+struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
 {
-	struct load_command *cmd;
-	cmd = (struct load_command *)((struct mach_header_64 *)ptr + 1);
+	if (ncmds == 0)
+		return NULL;
+	if (lc->cmd == LC_SYMTAB)
+		return ((struct symtab_command *)lc);
+	return get_symtab((void *)lc + lc->cmdsize, ncmds - 1);
+}
 
+void					dump_segments_command(void *ptr, char is_64, char is_swap, uint32_t ncmds)
+{
+	struct load_command		*lc;
+	struct symtab_command	*symtab;
+
+	lc = (struct load_command *)((struct mach_header_64 *)ptr + 1);
 	if (!is_64)
 	{
 		//TODO: handle 32
@@ -73,10 +91,8 @@ void		dump_segments_command(void *ptr, char is_64, char is_swap, uint32_t ncmds)
 	{
 		//TODO: handle swap
 	}
-	if (cmd->cmd == LC_SEGMENT_64)
-	{
-		print_segname((struct segment_command_64 *)((struct mach_header_64 *)ptr + 1), ncmds);
-	}
+	symtab = get_symtab(lc, ncmds);
+	print_sym(symtab, ptr);
 }
 
 void 		dump_segments(void *ptr)

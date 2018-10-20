@@ -6,29 +6,17 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/18 12:27:14 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:30:10 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <mach-o/loader.h>
-#include <mach-o/nlist.h>
-#include <mach-o/swap.h>
-#include <mach-o/fat.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <errno.h>
+#include "ft_nm.h"
 
-/* hack until arm64 headers are worked out */
-#ifndef CPU_TYPE_ARM64
-# define CPU_TYPE_ARM64			(CPU_TYPE_ARM | CPU_ARCH_ABI64)
-#endif /* !CPU_TYPE_ARM64 */
+int handle_error(char *msg)
+{
+	printf("%s : %s\n", msg, strerror(errno));
+	return (1);
+}
 
 uint32_t	dump_mach_header(void *ptr, char is_64, char is_swap)
 {
@@ -52,6 +40,18 @@ uint32_t	dump_mach_header(void *ptr, char is_64, char is_swap)
 	return (0);
 }
 
+uint32_t	get_ncmds(t_macho_file macho_file)
+{
+	struct mach_header_64	*header;
+
+	if (macho_file.is_64)
+	{
+		header = (struct mach_header_64 *)macho_file.ptr;
+		return (header->ncmds);
+	} 
+	return (0);
+}
+
 void					print_sym(struct symtab_command *symtab, void *ptr)
 {
 	struct nlist_64	*arr;
@@ -63,9 +63,26 @@ void					print_sym(struct symtab_command *symtab, void *ptr)
 	i = 0;
 	while (i < symtab->nsyms)
 	{
-		printf("%s\n", stringable + arr[i].n_un.n_strx);
+		printf("0000000%llx %s\n",
+			arr[i].n_value,
+			stringable + arr[i].n_un.n_strx
+		);
 		i++;
 	}
+}
+
+t_sym					*init_sym(struct nlist_64 curr, char *stringable)
+{
+	t_sym	*new_sym;
+
+	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
+		return (NULL);
+	new_sym->value = curr.n_value;
+	new_sym->name = stringable + curr.n_un.n_strx;
+	new_sym->type = curr.n_type;
+	new_sym->left = NULL;
+	new_sym->right = NULL;
+	return (new_sym);
 }
 
 struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
@@ -121,18 +138,105 @@ void 		dump_segments(void *ptr)
 	}
 }
 
-int handle_error(char *msg)
+t_macho_file	init_macho_file(void *ptr)
 {
-	printf("%s : %s\n", msg, strerror(errno));
-	return (1);
+	uint32_t		magic;
+	t_macho_file	macho_file;
+
+	//Get the magic nb and files informations (endian, arch, fat...)
+	//Todo: Check for corrupted files
+	magic = *(uint32_t *)ptr;
+	macho_file.is_64 = magic == MH_MAGIC_64 || magic == MH_CIGAM_64;
+	macho_file.is_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;
+	macho_file.is_fat = magic == FAT_MAGIC || magic == FAT_CIGAM;
+	macho_file.ptr = ptr;
+
+	macho_file.ncmds = get_ncmds(macho_file);
+	return macho_file;
+	// dump_segments_command(ptr, is_magic_64, should_swap,ncmds);
+
+}
+
+struct symtab_command	*get_sc_64(void *ptr, uint32_t ncmds)
+{
+	uint32_t					i;
+	struct load_command			*lc;
+
+	lc = (struct load_command *)((struct mach_header_64 *)ptr + 1);
+	i = 0;
+	while (i < ncmds)
+	{
+		if (lc->cmd == LC_SYMTAB)
+			return (struct symtab_command *)lc;
+		lc = (void *)lc + lc->cmdsize;
+		i++;
+	}
+	return NULL;
+}
+
+struct symtab_command	*get_sc(t_macho_file macho_file)
+{
+	if (macho_file.is_64)
+		return (get_sc_64(macho_file.ptr, macho_file.ncmds));
+	//Todo: handle 32
+	return (NULL);
+}
+
+t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert)
+{
+	if (!curr)
+		return (to_insert);
+	if (strcmp(curr->name, to_insert->name) > 0)
+		curr->right = push_back_tree(curr->right, to_insert);
+	else
+		curr->left = push_back_tree(curr->left, to_insert);
+	return (curr);
+}
+
+t_sym					*get_symbols(struct symtab_command *sc, t_macho_file mf)
+{
+	t_sym			*head;
+	t_sym			*to_insert;
+	char			*stringable;
+	struct nlist_64	*arr;
+	uint32_t		i;
+
+	stringable = mf.ptr + sc->stroff;
+	head = NULL;
+	arr = mf.ptr + sc->symoff;
+	i = 0;
+	while (i < sc->nsyms)
+	{
+		to_insert = init_sym(arr[i], stringable);
+		head = push_back_tree(head, to_insert);
+		i++;
+	}
+	return (head);
+}
+
+void print_nm(t_sym	*sym)
+{
+	printf("0000000%lx T %s\n", sym->value, sym->name);
+}
+
+void print_tree(t_sym *curr)
+{
+	if (curr->right)
+		print_tree(curr->right);
+	print_nm(curr);
+	if (curr->left)
+		print_tree(curr->left);
 }
 
 int	main(int argc, char **argv)
 {
-	const char	*filename = argv[1];
-	int			fd;
-	void		*ptr;
-	struct stat	buf;
+	const char				*filename = argv[1];
+	int						fd;
+	void					*ptr;
+	struct stat				buf;
+	struct symtab_command	*sc;
+	t_sym					*head;
+	t_macho_file			macho_file;
 
 	if (argc < 2)
 		return (handle_error("usage: ./ft_nm exfile\n"));
@@ -146,5 +250,10 @@ int	main(int argc, char **argv)
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return (handle_error("Failed to map file into virtual memory"));
 
-	dump_segments(ptr);
+	macho_file = init_macho_file(ptr);
+	sc = get_sc(macho_file);
+	// printf("symbtable is located at %u\n", sc->symoff);
+	// print_sym(sc, ptr);
+	head = get_symbols(sc, macho_file);
+	print_tree(head);
 }

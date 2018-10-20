@@ -6,17 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:44:00 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:48:45 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-int handle_error(char *msg)
-{
-	printf("%s : %s\n", msg, strerror(errno));
-	return (1);
-}
 
 uint32_t	dump_mach_header(void *ptr, char is_64, char is_swap)
 {

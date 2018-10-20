@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:46:54 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:49:21 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ typedef struct	s_macho_file {
 t_macho_file	init_macho_file(void *ptr);
 t_sym			*init_sym(struct nlist_64 curr, char *stringable);
 void 			print_tree(t_sym *curr);
+int				handle_error(char *msg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:41:21 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:44:00 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,20 +167,6 @@ t_sym					*get_symbols(struct symtab_command *sc, t_macho_file mf)
 		i++;
 	}
 	return (head);
-}
-
-void print_nm(t_sym	*sym)
-{
-	printf("0000000%lx T %s\n", sym->value, sym->name);
-}
-
-void print_tree(t_sym *curr)
-{
-	if (curr->right)
-		print_tree(curr->right);
-	print_nm(curr);
-	if (curr->left)
-		print_tree(curr->left);
 }
 
 int	main(int argc, char **argv)

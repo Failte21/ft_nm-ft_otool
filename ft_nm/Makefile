@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/10/20 12:40:42 by lsimon           ###   ########.fr        #
+#    Updated: 2018/10/20 12:47:04 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ NAME = ft_nm
 
 SRCS = ft_nm.c
 SRCS += init.c
+SRCS += print.c
 
 all: $(NAME)
 

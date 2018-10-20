@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 13:46:23 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 15:39:28 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,19 @@ struct symtab_command		*get_sc_64(void *ptr, uint32_t ncmds)
 	return NULL;
 }
 
-struct segment_command_64	*get_segment_64(void *ptr, uint32_t i)
+//This function wasn't really tested and might cause some bugs later
+static struct section_64	*get_section_64(struct segment_command_64 *sc, uint32_t i)
 {
-	struct segment_command_64	*arr;
-
-	arr = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
-	if (i == NO_SECT)
-		return (NULL);
-	return (arr + i);
+	if (i < sc->nsects)
+		return (struct section_64 *)(sc + i);
+	return get_section_64((struct segment_command_64 *)((void *)sc + sc->cmdsize), i - sc->nsects);
 }
 
 t_sym						*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, void *ptr)
 {
 	t_sym						*head;
 	struct segment_command_64	*sc;
+	struct section_64			*section;
 	t_sym						*to_insert;
 	struct 						nlist_64	*arr;
 	uint32_t					i;
@@ -52,8 +51,14 @@ t_sym						*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, vo
 	arr = (struct nlist_64 *)(ptr + symoff);
 	while (i < nsyms)
 	{
-		sc = get_segment_64(ptr, arr[i].n_sect);
-		to_insert = init_sym(arr[i], stringable, sc ? sc->segname : NULL);
+		sc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
+		section = get_section_64(sc, arr[i].n_sect);
+		to_insert = init_sym(
+			arr[i], 
+			stringable, 
+			section ? section->segname : NULL,
+			section ? section->sectname : NULL
+		);
 		head = push_back_tree(head, to_insert);
 		i++;
 	}

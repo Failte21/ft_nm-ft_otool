@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 13:14:06 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 13:44:20 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_sym {
 	unsigned long	value;
 	struct s_sym	*left;
 	struct s_sym	*right;
+	char			segname[16];
 }				t_sym;
 
 typedef struct	s_macho_file {
@@ -48,7 +49,7 @@ typedef struct	s_macho_file {
 
 //Init
 t_macho_file			init_macho_file(void *ptr);
-t_sym					*init_sym(struct nlist_64 curr, char *stringable);
+t_sym					*init_sym(struct nlist_64 curr, char *stringable, char segname[16]);
 
 //Print
 void 					print_tree(t_sym *curr);

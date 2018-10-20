@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:42:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 13:47:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static uint32_t	get_ncmds(t_macho_file macho_file)
 	return (0);
 }
 
-t_sym			*init_sym(struct nlist_64 curr, char *stringable)
+t_sym			*init_sym(struct nlist_64 curr, char *stringable, char segname[16])
 {
 	t_sym	*new_sym;
 
@@ -35,6 +35,8 @@ t_sym			*init_sym(struct nlist_64 curr, char *stringable)
 	new_sym->type = curr.n_type;
 	new_sym->left = NULL;
 	new_sym->right = NULL;
+	if (segname)
+		strcpy(new_sym->segname, segname);
 	return (new_sym);
 }
 

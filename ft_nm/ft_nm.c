@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:56:40 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 13:14:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,6 @@ struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
 	return get_symtab((void *)lc + lc->cmdsize, ncmds - 1);
 }
 
-struct symtab_command	*get_sc_64(void *ptr, uint32_t ncmds)
-{
-	uint32_t					i;
-	struct load_command			*lc;
-
-	lc = (struct load_command *)((struct mach_header_64 *)ptr + 1);
-	i = 0;
-	while (i < ncmds)
-	{
-		if (lc->cmd == LC_SYMTAB)
-			return (struct symtab_command *)lc;
-		lc = (void *)lc + lc->cmdsize;
-		i++;
-	}
-	return NULL;
-}
-
 struct symtab_command	*get_sc(t_macho_file macho_file)
 {
 	if (macho_file.is_64)
@@ -46,39 +29,18 @@ struct symtab_command	*get_sc(t_macho_file macho_file)
 	return (NULL);
 }
 
-t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert)
-{
-	if (!curr)
-		return (to_insert);
-	if (strcmp(curr->name, to_insert->name) > 0)
-		curr->right = push_back_tree(curr->right, to_insert);
-	else
-		curr->left = push_back_tree(curr->left, to_insert);
-	return (curr);
-}
-
 t_sym					*get_symbols(struct symtab_command *sc, t_macho_file mf)
 {
-	t_sym			*head;
-	t_sym			*to_insert;
 	char			*stringable;
-	struct nlist_64	*arr;
-	uint32_t		i;
 
 	stringable = mf.ptr + sc->stroff;
-	head = NULL;
-	arr = mf.ptr + sc->symoff;
-	i = 0;
-	while (i < sc->nsyms)
-	{
-		to_insert = init_sym(arr[i], stringable);
-		head = push_back_tree(head, to_insert);
-		i++;
-	}
-	return (head);
+	if (mf.is_64)
+		return (get_symbols_64(stringable, sc->nsyms, sc->symoff, mf.ptr));
+	//Todo: handle 32
+	return (NULL);
 }
 
-void	*get_ptr(int ac, char **av)
+void					*get_ptr(int ac, char **av)
 {
 	int						fd;
 	void					*ptr;
@@ -95,7 +57,7 @@ void	*get_ptr(int ac, char **av)
 	return (ptr);
 }
 
-int	main(int argc, char **argv)
+int						main(int argc, char **argv)
 {
 	void					*ptr;
 	struct symtab_command	*sc;

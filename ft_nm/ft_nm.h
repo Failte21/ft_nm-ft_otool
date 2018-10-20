@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:55:52 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 13:14:06 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,6 @@
 # include <unistd.h>
 # include <errno.h>
 
-// struct nlist {
-// 	union {
-// 		char *n_name;	/* for use when in-core */
-// 		long  n_strx;	/* index into the string table */
-// 	} n_un;
-// 	unsigned char n_type;	/* type flag, see below */
-// 	unsigned char n_sect;	/* section number or NO_SECT */
-// 	short	      n_desc;	/* see <mach-o/stab.h> */
-// 	unsigned long n_value;	/* value of this symbol (or stab offset) */
-// };
-
 typedef struct	s_sym {
 	unsigned char	type;
 	unsigned char	sect;
@@ -58,14 +47,21 @@ typedef struct	s_macho_file {
 }				t_macho_file;
 
 //Init
-t_macho_file	init_macho_file(void *ptr);
-t_sym			*init_sym(struct nlist_64 curr, char *stringable);
+t_macho_file			init_macho_file(void *ptr);
+t_sym					*init_sym(struct nlist_64 curr, char *stringable);
 
 //Print
-void 			print_tree(t_sym *curr);
+void 					print_tree(t_sym *curr);
 
 //Errors
-int				handle_error(char *msg);
-void			*handle_error_null(char *msg);
+int						handle_error(char *msg);
+void					*handle_error_null(char *msg);
+
+//x_64
+struct symtab_command	*get_sc_64(void *ptr, uint32_t ncmds);
+t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, void *ptr);
+
+//Tree
+t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert);
 
 #endif

@@ -6,52 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:48:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:51:51 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-uint32_t	dump_mach_header(void *ptr, char is_64, char is_swap)
-{
-	struct mach_header_64	*header;
-	uint32_t				ncmds;
-
-	if (is_swap)
-	{
-		//TODO: handle swap stuff
-	}
-	if (is_64)
-	{
-		header = (struct mach_header_64 *)ptr;
-		ncmds = header->ncmds;
-		return (ncmds);
-	} 
-	else
-	{
-		//TODO: handle 32
-	}
-	return (0);
-}
-
-void					print_sym(struct symtab_command *symtab, void *ptr)
-{
-	struct nlist_64	*arr;
-	char			*stringable;
-	uint32_t		i;
-
-	stringable = ptr + symtab->stroff;
-	arr = ptr + symtab->symoff;
-	i = 0;
-	while (i < symtab->nsyms)
-	{
-		printf("0000000%llx %s\n",
-			arr[i].n_value,
-			stringable + arr[i].n_un.n_strx
-		);
-		i++;
-	}
-}
 
 struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
 {
@@ -60,50 +19,6 @@ struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
 	if (lc->cmd == LC_SYMTAB)
 		return ((struct symtab_command *)lc);
 	return get_symtab((void *)lc + lc->cmdsize, ncmds - 1);
-}
-
-void					dump_segments_command(void *ptr, char is_64, char is_swap, uint32_t ncmds)
-{
-	struct load_command		*lc;
-	struct symtab_command	*symtab;
-
-	lc = (struct load_command *)((struct mach_header_64 *)ptr + 1);
-	if (!is_64)
-	{
-		//TODO: handle 32
-	}
-	if (is_swap)
-	{
-		//TODO: handle swap
-	}
-	symtab = get_symtab(lc, ncmds);
-	print_sym(symtab, ptr);
-}
-
-void 		dump_segments(void *ptr)
-{
-	uint32_t	magic;
-	char		is_magic_64;
-	char		should_swap;
-	char		is_fat;
-	uint32_t	ncmds;
-
-	//Get the magic nb and files informations (endian, arch, fat...)
-	//Todo: Check for corrupted files
-	magic = *(uint32_t *)ptr;
-	is_magic_64 = magic == MH_MAGIC_64 || magic == MH_CIGAM_64;
-	should_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;
-	is_fat = magic == FAT_MAGIC || magic == FAT_CIGAM;
-
-	if (is_fat)
-	{
-		//TODO:handle fat
-	}
-	else
-	{
-		ncmds = dump_mach_header(ptr, is_magic_64, should_swap);
-		dump_segments_command(ptr, is_magic_64, should_swap,ncmds);
-	}
 }
 
 struct symtab_command	*get_sc_64(void *ptr, uint32_t ncmds)
@@ -187,8 +102,6 @@ int	main(int argc, char **argv)
 
 	macho_file = init_macho_file(ptr);
 	sc = get_sc(macho_file);
-	// printf("symbtable is located at %u\n", sc->symoff);
-	// print_sym(sc, ptr);
 	head = get_symbols(sc, macho_file);
 	print_tree(head);
 }

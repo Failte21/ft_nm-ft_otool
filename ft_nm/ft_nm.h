@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:22:10 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/20 12:41:00 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ typedef struct	s_macho_file {
 	bool		is_swap;
 	bool		is_fat;
 }				t_macho_file;
+
+t_macho_file	init_macho_file(void *ptr);
+t_sym			*init_sym(struct nlist_64 curr, char *stringable);
 
 #endif

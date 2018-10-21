@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 15:38:00 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/21 09:47:34 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_sym			*init_sym(struct nlist_64 curr, char *stringable, char segname[16], char
 	if (segname)
 		strcpy(new_sym->segname, segname);
 	if (sectname)
-		strcpy(new_sym->segname, sectname);
+		strcpy(new_sym->sectname, sectname);
 	return (new_sym);
 }
 

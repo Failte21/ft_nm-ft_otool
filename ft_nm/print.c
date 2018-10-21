@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:46:35 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/21 09:18:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //Todo: remove printf
 static void	print_nm(t_sym	*sym)
 {
-	printf("0000000%lx T %s\n", sym->value, sym->name);
+	printf("0000000%lx %c %s\n", sym->value, get_type_c(sym->sectname, sym->type), sym->name);
 }
 
 //The binary tree has been sorted previously, for no reasons this function has

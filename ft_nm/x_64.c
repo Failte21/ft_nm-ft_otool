@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 15:39:28 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/21 12:07:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,16 @@ struct symtab_command		*get_sc_64(void *ptr, uint32_t ncmds)
 //This function wasn't really tested and might cause some bugs later
 static struct section_64	*get_section_64(struct segment_command_64 *sc, uint32_t i)
 {
-	if (i < sc->nsects)
-		return (struct section_64 *)(sc + i);
+	struct section_64	*section;
+
+	if (i == NO_SECT)
+		return (NULL);
+	if (i <= sc->nsects)
+	{
+		section = (struct section_64 *)(sc + 1);
+		i -= 1; // index starts at one
+		return (section + i);
+	}
 	return get_section_64((struct segment_command_64 *)((void *)sc + sc->cmdsize), i - sc->nsects);
 }
 

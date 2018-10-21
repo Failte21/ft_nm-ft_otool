@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 15:38:21 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/21 09:38:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <sys/mman.h>
 # include <unistd.h>
 # include <errno.h>
+
+# include "./libft/libft.h"
 
 typedef struct	s_sym {
 	unsigned char	type;
@@ -66,5 +68,8 @@ t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, voi
 
 //Tree
 t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert);
+
+//Other
+char					get_type_c(char sectname[16], unsigned char type);
 
 #endif

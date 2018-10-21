@@ -8,5 +8,7 @@ test_path = os.path.join(dir_path, "custom_tests")
 if __name__ == '__main__':
 	out1 = subprocess.check_output([nm_path, os.path.join(test_path, "test_facile")])
 	out2 = subprocess.check_output(["nm", os.path.join(test_path, "test_facile")])
-	print(out1)
-	print(out2)
+	# print(out1)
+	# print(out2)
+	if out1 == out2:
+		print("OK")

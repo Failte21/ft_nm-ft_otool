@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 12:32:41 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 13:37:17 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ t_sym						*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_
 	{
 		sc = (struct segment_command_64 *)get_ptr(mf, mf->ptr, header_size, struct_size);
 		section = get_section_64(sc, arr[i].n_sect, mf);
+		//protected add somehow not working
 		to_insert = init_sym(
-			(arr[i]),
+			arr + i,
 			stringable, 
 			section ? section->segname : NULL,
 			section ? section->sectname : NULL

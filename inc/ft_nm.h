@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:59:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 13:15:32 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_sym {
 
 //Init
 t_macho_file			*init_macho_file(int ac, char **av);
-t_sym					*init_sym(struct nlist_64 curr, char *stringable, char segname[16], char sectname[16]);
+t_sym					*init_sym(struct nlist_64 *curr, char *stringable, char segname[16], char sectname[16]);
 
 
 //Print

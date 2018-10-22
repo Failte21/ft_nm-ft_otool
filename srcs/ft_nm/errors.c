@@ -6,11 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:48:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 12:55:25 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 10:15:20 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "../../inc/ft_nm.h"
 
 //Todo: remove printf
 //Todo: print on stderr

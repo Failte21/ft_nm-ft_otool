@@ -6,11 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 13:12:41 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/20 13:13:37 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 10:15:41 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "../../inc/ft_nm.h"
 
 t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert)
 {

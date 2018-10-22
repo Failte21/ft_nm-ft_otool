@@ -6,11 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/21 10:44:44 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 10:15:39 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "../../inc/ft_nm.h"
 
 //This files contains functions to print the symbols previously store in a 
 //binary tree of t_sym

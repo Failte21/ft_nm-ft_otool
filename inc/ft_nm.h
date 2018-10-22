@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/21 09:38:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 10:15:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <unistd.h>
 # include <errno.h>
 
-# include "./libft/libft.h"
+# include "libft.h"
 
 typedef struct	s_sym {
 	unsigned char	type;

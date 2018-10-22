@@ -12,7 +12,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-nm_path = os.path.join(dir_path, "../ft_nm/ft_nm")
+nm_path = os.path.join(dir_path, "../ft_nm")
 test_path = os.path.join(dir_path, "custom_tests")
 
 test_files = ["test_facile", "test_moins_facile", "test_half_obj"]

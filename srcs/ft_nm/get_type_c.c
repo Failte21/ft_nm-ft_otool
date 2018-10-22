@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/21 10:08:48 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 10:15:27 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // `+'  is for class methods, `-' is for instance methods, and (category_name) is present only when the method is
 // in a category.
 
-#include "ft_nm.h"
+#include "../../inc/ft_nm.h"
 
 static char	get_base_char(char sectname[16])
 {

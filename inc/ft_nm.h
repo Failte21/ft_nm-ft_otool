@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:22:21 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 11:59:31 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_sym					*init_sym(struct nlist_64 curr, char *stringable, char segname[16], ch
 void 					print_tree(t_sym *curr);
 
 //x_64
-struct symtab_command	*get_sc_64(void *ptr, uint32_t ncmds);
-t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, void *ptr);
+struct symtab_command	*get_sc_64(t_macho_file *mf);
+t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_macho_file *mf);
 
 //Tree
 t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert);

@@ -6,19 +6,20 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:21:58 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 11:48:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/commons.h"
 
-static uint32_t	get_ncmds(t_macho_file macho_file)
+static uint32_t	get_ncmds(t_macho_file *mf)
 {
 	struct mach_header_64	*header;
 
-	if (macho_file.is_64)
+	if (mf->is_64)
 	{
-		header = (struct mach_header_64 *)macho_file.ptr;
+		header = (struct mach_header_64 *)mf->ptr;
+		header = (struct mach_header_64 *)get_ptr(mf, mf->ptr, 0, sizeof(struct mach_header_64));
 		return (header->ncmds);
 	} 
 	return (0);
@@ -51,6 +52,6 @@ t_macho_file	*init_macho_file(int ac, char **av)
 	macho_file->ptr = ptr;
 	macho_file->len = buf.st_size;
 
-	macho_file->ncmds = get_ncmds(*macho_file);
+	macho_file->ncmds = get_ncmds(macho_file);
 	return macho_file;
 }

@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/10/22 11:24:00 by lsimon           ###   ########.fr        #
+#    Updated: 2018/10/22 11:45:38 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ NM_SRC_NAMES += get_type_c.c
 
 COMMONS_SRC_NAMES = init.c
 COMMONS_SRC_NAMES += errors.c
+COMMONS_SRC_NAMES += get_ptr.c
 
 NM_SRCS = $(addprefix $(SRCS_DIR)/$(NM_DIR)/, $(NM_SRC_NAMES))
 COMMON_SRCS = $(addprefix $(SRCS_DIR)/$(COMMONS_DIR), $(COMMONS_SRC_NAMES))

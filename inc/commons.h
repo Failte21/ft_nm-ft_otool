@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:22:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 11:45:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ t_macho_file	*init_macho_file(int ac, char **av);
 //Errors
 int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
+
+//Security
+void			*get_ptr(t_macho_file *mf, void *curr, uint32_t offset, size_t s_size);
 
 #endif

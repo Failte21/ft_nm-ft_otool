@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 10:49:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 11:58:37 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
 static struct symtab_command	*get_sc(t_macho_file *macho_file)
 {
 	if (macho_file->is_64)
-		return (get_sc_64(macho_file->ptr, macho_file->ncmds));
+		return (get_sc_64(macho_file));
 	//Todo: handle 32
 	return (NULL);
 }
@@ -35,7 +35,7 @@ static t_sym					*get_symbols(struct symtab_command *sc, t_macho_file *mf)
 
 	stringable = mf->ptr + sc->stroff;
 	if (mf->is_64)
-		return (get_symbols_64(stringable, sc->nsyms, sc->symoff, mf->ptr));
+		return (get_symbols_64(stringable, sc->nsyms, sc->symoff, mf));
 	//Todo: handle 32
 	return (NULL);
 }

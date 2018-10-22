@@ -6,23 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 10:15:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/10/22 11:21:52 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
-
-static uint32_t	get_ncmds(t_macho_file macho_file)
-{
-	struct mach_header_64	*header;
-
-	if (macho_file.is_64)
-	{
-		header = (struct mach_header_64 *)macho_file.ptr;
-		return (header->ncmds);
-	} 
-	return (0);
-}
 
 t_sym			*init_sym(struct nlist_64 curr, char *stringable, char segname[16], char sectname[16])
 {
@@ -40,21 +28,4 @@ t_sym			*init_sym(struct nlist_64 curr, char *stringable, char segname[16], char
 	if (sectname)
 		strcpy(new_sym->sectname, sectname);
 	return (new_sym);
-}
-
-t_macho_file	init_macho_file(void *ptr)
-{
-	uint32_t		magic;
-	t_macho_file	macho_file;
-
-	//Get the magic nb and files informations (endian, arch, fat...)
-	//Todo: Check for corrupted files
-	magic = *(uint32_t *)ptr;
-	macho_file.is_64 = magic == MH_MAGIC_64 || magic == MH_CIGAM_64;
-	macho_file.is_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;
-	macho_file.is_fat = magic == FAT_MAGIC || magic == FAT_CIGAM;
-	macho_file.ptr = ptr;
-
-	macho_file.ncmds = get_ncmds(macho_file);
-	return macho_file;
 }

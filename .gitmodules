@@ -1,3 +1,6 @@
 [submodule "ft_nm/libft"]
 	path = srcs/libft
 	url = https://github.com/Failte21/libft.git
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Failte21/libft.git

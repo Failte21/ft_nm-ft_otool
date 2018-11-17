@@ -2,6 +2,6 @@
 .DS_Store
 libft
 objs
-ft_nm
+/ft_nm
 ft_otool
 *.pyc

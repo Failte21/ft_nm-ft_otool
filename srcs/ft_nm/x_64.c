@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 14:09:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:53:10 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ struct symtab_command		*get_sc_64(t_macho_file *mf)
 	{
 		if (lc->cmd == LC_SYMTAB)
 			return (struct symtab_command *)lc;
-		lc = get_ptr(mf, lc, lc->cmdsize, sizeof(struct load_command));
+		if (!(lc = get_ptr(mf, lc, lc->cmdsize, sizeof(struct load_command))))
+			return (NULL);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 //This function wasn't really tested and might cause some bugs later
@@ -42,7 +43,8 @@ static struct section_64	*get_section_64(struct segment_command_64 *sc, uint32_t
 	if (i <= sc->nsects)
 	{
 		seg_size = sizeof(struct segment_command_64);
-		section = (struct section_64 *)get_ptr(mf, sc, seg_size, seg_size);
+		if (!(section = (struct section_64 *)get_ptr(mf, sc, seg_size, seg_size)))
+			return (NULL);
 		i -= 1; // index starts at one
 		return (section + i);
 	}

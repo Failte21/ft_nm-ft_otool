@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 13:06:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:49:58 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ static uint32_t	get_ncmds(t_macho_file *mf)
 	if (mf->is_64)
 	{
 		header = (struct mach_header_64 *)mf->ptr;
-		header = (struct mach_header_64 *)get_ptr(mf, mf->ptr, 0, sizeof(struct mach_header_64));
-		return (header->ncmds);
+		if (
+			(header = (struct mach_header_64 *)
+				get_ptr(mf, mf->ptr, 0, sizeof(struct mach_header_64))
+			)
+		)
+			return (header->ncmds);
+		return (0);
 	} 
 	return (0);
 }
@@ -46,14 +51,13 @@ t_macho_file	*init_macho_file(int ac, char **av)
 		return (handle_error_null("An error occured while clising the fileq\n"));
 	if (!(macho_file = (t_macho_file *)malloc(sizeof(macho_file))))
 		return (NULL);
-	//Get the magic nb and files informations (endian, arch, fat...)
 	magic = *(uint32_t *)ptr;
 	macho_file->is_64 = magic == MH_MAGIC_64 || magic == MH_CIGAM_64;
 	macho_file->is_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;
 	macho_file->is_fat = magic == FAT_MAGIC || magic == FAT_CIGAM;
 	macho_file->ptr = ptr;
 	macho_file->end = ptr + buf.st_size;
-
-	macho_file->ncmds = get_ncmds(macho_file);
-	return macho_file;
+	if (!(macho_file->ncmds = get_ncmds(macho_file)))
+		return (handle_error_null("An error occured"));
+	return (macho_file);
 }

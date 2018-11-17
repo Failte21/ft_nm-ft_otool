@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:58:37 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:51:55 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ int								main(int argc, char **argv)
 	t_macho_file			*macho_file;
 
 	if (!(macho_file = init_macho_file(argc, argv)))
-		return (handle_error("An error occurred"));
-	sc = get_sc(macho_file);
+		return (1);
+	if (!(sc = get_sc(macho_file)))
+		return (1);
 	head = get_symbols(sc, macho_file);
 	print_tree(head);
 }

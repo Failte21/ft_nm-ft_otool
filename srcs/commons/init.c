@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:48:50 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 12:18:07 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_macho_file	*init_macho_file(int ac, char **av)
 		return (handle_error_null("Could not retrieve stats on file"));
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return (handle_error_null("Failed to map file into virtual memory"));
+	if ((close(fd)) < 0)
+		return (handle_error_null("An error occured while clising the fileq\n"));
 	if (!(macho_file = (t_macho_file *)malloc(sizeof(macho_file))))
 		return (NULL);
 	//Get the magic nb and files informations (endian, arch, fat...)

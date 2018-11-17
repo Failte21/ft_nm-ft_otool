@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/11/17 10:16:43 by lsimon           ###   ########.fr        #
+#    Updated: 2018/11/17 13:08:32 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,11 +48,13 @@ COMMON_OBJS = $(addprefix $(COMMON_OBJS_DIR)/, $(COMMON_OBJ_NAMES))
 
 all: $(NM_NAME)
 
-$(NM_NAME): $(NM_OBJS) $(COMMON_OBJS)
-	$(CC) -L libft -lft -o $@ $^
+libft/libft.a:
+	@make -C libft/
+
+$(NM_NAME): $(NM_OBJS) $(COMMON_OBJS) libft/libft.a
+	$(CC) -o $@ $^
 
 $(NM_OBJS_DIR)/%.o: $(SRCS_DIR)/$(NM_DIR)/%.c
-	@make -C libft/
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 $(COMMON_OBJS_DIR)/%.o: $(SRCS_DIR)/$(COMMONS_DIR)/%.c

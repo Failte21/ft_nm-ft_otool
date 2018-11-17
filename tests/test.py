@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import subprocess
+from subprocess import Popen, PIPE
 import os
 from unittest import TestCase
 import unittest as ut
@@ -22,7 +23,10 @@ test_path = os.path.join(dir_path, "custom_tests")
 class Base(TestCase):
 	def setUp(self):
 		self.title = "BASE"
-	
+
+	def tearDown(self):
+		pass
+
 	def compare(self, test_files):
 		for f in test_files:
 			out1 = subprocess.check_output([nm_path, os.path.join(test_path, f)])
@@ -31,11 +35,6 @@ class Base(TestCase):
 
 	def test_base(self):
 		self.compare(["test_facile", "test_moins_facile"])
-	
-	def test_corrupted(self):
-		self.compare(["test_half_obj"])
-
-
 
 if __name__ == '__main__':
 	ut.main()

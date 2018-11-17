@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 12:18:07 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:06:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_macho_file	*init_macho_file(int ac, char **av)
 	macho_file->is_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;
 	macho_file->is_fat = magic == FAT_MAGIC || magic == FAT_CIGAM;
 	macho_file->ptr = ptr;
-	macho_file->len = buf.st_size;
+	macho_file->end = ptr + buf.st_size;
 
 	macho_file->ncmds = get_ncmds(macho_file);
 	return macho_file;

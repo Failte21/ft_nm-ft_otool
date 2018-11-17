@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 11:45:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:04:49 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@
 # include <unistd.h>
 # include <errno.h>
 
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef struct	s_macho_file {
 	void		*ptr;
+	void		*end;
 	uint32_t	ncmds;
 	bool		is_64;
 	bool		is_swap;
 	bool		is_fat;
-	off_t		len;
 }				t_macho_file;
 
 //Init

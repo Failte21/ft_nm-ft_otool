@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 13:51:55 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:59:18 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int								main(int argc, char **argv)
 		return (1);
 	if (!(sc = get_sc(macho_file)))
 		return (1);
-	head = get_symbols(sc, macho_file);
+	if (!(head = get_symbols(sc, macho_file)))
+		return (1);
 	print_tree(head);
+	return (0);
 }

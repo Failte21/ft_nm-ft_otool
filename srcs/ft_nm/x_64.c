@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 13:53:10 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 14:10:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ struct symtab_command		*get_sc_64(t_macho_file *mf)
 	size_t					header_size;
 
 	header_size = sizeof(struct mach_header_64);
-	lc = (struct load_command *)get_ptr(mf, mf->ptr, header_size, header_size);
+	if (!(lc = (struct load_command *)get_ptr(mf, mf->ptr, header_size, header_size)))
+		return (NULL);
 	i = 0;
 	while (i < mf->ncmds)
 	{
@@ -64,12 +65,14 @@ t_sym						*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_
 
 	i = 0;
 	head = NULL;
-	arr = get_ptr(mf, mf->ptr, symoff, sizeof(struct nlist_64));
+	if (!(arr = get_ptr(mf, mf->ptr, symoff, sizeof(struct nlist_64))))
+		return (NULL);
 	header_size = sizeof(struct mach_header_64);
 	struct_size = sizeof(struct segment_command_64);
 	while (i < nsyms)
 	{
-		sc = (struct segment_command_64 *)get_ptr(mf, mf->ptr, header_size, struct_size);
+		if (!(sc = (struct segment_command_64 *)get_ptr(mf, mf->ptr, header_size, struct_size)))
+			return (NULL);
 		section = get_section_64(sc, arr[i].n_sect, mf);
 		//protected add somehow not working
 		to_insert = init_sym(

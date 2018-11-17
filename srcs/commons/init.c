@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 13:49:58 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/17 13:58:27 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ t_macho_file	*init_macho_file(int ac, char **av)
 	if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return (handle_error_null("Failed to map file into virtual memory"));
 	if ((close(fd)) < 0)
-		return (handle_error_null("An error occured while clising the fileq\n"));
+		return (handle_error_null("An error occured while clising the file\n"));
 	if (!(macho_file = (t_macho_file *)malloc(sizeof(macho_file))))
-		return (NULL);
+		return (handle_error_null("Malloc error"));
 	magic = *(uint32_t *)ptr;
 	macho_file->is_64 = magic == MH_MAGIC_64 || magic == MH_CIGAM_64;
 	macho_file->is_swap = magic == MH_CIGAM || magic == MH_CIGAM_64 || magic == FAT_CIGAM;

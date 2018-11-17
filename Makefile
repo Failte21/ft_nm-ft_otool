@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/10/22 11:45:38 by lsimon           ###   ########.fr        #
+#    Updated: 2018/11/17 10:04:06 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ COMMON_OBJS = $(addprefix $(COMMON_OBJS_DIR)/, $(COMMON_OBJ_NAMES))
 
 all: $(NM_NAME)
 
-# @echo $(NM_OBJS_DIR)
 $(NM_NAME): $(NM_OBJS) $(COMMON_OBJS)
 	$(CC) -L srcs/libft -lft -o $@ $^
 
@@ -59,10 +58,10 @@ $(COMMON_OBJS_DIR)/%.o: $(SRCS_DIR)/$(COMMONS_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 clean:
-	rm $(NM_OBJS)
-	rm $(COMMON_OBJS)
+	rm -f $(NM_OBJS)
+	rm -f $(COMMON_OBJS)
 
 fclean: clean
-	rm $(NM_NAME)
+	rm -f $(NM_NAME)
 
 re: fclean all

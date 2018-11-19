@@ -6,46 +6,61 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 15:02:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 17:46:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-static t_mh    *get_macho_infos(t_file *f, void *ptr)
+t_print_infos           *mh_infos(void *ptr, void *end)
 {
-    t_mh    *infos;
-
-    if (!(infos = init_infos(ptr)))
-        return (NULL);
-}
-
-static t_mh    *get_fat_infos(t_file *f, void *ptr)
-{
-    t_mh       *head;
-    uint32_t            magic;
-    bool                is_swap;
+    uint32_t                magic;
+    struct symtab_command   *sc;
+    bool                    is_64;
+    bool                    swap;
 
     magic = *(uint32_t *)ptr;
-    is_swap = magic == FAT_CIGAM || magic == FAT_CIGAM_64;
-    if (magic == FAT_CIGAM_64 || magic == FAT_MAGIC_64)
-        return (get_fat_infos_64(ptr, is_swap));
-    //TODO 32
-    // return (get_fat_infos_32(ptr, is_swap));
+    is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
+    swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
+    if (!(sc = is_64 ? get_sc_64(ptr, end, swap) : get_sc_32(ptr, end, swap)))
+        return (NULL);
     return (NULL);
 }
 
-static t_mh    *get_lib_infos(t_file *f, void *ptr)
+static t_print_infos    *get_macho_infos(void *ptr, void *end)
 {
-    return (t_mh *)(f->ptr - ptr);
+    return (mh_infos(ptr, end));
 }
 
-t_mh	        *get_infos_list(t_file *f)
+static t_print_infos    *get_fat_infos(void *ptr, void *end)
 {
-	t_mh	*(*get_infos[3])(t_file *f, void *ptr) = {
+    uint32_t            magic;
+    struct fat_header   *header;
+    bool                is_swap;
+    bool                is_64;
+    uint32_t            n;
+
+    magic = *(uint32_t *)ptr;
+    is_swap = magic == FAT_CIGAM || magic == FAT_CIGAM_64;
+    is_64 = magic == FAT_CIGAM_64 || magic == FAT_MAGIC_64;
+    header = ptr;
+    n = is_swap ? swap_int32(header->nfat_arch) : header->nfat_arch;
+    if (is_64)
+        return (get_fat_infos_64(ptr, end, n, is_swap));
+    return (get_fat_infos_32(ptr, end, n, is_swap));
+}
+
+static t_print_infos    *get_lib_infos(void *ptr, void *end)
+{
+    return (t_print_infos *)(ptr - end);
+}
+
+t_print_infos	        *get_infos_list(t_file *f)
+{
+	t_print_infos	*(*get_infos[3])(void *ptr, void *end) = {
 		get_macho_infos,
 		get_fat_infos,
 		get_lib_infos
 	};
-	return ((*get_infos[f->type])(f, f->ptr));
+	return ((*get_infos[f->type])(f->ptr, f->end));
 }

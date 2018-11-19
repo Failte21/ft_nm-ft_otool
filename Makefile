@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/11/19 13:58:58 by lsimon           ###   ########.fr        #
+#    Updated: 2018/11/19 17:02:02 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ NM_SRC_NAMES = ft_nm.c
 NM_SRC_NAMES += init.c
 NM_SRC_NAMES += print.c
 NM_SRC_NAMES += x_64.c
+NM_SRC_NAMES += x_32.c
 NM_SRC_NAMES += tree.c
 NM_SRC_NAMES += get_type_c.c
 NM_SRC_NAMES += get_infos.c

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 14:55:54 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 16:00:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);
 uint64_t	swap_int64(uint64_t x);
 uint32_t	swap_int32(uint32_t x);
 
-#define CHECK(a,b,c) ((a + sizeof(b)) < c)
+#define CHECKED(s,e) ((void *)(s + sizeof(*s)) < e)
 
 #endif

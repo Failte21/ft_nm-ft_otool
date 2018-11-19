@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 15:03:16 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 17:43:58 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,33 @@ typedef struct	s_file {
 }				t_file;
 
 //Init
-t_macho_file			*init_macho_file(int ac, char **av);
-t_sym					*init_sym(struct nlist_64 *curr, char *stringable, char segname[16], char sectname[16]);
+t_macho_file				*init_macho_file(int ac, char **av);
+t_sym						*init_sym(struct nlist_64 *curr, char *stringable, char segname[16], char sectname[16]);
 
 
 //Print
-void 					print_tree(t_sym *curr);
+void 						print_tree(t_sym *curr);
 
 //Infos
-t_print_infos	        *get_infos_list(t_file *f);
-t_file					*get_infos(char *name);
+t_print_infos	        	*get_infos_list(t_file *f);
+t_file						*get_infos(char *name);
+t_print_infos           	*mh_infos(void *ptr, void *end);
 
 //x_64
-struct symtab_command	*get_sc_64(t_macho_file *mf);
-t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_macho_file *mf);
+// t_sym					*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_macho_file *mf);
+struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap);
+t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
+t_print_infos				*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap);
+
+//x_32
+struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap);
+t_print_infos				*get_fat_infos_32(void *ptr, void *end, uint32_t n, bool swap);
+t_print_infos				*mh_infos_32(void *ptr, bool swap, void *end);
 
 //Tree
-t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert);
+t_sym						*push_back_tree(t_sym *curr, t_sym *to_insert);
 
 //Other
-char					get_type_c(char sectname[16], unsigned char type);
+char						get_type_c(char sectname[16], unsigned char type);
 
 #endif

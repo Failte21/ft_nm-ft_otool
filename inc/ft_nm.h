@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 13:15:32 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 15:03:16 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ typedef struct	s_sym {
 	char			sectname[16];
 }				t_sym;
 
+typedef struct 	print_infos {
+	t_sym				*sym;
+	char				*mh_name;
+	struct print_infos	*next;
+}				t_print_infos;
+
+typedef struct	s_file {
+	void			*ptr;
+	void			*end;
+	t_print_infos	*head;
+	enum ftype		type;
+}				t_file;
+
 //Init
 t_macho_file			*init_macho_file(int ac, char **av);
 t_sym					*init_sym(struct nlist_64 *curr, char *stringable, char segname[16], char sectname[16]);
@@ -34,6 +47,10 @@ t_sym					*init_sym(struct nlist_64 *curr, char *stringable, char segname[16], c
 
 //Print
 void 					print_tree(t_sym *curr);
+
+//Infos
+t_print_infos	        *get_infos_list(t_file *f);
+t_file					*get_infos(char *name);
 
 //x_64
 struct symtab_command	*get_sc_64(t_macho_file *mf);

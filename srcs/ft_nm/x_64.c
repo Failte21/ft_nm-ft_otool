@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 14:16:39 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 14:35:01 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,24 @@ t_sym						*get_symbols_64(char *stringable, uint32_t nsyms, uint32_t symoff, t_
 		i++;
 	}
 	return (head);
+}
+
+t_print_infos    *get_fat_infos_64(t_file *f, void *ptr, bool is_swap)
+{
+	struct fat_header	*header;
+	uint32_t			i;
+	uint32_t			nfat_arch;
+	struct fat_arch_64	*arch;
+	void				*curr;
+
+	header = ptr;
+	nfat_arch = is_swap ? swap_int32(header->nfat_arch) : header->nfat_arch;
+	arch = (struct fat_arch_64 *)(header + 1);
+	i = 0;
+	while (i < nfat_arch)
+	{
+		if (arch + 1)
+		get_macho_infos()
+		i++;
+	}
 }

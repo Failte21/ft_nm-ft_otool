@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/17 13:04:49 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/19 14:55:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,21 @@
 
 # include "../libft/libft.h"
 
+enum			ftype {
+	MH,
+	FAT,
+	LIB,
+	UNDEFINED
+};
+
 typedef struct	s_macho_file {
-	void		*ptr;
-	void		*end;
-	uint32_t	ncmds;
-	bool		is_64;
-	bool		is_swap;
-	bool		is_fat;
+	void				*ptr;
+	void				*end;
+	uint32_t			ncmds;
+	bool				is_64;
+	bool				is_swap;
+	bool				is_fat;
+	struct s_macho_file	*next;
 }				t_macho_file;
 
 //Init
@@ -47,6 +55,12 @@ int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
 
 //Security
-void			*get_ptr(t_macho_file *mf, void *curr, uint32_t offset, size_t s_size);
+void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);
+
+//Swap
+uint64_t	swap_int64(uint64_t x);
+uint32_t	swap_int32(uint32_t x);
+
+#define CHECK(a,b,c) ((a + sizeof(b)) < c)
 
 #endif

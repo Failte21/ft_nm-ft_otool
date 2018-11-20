@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 14:41:13 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 16:41:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_sym {
 typedef struct 	print_infos {
 	t_sym				*sym;
 	char				*name;
+	char				*archname;
 	struct print_infos	*next;
 }				t_print_infos;
 
@@ -45,7 +46,7 @@ t_print_infos				*init_pinfos(t_sym *sym);
 t_file						*init_file(char *name);
 
 //Print
-void						print_file(t_file *f, char *name);
+void						print_file(t_file *f, char *name, bool multiple);
 
 //Infos
 t_print_infos	        	*get_infos_list(t_file *f);

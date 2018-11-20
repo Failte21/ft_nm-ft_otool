@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 12:35:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 12:47:49 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static struct section	*get_section(struct segment_command *segc, uint32_t i)
 	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - segc->nsects);
 }
 
-t_sym			*init_sym(struct nlist curr, char *stringable, char segname[16], char sectname[16])
+static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], char sectname[16])
 {
 	t_sym	*new_sym;
 
@@ -68,24 +68,18 @@ t_sym			*init_sym(struct nlist curr, char *stringable, char segname[16], char se
 	return (new_sym);
 }
 
-t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
+static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable)
 {
-	uint32_t				i;
-	char					*stringable;
-	struct nlist			*arr;
-	struct section			*section;
-	struct segment_command	*segc;
 	t_sym					*head;
 	t_sym					*to_insert;
+	struct section			*section;
+	struct segment_command	*segc;
+	uint32_t				i;
 
-	stringable = (char *)ptr + sc->stroff;
-	arr = ptr + sc->symoff;
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
-	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err");
-	section = get_section(segc, arr->n_sect);
-	i = 1;
 	head = NULL;
-	while (i < sc->nsyms)
+	i = 0;
+	while (i < nsyms)
 	{
 		section = get_section(segc, arr[i].n_sect);
 		to_insert = init_sym(
@@ -97,7 +91,20 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
 		head = push_back_tree(head, to_insert);
 		i++;
 	}
-	return (NULL);
+	return (head);
+}
+
+t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
+{
+	char					*stringable;
+	struct nlist			*arr;
+	struct segment_command	*segc;
+
+	stringable = (char *)ptr + sc->stroff;
+	arr = ptr + sc->symoff;
+	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
+	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err");
+	return (fill_sym_list(ptr, arr, sc->nsyms, stringable));
 }
 
 static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch *c, uint32_t n, void *end, bool swap)

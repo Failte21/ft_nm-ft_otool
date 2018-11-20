@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 15:02:28 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 16:49:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_file			*init_file(char *name)
 		return (handle_error_null("Could not retrieve stats on file"));
 	if ((f->ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return (handle_error_null("Failed to map file into virtual memory"));
+	f->end = f->ptr + buf.st_size;
 	if ((close(fd)) < 0)
 		return (handle_error_null("An error occured while closing the file\n"));
 	if ((f->type = get_ftype(f->ptr)) == UNDEFINED)

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 15:27:29 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 17:17:11 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ static t_print_infos    *get_lib_infos(void *ptr, void *end)
     while (!(*p))
         p++;
     size = *(uint32_t *)p;
-    if (!CHECKED(p + size, end)) printf("err");
+    if (!CHECKED(p + size, end))
+        return (NULL);
     arr = (struct ranlib *)((uint32_t *)p + 1);
     return (get_lib_infos_lst(ptr, end, size / sizeof(struct ranlib), arr));
 }

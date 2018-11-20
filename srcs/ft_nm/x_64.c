@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 15:10:48 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 17:16:34 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap)
 	uint32_t				sizeofcmds;
 
 	header = (struct mach_header_64 *)ptr;
-	if (!CHECKED(header, end)) printf("err");
+	if (!CHECKED(header, end))
+		return (NULL);
 	lc = (struct load_command *)(header + 1);
 	ncmds = swap ? swap_int32(header->ncmds) : header->ncmds;
 	sizeofcmds = swap ? swap_int32(header->sizeofcmds) : header->sizeofcmds;
-	if (!CHECKED((struct load_command *)((void *)lc + sizeofcmds), end)) printf("err");
+	if (!CHECKED((struct load_command *)((void *)lc + sizeofcmds), end))
+		return (NULL);
 	while (ncmds)
 	{
 		lc = (struct load_command *)((void *)lc + lc->cmdsize);
@@ -107,7 +109,8 @@ t_sym					*get_sym_64(struct symtab_command *sc, void *ptr, void *end)
 	stringable = (char *)ptr + sc->stroff;
 	arr = ptr + sc->symoff;
 	segc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
-	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err"); //todo : return NULL
+	if (!CHECKED((arr + sc->nsyms - 1), end))
+		return (NULL);
 	return (fill_sym_list(ptr, arr, sc->nsyms, stringable));
 }
 
@@ -131,6 +134,7 @@ t_print_infos			*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap)
 
 	header = (struct fat_header *)ptr;
 	arch = (struct fat_arch_64 *)(header + 1);
-	if (!CHECKED((arch + n), end)) printf("err");
+	if (!CHECKED((arch + n), end))
+		return (NULL);
 	return (get_fat_infos(ptr, arch, n, end, swap)); //recursive is not necessary a good idea here
 }

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 18:05:27 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 11:24:44 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,24 @@ struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap)
 // 	}
 // 	return (head);
 // }
+
+t_sym					*get_sym_64(struct symtab_command *sc, void *ptr, void *end)
+{
+	uint32_t		i;
+	char			*stringable;
+	struct nlist_64	*arr;
+
+	stringable = (char *)ptr + sc->stroff;
+	arr = ptr + sc->symoff;
+	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err");
+	i = 0;
+	while (i < sc->nsyms)
+	{
+		printf("%s\n", stringable + arr[i].n_un.n_strx);
+		i++;
+	}
+	return (NULL);
+}
 
 t_print_infos			*mh_infos_64(void *ptr, bool swap, void *end)
 {

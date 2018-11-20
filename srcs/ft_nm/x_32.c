@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 18:04:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 12:35:30 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,71 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	return (NULL);
 }
 
-// t_print_infos		*mh_infos_32(void *ptr, bool swap, void *end)
-// {
-// 	struct mach_header		*header;
-// 	struct symtab_command	*sc;
+//No idea why it works
+static struct section	*get_section(struct segment_command *segc, uint32_t i)
+{
+	struct section	*section;
 
-// 	header = ptr;
-// 	if (!CHECKED(header, end)) return (NULL);
-// 	//TODO swap
-// 	if (swap)
-// 		return (NULL);
-// 	return (NULL);
-// }
+	if (i == NO_SECT)
+		return (NULL);
+	if (i <= segc->nsects)
+	{
+		section = (struct section *)(segc + 1);
+		i -= 1; // index starts at one
+		return (section + i);
+	}
+	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - segc->nsects);
+}
+
+t_sym			*init_sym(struct nlist curr, char *stringable, char segname[16], char sectname[16])
+{
+	t_sym	*new_sym;
+
+	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
+		return (NULL);
+	new_sym->value = curr.n_value;
+	new_sym->name = stringable + curr.n_un.n_strx;
+	new_sym->type = curr.n_type;
+	new_sym->left = NULL;
+	new_sym->right = NULL;
+	if (segname)
+		strcpy(new_sym->segname, segname);
+	if (sectname)
+		strcpy(new_sym->sectname, sectname);
+	return (new_sym);
+}
+
+t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
+{
+	uint32_t				i;
+	char					*stringable;
+	struct nlist			*arr;
+	struct section			*section;
+	struct segment_command	*segc;
+	t_sym					*head;
+	t_sym					*to_insert;
+
+	stringable = (char *)ptr + sc->stroff;
+	arr = ptr + sc->symoff;
+	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
+	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err");
+	section = get_section(segc, arr->n_sect);
+	i = 1;
+	head = NULL;
+	while (i < sc->nsyms)
+	{
+		section = get_section(segc, arr[i].n_sect);
+		to_insert = init_sym(
+			arr[i],
+			stringable, 
+			section ? section->segname : NULL,
+			section ? section->sectname : NULL
+		);
+		head = push_back_tree(head, to_insert);
+		i++;
+	}
+	return (NULL);
+}
 
 static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch *c, uint32_t n, void *end, bool swap)
 {

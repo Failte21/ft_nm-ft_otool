@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 17:46:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 09:29:16 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,28 @@ static t_print_infos    *get_fat_infos(void *ptr, void *end)
     return (get_fat_infos_32(ptr, end, n, is_swap));
 }
 
+//TODO: Working but pretty ugly
 static t_print_infos    *get_lib_infos(void *ptr, void *end)
 {
+    int             len;
+    uint32_t        size;
+    char            *p;
+    struct ranlib   *arr;
+    struct ranlib   curr;
+    uint32_t        i;
+
+    len = ft_strlen((char *)ptr);
+    p = (ptr + len);
+    while (!(*p))
+        p++;
+    size = *(uint32_t *)p;
+    i = 0;
+    arr = (struct ranlib *)((uint32_t *)p + 1);
+    while (i * sizeof(struct ranlib) < size)
+    {
+        curr = arr[i];
+        i++;
+    }
     return (t_print_infos *)(ptr - end);
 }
 

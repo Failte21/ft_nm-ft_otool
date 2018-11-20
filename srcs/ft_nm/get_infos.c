@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 14:39:54 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 15:27:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_print_infos           *mh_infos(void *ptr, void *end)
     if (!(sc = is_64 ? get_sc_64(ptr, end, swap) : get_sc_32(ptr, end, swap)))
         return (NULL);
     if (!(sym = is_64 ? get_sym_64(sc, ptr, end) : get_sym_32(sc, ptr, end)))
-        return (NULL);
+        return (NULL); //nothing to free (already handled)
     if (!(pinfos = init_pinfos(sym)))
         return (NULL);
     return (pinfos);
@@ -66,20 +66,22 @@ static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, uint32_t i, str
     t_print_infos   *el;
     char            *p;
 
+   i -= 1;
     header = (char *)ptr + curr->ran_off;
     p = (header + ft_strlen(header));
     while (!(*p))
         p++;
     if (!(el = mh_infos(p, end)))
         return (NULL);
+    el->name = header + 60;
     i -= 1;
-    if (i)
+    if (!i)
+        return (el);
+    if (!(el->next = get_lib_infos_lst(ptr, end, i, curr + 1)))
     {
-        if (!(el->next = get_lib_infos_lst(ptr, end, i, curr + 1)))
-            return (NULL);
+        //TODO: free el
+        return (NULL);
     }
-    else
-        el->next = NULL;
     return (el);
 }
 

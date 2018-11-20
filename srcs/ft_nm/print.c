@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 14:40:57 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 15:29:55 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	print_infos(t_print_infos *curr, char *name)
 {
 	if (curr)
 	{
-		printf("%s\n", name);
+		printf("%s(%s)\n", name, curr->name);
 		print_tree(curr->sym);
 		print_infos(curr->next, name);
 	}

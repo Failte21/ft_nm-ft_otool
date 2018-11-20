@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 13:04:43 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 15:10:48 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,17 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, ch
 	while (i < nsyms)
 	{
 		section = get_section(segc, arr[i].n_sect);
-		to_insert = init_sym(
+		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 
 			section ? section->segname : NULL,
 			section ? section->sectname : NULL
-		);
+		)))
+		{
+			//Malloc error
+			//Todo: free current tree
+			return (NULL);
+		}
 		head = push_back_tree(head, to_insert);
 		i++;
 	}
@@ -95,14 +100,14 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, ch
 
 t_sym					*get_sym_64(struct symtab_command *sc, void *ptr, void *end)
 {
-	char					*stringable;
-	struct nlist_64			*arr;
+	char						*stringable;
+	struct nlist_64				*arr;
 	struct segment_command_64	*segc;
 
 	stringable = (char *)ptr + sc->stroff;
 	arr = ptr + sc->symoff;
 	segc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
-	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err");
+	if (!CHECKED(&(arr[sc->nsyms]), end)) printf("err"); //todo : return NULL
 	return (fill_sym_list(ptr, arr, sc->nsyms, stringable));
 }
 

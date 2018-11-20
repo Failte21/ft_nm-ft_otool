@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 12:33:54 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:41:35 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ enum ftype get_ftype(void *ptr)
 	if (magic == MH_MAGIC || magic == MH_MAGIC_64 || magic == MH_CIGAM || magic == MH_CIGAM_64)
 		return (MH);
 	return (LIB); //Not sure at all this is enough to check
+}
+
+t_print_infos	*init_pinfos(t_sym *sym)
+{
+	t_print_infos	*pinfos;
+
+	if (!(pinfos = (t_print_infos *)malloc(sizeof(t_print_infos))))
+		return (NULL);
+	pinfos->sym = sym;
+	return (pinfos);
 }
 
 t_file			*init_file(char *name)
@@ -43,15 +53,6 @@ t_file			*init_file(char *name)
 	if ((f->type = get_ftype(f->ptr)) == UNDEFINED)
 		return (NULL);
 	if (!(f->head = get_infos_list(f)))
-		return (NULL);
-	return (f);
-}
-
-t_file			*get_infos(char *name)
-{
-	t_file	*f;
-
-	if (!(f = init_file(name)))
 		return (NULL);
 	return (f);
 }

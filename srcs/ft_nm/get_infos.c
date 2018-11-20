@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 11:13:52 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:39:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_print_infos           *mh_infos(void *ptr, void *end)
     bool                    is_64;
     bool                    swap;
     t_sym                   *sym;
+    t_print_infos           *pinfos;
 
     magic = *(uint32_t *)ptr;
     is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
@@ -27,7 +28,9 @@ t_print_infos           *mh_infos(void *ptr, void *end)
         return (NULL);
     if (!(sym = is_64 ? get_sym_64(sc, ptr, end) : get_sym_32(sc, ptr, end)))
         return (NULL);
-    return (NULL);
+    if (!(pinfos = init_pinfos(sym)))
+        return (NULL);
+    return (pinfos);
 }
 
 static t_print_infos    *get_macho_infos(void *ptr, void *end)
@@ -56,22 +59,27 @@ static t_print_infos    *get_fat_infos(void *ptr, void *end)
 //Todo: reccursive maybe not a good idea,
 //Todo: find a way to clean list junk memory on error
 //Todo: x_64 ? x_32 ?
+//Todo: catch erors ?
 static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, uint32_t i, struct ranlib *curr)
 {
     char            *header;
     t_print_infos   *el;
     char            *p;
 
-    if (!i)
-        return (NULL);
     header = (char *)ptr + curr->ran_off;
     p = (header + ft_strlen(header));
     while (!(*p))
         p++;
     if (!(el = mh_infos(p, end)))
         return (NULL);
-    if (!(el->next = get_lib_infos_lst(ptr, end, i - 1, curr + 1)))
-        return (NULL);
+    i -= 1;
+    if (i)
+    {
+        if (!(el->next = get_lib_infos_lst(ptr, end, i, curr + 1)))
+            return (NULL);
+    }
+    else
+        el->next = NULL;
     return (el);
 }
 
@@ -101,4 +109,13 @@ t_print_infos	        *get_infos_list(t_file *f)
 		get_lib_infos
 	};
 	return ((*get_infos[f->type])(f->ptr, f->end));
+}
+
+t_file			*get_infos(char *name)
+{
+	t_file	*f;
+
+	if (!(f = init_file(name)))
+		return (NULL);
+	return (f);
 }

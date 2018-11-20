@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 09:49:16 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:09:49 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void			*handle_error_null(char *msg);
 void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);
 
 //Swap
-uint64_t	swap_int64(uint64_t x);
-uint32_t	swap_int32(uint32_t x);
+uint64_t		swap_int64(uint64_t x);
+uint32_t		swap_int32(uint32_t x);
 
 #define CHECKED(s,e) ((void *)(s + sizeof(*s)) < e)
 

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/19 12:53:08 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:37:22 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void							nm(int ac, char **av)
 	i = 1;
 	while (i < ac)
 	{
-		curr = get_infos(av[i]);
-		//TODO: print
+		if (!(curr = get_infos(av[i])))
+			printf("error"); //Todo: handle print inside ?
+		else
+			print_file(curr, av[i]);
+		//TODO: free infos
 		i++;
 	}
 }

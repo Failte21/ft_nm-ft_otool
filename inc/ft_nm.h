@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 12:33:46 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:41:13 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_sym {
 
 typedef struct 	print_infos {
 	t_sym				*sym;
-	char				*mh_name;
+	char				*name;
 	struct print_infos	*next;
 }				t_print_infos;
 
@@ -41,10 +41,11 @@ typedef struct	s_file {
 }				t_file;
 
 //Init
-t_macho_file				*init_macho_file(int ac, char **av);
+t_print_infos				*init_pinfos(t_sym *sym);
+t_file						*init_file(char *name);
 
 //Print
-void 						print_tree(t_sym *curr);
+void						print_file(t_file *f, char *name);
 
 //Infos
 t_print_infos	        	*get_infos_list(t_file *f);

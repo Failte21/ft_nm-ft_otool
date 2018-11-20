@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 10:15:39 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/20 14:40:57 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,26 @@ static void	print_nm(t_sym	*sym)
 
 //The binary tree has been sorted previously, for no reasons this function has
 //to handle the sorting
-void 		print_tree(t_sym *curr)
+static void	print_tree(t_sym *curr)
 {
 	if (curr->right)
 		print_tree(curr->right);
 	print_nm(curr);
 	if (curr->left)
 		print_tree(curr->left);
+}
+
+static void	print_infos(t_print_infos *curr, char *name)
+{
+	if (curr)
+	{
+		printf("%s\n", name);
+		print_tree(curr->sym);
+		print_infos(curr->next, name);
+	}
+}
+
+void		print_file(t_file *f, char *name)
+{
+	print_infos(f->head, name);
 }

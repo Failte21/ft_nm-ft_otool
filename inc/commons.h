@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:20:11 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 15:58:24 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef struct	s_macho_file {
 
 //Init
 t_macho_file	*init_macho_file(int ac, char **av);
+
+//CPU
+char    		*get_archname(cpu_type_t cputype);
 
 //Errors
 int				handle_error(char *msg);

@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/11/21 11:17:37 by lsimon           ###   ########.fr        #
+#    Updated: 2018/11/21 15:13:14 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ COMMONS_SRC_NAMES += swap.c
 COMMONS_SRC_NAMES += swap_32.c
 COMMONS_SRC_NAMES += swap_64.c
 COMMONS_SRC_NAMES += swap_common.c
+COMMONS_SRC_NAMES += get_archname.c
 
 NM_SRCS = $(addprefix $(SRCS_DIR)/$(NM_DIR)/, $(NM_SRC_NAMES))
 COMMON_SRCS = $(addprefix $(SRCS_DIR)/$(COMMONS_DIR), $(COMMONS_SRC_NAMES))

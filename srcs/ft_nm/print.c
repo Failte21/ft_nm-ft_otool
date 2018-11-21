@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 15:01:43 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 15:09:40 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	print_infos(t_print_infos *curr, char *name, enum ftype type, bool m
 		if (type == LIB)
 			printf("\n%s(%s):\n", name, curr->name);
 		if (type == FAT)
-			printf("\n%s(for architecture %s):\n", name, "curr->archname");
+			printf("\n%s(for architecture %s):\n", name, curr->archname);
 		print_tree(curr->sym);
 		print_infos(curr->next, name, type, multiple);
 	}

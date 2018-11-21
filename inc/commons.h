@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 17:15:25 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 11:20:00 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);
 uint64_t		swap_int64(uint64_t x);
 uint32_t		swap_int32(uint32_t x);
 
+void    		sw_mach_header_32(struct mach_header *h);
+void    		sw_mach_header_64(struct mach_header_64 *h);
+void    		sw_segment_command_32(struct segment_command *sc);
+void    		sw_segment_command_64(struct segment_command_64 *sc);
+void 			sw_section_32(struct section *section);
+void 			sw_section_64(struct section_64 *section);
+void    		sw_symtab_command(struct symtab_command *sc);
+
 #define CHECKED(s,e) ((void *)(s + 1) < e)
+#define S_32(e,s) (s ? swap_int32(e) : e)
 
 #endif

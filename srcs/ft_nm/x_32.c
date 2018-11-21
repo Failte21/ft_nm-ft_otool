@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:20:33 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 14:44:20 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 	while (i < nsyms)
 	{
 		section = get_section(segc, arr[i].n_sect);
+		if (swap && section)
+			sw_section_32(section);
 		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 
@@ -130,6 +132,8 @@ static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch *c, uint32_t n, v
 
 	if (!n)
 		return (NULL);
+	if (swap)
+		sw_arch_32(c);
 	curr = mh_infos(ptr + c->offset, end);
 	curr->next = get_fat_infos(ptr, c + 1, n - 1, end, swap);
 	return (curr);
@@ -144,7 +148,5 @@ t_print_infos			*get_fat_infos_32(void *ptr, void *end, uint32_t n, bool swap)
 	arch = (struct fat_arch *)(header + 1);
 	if (!CHECKED((arch + n), end))
 		return (NULL);
-	if (swap)
-		sw_arch_32(arch);
 	return (get_fat_infos(ptr, arch, n, end, swap)); //recursive is not necessary a good idea here
 }

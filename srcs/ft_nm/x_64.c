@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:20:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 13:47:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch_64 *c, uint32_t n
 
 	if (!n)
 		return (NULL);
+	if (swap)
+		sw_arch_64(c);
 	curr = mh_infos(ptr + c->offset, end);
 	curr->next = get_fat_infos(ptr, c + 1, n - 1, end, swap);
 	return (curr);
@@ -143,7 +145,5 @@ t_print_infos			*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap)
 	arch = (struct fat_arch_64 *)(header + 1);
 	if (!CHECKED((arch + n), end))
 		return (NULL);
-	if (swap)
-		sw_arch_64(arch);
 	return (get_fat_infos(ptr, arch, n, end, swap)); //recursive is not necessary a good idea here
 }

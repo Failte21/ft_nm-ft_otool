@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:09:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 14:29:45 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, uint32_t i, str
     t_print_infos   *el;
     char            *p;
 
-   i -= 1;
+    i -= 1;
     header = (char *)ptr + curr->ran_off;
     p = (header + ft_strlen(header));
     while (!(*p))
@@ -103,6 +103,7 @@ static t_print_infos    *get_lib_infos(void *ptr, void *end)
     if (!CHECKED(p + size, end))
         return (NULL);
     arr = (struct ranlib *)((uint32_t *)p + 1);
+    // printf("%lu\n", size / sizeof(struct ranlib));
     return (get_lib_infos_lst(ptr, end, size / sizeof(struct ranlib), arr));
 }
 

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:04:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:22:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 14:49:07 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,14 @@ void sw_arch_32(struct fat_arch *arch)
 {
 	// arch->cputype = ?; //swap ?
 	// arch->cpusubtype = ?; //swap ?
-	arch->offset = swap_int64(arch->offset);
-	arch->size = swap_int64(arch->size);
+	arch->offset = swap_int32(arch->offset);
+	arch->size = swap_int32(arch->size);
 	arch->align = swap_int32(arch->align);
 };
 
 static void sw_nlist(struct nlist *nl)
 {
-	nl->n_un.n_strx = nl->n_un.n_strx; //To be removed
-	// nl->n_un.n_strx = ? // swap ?;
+	nl->n_un.n_strx = swap_int32(nl->n_un.n_strx);
 	// nl->n_type = ? // swap ?;
 	// nl->n_sect = ? // swap ?;
     // nl->n_desc = ? // swap ?;

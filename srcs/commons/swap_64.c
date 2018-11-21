@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 10:59:26 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:22:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 14:59:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ void sw_section_64(struct section_64 *section)
 {
 	// section->sectname = ? // swap ?;
 	// section->segname = ? // swap ?;
-	section->addr = swap_int32(section->addr);
-	section->size = swap_int32(section->size);
-	section->offset = swap_int32(section->offset);
-	section->align = swap_int32(section->align);
-	section->reloff = swap_int32(section->reloff);
-	section->nreloc = swap_int32(section->nreloc);
-	section->flags = swap_int32(section->flags);
-	section->reserved1 = swap_int32(section->reserved1);
-	section->reserved2 = swap_int32(section->reserved2);
+	section->addr = swap_int64(section->addr);
+	section->size = swap_int64(section->size);
+	section->offset = swap_int64(section->offset);
+	section->align = swap_int64(section->align);
+	section->reloff = swap_int64(section->reloff);
+	section->nreloc = swap_int64(section->nreloc);
+	section->flags = swap_int64(section->flags);
+	section->reserved1 = swap_int64(section->reserved1);
+	section->reserved2 = swap_int64(section->reserved2);
 };
 
 void sw_arch_64(struct fat_arch_64 *arch)
@@ -66,7 +66,7 @@ void sw_arch_64(struct fat_arch_64 *arch)
 
 void sw_nlist(struct nlist_64 *nl)
 {
-	nl->n_un.n_strx = nl->n_un.n_strx; //To be removed
+	nl->n_un.n_strx = swap_int64(nl->n_un.n_strx); //not tested
 	// nl->n_un.n_strx = ? // swap ?;
 	// nl->n_type = ? // swap ?;
 	// nl->n_sect = ? // swap ?;

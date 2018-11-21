@@ -45,12 +45,12 @@ class Easy(Base):
 		self.compare_multiple(["test_facile", "test_moins_facile"], 3)
 		self.compare_multiple(["test_facile", "test_moins_facile"], 4)
 
-class Fat(Base):
-	def setUp(self):
-		self.test_path = os.path.join(dir_path, "custom_tests/fat")
+# class Fat(Base):
+# 	def setUp(self):
+# 		self.test_path = os.path.join(dir_path, "custom_tests/fat")
 	
-	def test_fat(self):
-		self.compare(["MachO-OSX-ppc-and-i386-bash"])
+# 	def test_fat(self):
+# 		self.compare(["MachO-OSX-ppc-and-i386-bash"])
 
 if __name__ == '__main__':
 	ut.main()

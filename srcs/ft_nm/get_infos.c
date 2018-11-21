@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 17:17:11 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 12:09:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ t_print_infos           *mh_infos(void *ptr, void *end)
     swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
     if (!(sc = is_64 ? get_sc_64(ptr, end, swap) : get_sc_32(ptr, end, swap)))
         return (NULL);
-    if (!(sym = is_64 ? get_sym_64(sc, ptr, end) : get_sym_32(sc, ptr, end)))
+    if (swap)
+        sw_symtab_command(sc);
+    if (!(sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap)))
         return (NULL); //nothing to free (already handled)
     if (!(pinfos = init_pinfos(sym)))
         return (NULL);

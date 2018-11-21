@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 17:16:47 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 12:20:33 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,25 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	struct load_command		*lc;
 	struct mach_header		*header;
 	uint32_t				ncmds;
-	uint32_t				sizeofcmds;
 
 	header = (struct mach_header *)ptr;
+	if (swap)
+		sw_mach_header_32(header);
 	if (!CHECKED(header, end))
 		return (NULL);
 	lc = (struct load_command *)(header + 1);
-	ncmds = swap ? swap_int32(header->ncmds) : header->ncmds;
-	sizeofcmds = swap ? swap_int32(header->sizeofcmds) : header->sizeofcmds;
-	if (!CHECKED((struct load_command *)((void *)lc + sizeofcmds), end))
+	if (!CHECKED((struct load_command *)((void *)lc + header->sizeofcmds), end))
 		return (NULL);
+	if (swap)
+		sw_load_command(lc);
+	ncmds = header->ncmds;
 	while (ncmds)
 	{
 		lc = (struct load_command *)((void *)lc + lc->cmdsize);
-		if (lc->cmd == LC_SYMTAB) return (struct symtab_command *)lc; //TODO: swap ?
+		if (swap)
+			sw_load_command(lc);
+		if (lc->cmd == LC_SYMTAB) 
+			return (struct symtab_command *)lc;
 		ncmds--;
 	}
 	return (NULL);
@@ -70,7 +75,7 @@ static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], c
 	return (new_sym);
 }
 
-static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable)
+static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap)
 {
 	t_sym					*head;
 	t_sym					*to_insert;
@@ -79,24 +84,31 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 	uint32_t				i;
 
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
+	if (swap)
+		sw_segment_command_32(segc);
 	head = NULL;
 	i = 0;
 	while (i < nsyms)
 	{
 		section = get_section(segc, arr[i].n_sect);
-		to_insert = init_sym(
+		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 
 			section ? section->segname : NULL,
 			section ? section->sectname : NULL
-		);
+		)))
+		{
+			//Malloc error
+			//Todo: free current tree
+			return (NULL);
+		}
 		head = push_back_tree(head, to_insert);
 		i++;
 	}
 	return (head);
 }
 
-t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
+t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap)
 {
 	char					*stringable;
 	struct nlist			*arr;
@@ -107,18 +119,18 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end)
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
 	if (!CHECKED(&(arr[sc->nsyms]), end))
 		return (NULL);
-	return (fill_sym_list(ptr, arr, sc->nsyms, stringable));
+	if (swap)
+		sw_nlist_32(arr, sc->nsyms);
+	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap));
 }
 
 static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch *c, uint32_t n, void *end, bool swap)
 {
 	t_print_infos	*curr;
-	uint32_t		offset;
 
 	if (!n)
 		return (NULL);
-	offset = swap ? swap_int32(c->offset) : c->offset;
-	curr = mh_infos(ptr + offset, end);
+	curr = mh_infos(ptr + c->offset, end);
 	curr->next = get_fat_infos(ptr, c + 1, n - 1, end, swap);
 	return (curr);
 }
@@ -132,5 +144,7 @@ t_print_infos			*get_fat_infos_32(void *ptr, void *end, uint32_t n, bool swap)
 	arch = (struct fat_arch *)(header + 1);
 	if (!CHECKED((arch + n), end))
 		return (NULL);
+	if (swap)
+		sw_arch_32(arch);
 	return (get_fat_infos(ptr, arch, n, end, swap)); //recursive is not necessary a good idea here
 }

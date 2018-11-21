@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 16:41:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 11:34:23 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ t_file						*get_infos(char *name);
 t_print_infos           	*mh_infos(void *ptr, void *end);
 
 //x_64
-t_sym						*get_sym_64(struct symtab_command *sc, void *ptr, void *end);
+t_sym						*get_sym_64(struct symtab_command *sc, void *ptr, void *end, bool swap);
 struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap);
-t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
 t_print_infos				*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap);
+t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
 
 //x_32
-t_sym						*get_sym_32(struct symtab_command *sc, void *ptr, void *end);
+t_sym						*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap);
 struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap);
 t_print_infos				*get_fat_infos_32(void *ptr, void *end, uint32_t n, bool swap);
 t_print_infos				*mh_infos_32(void *ptr, bool swap, void *end);

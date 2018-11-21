@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 11:20:00 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 12:20:11 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,13 @@ void    		sw_segment_command_32(struct segment_command *sc);
 void    		sw_segment_command_64(struct segment_command_64 *sc);
 void 			sw_section_32(struct section *section);
 void 			sw_section_64(struct section_64 *section);
+void 			sw_nlist_64(struct nlist_64 *nl, uint32_t nsyms);
+void 			sw_nlist_32(struct nlist *nl, uint32_t nsyms);
+void 			sw_arch_32(struct fat_arch *arch);
+void 			sw_arch_64(struct fat_arch_64 *arch);
+
 void    		sw_symtab_command(struct symtab_command *sc);
+void			sw_load_command(struct load_command *lc);
 
 #define CHECKED(s,e) ((void *)(s + 1) < e)
 #define S_32(e,s) (s ? swap_int32(e) : e)

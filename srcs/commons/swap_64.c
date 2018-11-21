@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 10:59:26 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 11:21:50 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/21 12:22:15 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,36 @@ void sw_section_64(struct section_64 *section)
 	section->reserved1 = swap_int32(section->reserved1);
 	section->reserved2 = swap_int32(section->reserved2);
 };
+
+void sw_arch_64(struct fat_arch_64 *arch)
+{
+	// arch->cputype = ?; //swap ?
+	// arch->cpusubtype = ?; //swap ?
+	arch->offset = swap_int64(arch->offset);
+	arch->size = swap_int64(arch->size);
+	arch->align = swap_int32(arch->align);
+	arch->reserved = swap_int32(arch->reserved);
+};
+
+
+void sw_nlist(struct nlist_64 *nl)
+{
+	nl->n_un.n_strx = nl->n_un.n_strx; //To be removed
+	// nl->n_un.n_strx = ? // swap ?;
+	// nl->n_type = ? // swap ?;
+	// nl->n_sect = ? // swap ?;
+    // nl->n_desc = ? // swap ?;
+	// nl->n_value = ? // swap ?;
+};
+
+void sw_nlist_64(struct nlist_64 *nl, uint32_t nsyms)
+{
+    uint32_t    i;
+
+    i = 0;
+    while (i < nsyms)
+    {
+        sw_nlist(nl + i);
+        i++;
+    }
+}

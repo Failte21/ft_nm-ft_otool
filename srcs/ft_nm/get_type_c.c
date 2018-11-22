@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 13:31:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 14:15:11 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static char get_masked_stuff(type)
 		return ('U');
 	if (type == N_ABS)
 		return ('A');
-	// if (type == N_SECT)
-	// 	return ('U');
+	if (type == N_SECT)
+		return ('S');
 	// if (type == N_PBUD)
 	// 	return ('U');
 	// if (type == N_INDR)

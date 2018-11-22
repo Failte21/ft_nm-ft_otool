@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:27:27 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:04:27 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:27:19 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_print_infos        *get_fat_macho(void *ptr, struct fat_arch_64 *c, voi
 		sw_arch_64(c);
 	curr = mh_infos(ptr + c->offset, end);
 	curr->cputype = c->cputype;
+	curr->cpusubtype = c->cpusubtype;
 	return (curr);
 }
 

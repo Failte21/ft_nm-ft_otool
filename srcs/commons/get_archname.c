@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 15:11:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:16:51 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:29:01 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ static const t_arch_info infos[] = {
 	{NULL, 0, 0}
 };
 
-char    *get_archname(cpu_type_t cputype)
+char    *get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype)
 {
     unsigned int i;
 
     i = 0;
     while (infos[i].name)
     {
-        if (cputype == infos[i].cpu_type)
+        if (cputype == infos[i].cpu_type && cpusubtype == infos[i].cpu_subtype)
             return (infos[i].name);
         i++;
     }

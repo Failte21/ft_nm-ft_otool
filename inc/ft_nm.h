@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 13:25:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:03:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct	s_sym {
 typedef struct 	print_infos {
 	t_sym				*sym;
 	char				*name;
-	char				*archname;
 	struct print_infos	*next;
+	cpu_type_t			cputype;
 }				t_print_infos;
 
 typedef struct	s_file {

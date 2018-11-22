@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 15:58:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 09:30:34 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,30 +121,4 @@ t_sym					*get_sym_64(struct symtab_command *sc, void *ptr, void *end, bool swap
 	if (swap)
 		sw_nlist_64(arr, sc->nsyms);
 	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap));
-}
-
-static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch_64 *c, uint32_t n, void *end, bool swap)
-{
-	t_print_infos	*curr;
-
-	if (!n)
-		return (NULL);
-	if (swap)
-		sw_arch_64(c);
-	curr = mh_infos(ptr + c->offset, end);
-	curr->archname = get_archname(c->cputype);
-	curr->next = get_fat_infos(ptr, c + 1, n - 1, end, swap);
-	return (curr);
-}
-
-t_print_infos			*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap)
-{
-	struct fat_header		*header;
-	struct fat_arch_64		*arch;
-
-	header = (struct fat_header *)ptr;
-	arch = (struct fat_arch_64 *)(header + 1);
-	if (!CHECKED((arch + n), end))
-		return (NULL);
-	return (get_fat_infos(ptr, arch, n, end, swap)); //recursive is not necessary a good idea here
 }

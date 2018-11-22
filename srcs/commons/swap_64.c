@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 10:59:26 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 14:59:54 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 09:00:17 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void sw_section_64(struct section_64 *section)
 
 void sw_arch_64(struct fat_arch_64 *arch)
 {
-	// arch->cputype = ?; //swap ?
-	// arch->cpusubtype = ?; //swap ?
+	arch->cputype = swap_int64(arch->cputype);
+	arch->cpusubtype = swap_int64(arch->cpusubtype);
 	arch->offset = swap_int64(arch->offset);
 	arch->size = swap_int64(arch->size);
 	arch->align = swap_int32(arch->align);

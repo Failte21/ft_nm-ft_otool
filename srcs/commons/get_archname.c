@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 15:11:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 15:58:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 08:50:17 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ char    *get_archname(cpu_type_t cputype)
         return ("CPU_TYPE_I386");
     if (cputype == CPU_TYPE_POWERPC)
         return ("CPU_TYPE_POWERPC");
+    if (cputype == CPU_TYPE_X86_64)
+        return ("CPU_TYPE_X86_64");
     return ("");
 }

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:44:24 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 11:41:15 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,48 @@
 //binary tree of t_sym
 
 //Todo: remove printf
-static void	print_nm_64(t_sym	*sym)
+
+// static void	print_header_o(char *fname, char *oname)
+// {
+// 	ft_putchar('\n');
+// 	ft_putstr(fname);
+// 	ft_putchar('(');
+// 	ft_putstr(oname);
+// 	ft_putstr("):\n");
+// }
+
+static void	print_header(char *fname)
 {
-	if (sym->value)
-		printf("0000000%lx %c %s\n", sym->value, get_type_c(sym->sectname, sym->type), sym->name);
-	else
-		printf("                 %c %s\n", get_type_c(sym->sectname, sym->type), sym->name);
+	ft_putchar('\n');
+	ft_putstr(fname);
+	ft_putstr(":\n");
 }
 
-static void	print_nm_32(t_sym	*sym)
+static void print_nm(t_sym *sym, uint32_t arch_len)
+{
+	const char *zeros = "000000000000000000";
+	const char *spaces = "                 ";
+	if (sym->value)
+	{
+		write(1, zeros, arch_len - 1);
+		ft_putchar('1'); //?
+		ft_put_ulong_x(sym->value);
+	}
+	else
+		write(1, spaces, arch_len * 2);
+	ft_putchar(' ');
+	ft_putchar(get_type_c(sym->sectname, sym->type));
+	ft_putchar(' ');
+	ft_putstr(sym->name);
+	ft_putchar('\n');
+}
+
+static void	print_nm_64(t_sym *sym)
+{
+	print_nm(sym, 8);
+}
+
+static void	print_nm_32(t_sym *sym)
 {
 	if (sym->value)
 		printf("0000%lx %c %s\n", sym->value, get_type_c(sym->sectname, sym->type), sym->name);
@@ -52,7 +85,7 @@ static void	print_infos(t_print_infos *curr, char *name, enum ftype type, bool m
 	{
 		// printf("%s(%s)\n", name, curr->name);
 		if (type == MH && multiple)
-			printf("\n%s:\n", name);
+			print_header(name);
 		if (type == LIB)
 			printf("\n%s(%s):\n", name, curr->name);
 		if (type == FAT && curr->cputype != CPU_TYPE_X86_64)

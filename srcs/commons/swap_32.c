@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:04:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 08:59:04 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 13:47:25 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void sw_nlist(struct nlist *nl)
 	// nl->n_type = ? // swap ?;
 	// nl->n_sect = ? // swap ?;
     // nl->n_desc = ? // swap ?;
-	// nl->n_value = ? // swap ?;
+	nl->n_value = swap_int32(nl->n_value);
 };
 
 void sw_nlist_32(struct nlist *nl, uint32_t nsyms)

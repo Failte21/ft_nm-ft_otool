@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/10/22 10:15:27 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 13:31:45 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,22 @@
 
 #include "../../inc/ft_nm.h"
 
-static char	get_base_char(char sectname[16])
+static char get_masked_stuff(type)
+{
+	if (type == N_UNDF)
+		return ('U');
+	if (type == N_ABS)
+		return ('A');
+	// if (type == N_SECT)
+	// 	return ('U');
+	// if (type == N_PBUD)
+	// 	return ('U');
+	// if (type == N_INDR)
+	// 	return ('U');
+	return ('U');
+}
+
+static char	get_base_char(char sectname[16], unsigned char type)
 {
 	if (!ft_strcmp(sectname, SECT_TEXT))
 		return ('T');
@@ -36,7 +51,7 @@ static char	get_base_char(char sectname[16])
 		return ('B');
 	if (!ft_strcmp(sectname, SECT_COMMON))
 		return ('C');
-	return ('U');
+	return (get_masked_stuff(type & N_TYPE));
 }
 
 static char	check_scope(unsigned char type, char c)
@@ -50,7 +65,7 @@ char	get_type_c(char sectname[16], unsigned char type)
 {
 	char	c;
 
-	c = get_base_char(sectname);
+	c = get_base_char(sectname, type);
 	c = check_scope(type, c);
 	//Todo : Objective C stuff that I don't understand yet
 	return (c);

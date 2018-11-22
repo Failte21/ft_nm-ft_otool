@@ -50,7 +50,7 @@ class Fat(Base):
 		self.test_path = os.path.join(dir_path, "custom_tests/fat")
 	
 	def test_fat(self):
-		self.compare(["MachO-OSX-ppc-and-i386-bash"])
+		self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash"])
 
 if __name__ == '__main__':
 	ut.main()

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 11:41:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 12:41:26 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@
 // 	ft_putstr(oname);
 // 	ft_putstr("):\n");
 // }
+
+static void	print_header_fat(char *fname, char *archname)
+{
+	ft_putchar('\n');
+	ft_putstr(fname);
+	ft_putstr(" (");
+	ft_putstr("for architecture ");
+	ft_putstr(archname);
+	ft_putstr("):\n");
+}
 
 static void	print_header(char *fname)
 {
@@ -59,10 +69,7 @@ static void	print_nm_64(t_sym *sym)
 
 static void	print_nm_32(t_sym *sym)
 {
-	if (sym->value)
-		printf("0000%lx %c %s\n", sym->value, get_type_c(sym->sectname, sym->type), sym->name);
-	else
-		printf("             %c %s\n", get_type_c(sym->sectname, sym->type), sym->name);
+	print_nm(sym, 5);
 }
 
 //The binary tree has been sorted previously, for no reasons this function has
@@ -71,10 +78,13 @@ static void	print_tree(t_sym *curr, bool is_64)
 {
 	if (curr->right)
 		print_tree(curr->right, is_64);
-	if (is_64)
-		print_nm_64(curr);
-	else
-		print_nm_32(curr);
+	if (!(curr->type & N_STAB)) //handle otherwise if -a option
+	{
+		if (is_64)
+			print_nm_64(curr);
+		else
+			print_nm_32(curr);
+	}
 	if (curr->left)
 		print_tree(curr->left, is_64);
 }
@@ -89,9 +99,10 @@ static void	print_infos(t_print_infos *curr, char *name, enum ftype type, bool m
 		if (type == LIB)
 			printf("\n%s(%s):\n", name, curr->name);
 		if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
-			printf("\n%s(for architecture %s):\n",\
-			name,\
-			get_archname(curr->cputype, curr->cpusubtype));
+			print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
+			// printf("\n%s(for architecture %s):\n",\
+			// name,\
+			// get_archname(curr->cputype, curr->cpusubtype));
 		print_tree(curr->sym, curr->is_64);
 		print_infos(curr->next, name, type, multiple);
 	}

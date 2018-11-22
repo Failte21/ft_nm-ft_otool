@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 12:41:26 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 13:21:19 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,17 @@ static void	print_header(char *fname)
 	ft_putstr(":\n");
 }
 
-static void print_nm(t_sym *sym, uint32_t arch_len)
+static void print_nm(t_sym *sym, uint32_t arch_len, uint32_t space_len) // crap
 {
 	const char *zeros = "000000000000000000";
 	const char *spaces = "                 ";
 	if (sym->value)
 	{
-		write(1, zeros, arch_len - 1);
-		ft_putchar('1'); //?
+		write(1, zeros, arch_len);
 		ft_put_ulong_x(sym->value);
 	}
 	else
-		write(1, spaces, arch_len * 2);
+		write(1, spaces, space_len);
 	ft_putchar(' ');
 	ft_putchar(get_type_c(sym->sectname, sym->type));
 	ft_putchar(' ');
@@ -64,12 +63,12 @@ static void print_nm(t_sym *sym, uint32_t arch_len)
 
 static void	print_nm_64(t_sym *sym)
 {
-	print_nm(sym, 8);
+	print_nm(sym, 7, 16);
 }
 
 static void	print_nm_32(t_sym *sym)
 {
-	print_nm(sym, 5);
+	print_nm(sym, 4, 8);
 }
 
 //The binary tree has been sorted previously, for no reasons this function has

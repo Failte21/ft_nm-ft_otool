@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 14:29:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:40:57 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_print_infos           *mh_infos(void *ptr, void *end)
         sw_symtab_command(sc);
     if (!(sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap)))
         return (NULL); //nothing to free (already handled)
-    if (!(pinfos = init_pinfos(sym)))
+    if (!(pinfos = init_pinfos(sym, is_64)))
         return (NULL);
     return (pinfos);
 }

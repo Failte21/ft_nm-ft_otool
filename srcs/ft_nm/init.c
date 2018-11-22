@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 13:36:00 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:41:42 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ enum ftype get_ftype(void *ptr)
 	return (LIB); //Not sure at all this is enough to check
 }
 
-t_print_infos	*init_pinfos(t_sym *sym)
+t_print_infos	*init_pinfos(t_sym *sym, bool is_64)
 {
 	t_print_infos	*pinfos;
 
@@ -32,6 +32,7 @@ t_print_infos	*init_pinfos(t_sym *sym)
 		return (NULL);
 	pinfos->sym = sym;
 	pinfos->next = NULL;
+	pinfos->is_64 = is_64;
 	return (pinfos);
 }
 

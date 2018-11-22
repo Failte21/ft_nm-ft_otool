@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 15:58:24 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 10:14:45 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef struct	s_macho_file {
 	bool				is_fat;
 	struct s_macho_file	*next;
 }				t_macho_file;
+
+typedef struct	s_arch_info {
+	char			*name;
+	cpu_type_t		cpu_type;
+	cpu_subtype_t	cpu_subtype;
+}				t_arch_info;
 
 //Init
 t_macho_file	*init_macho_file(int ac, char **av);

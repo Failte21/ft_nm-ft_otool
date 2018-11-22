@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 09:30:34 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 15:06:26 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, ch
 	uint32_t					i;
 
 	segc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
-	if (swap)
-		sw_segment_command_64(segc);
 	head = NULL;
 	i = 0;
 	while (i < nsyms)
 	{
 		section = get_section(segc, arr[i].n_sect);
+		if (swap && section)
+			sw_section_64(section);
 		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 09:29:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 15:05:43 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,6 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	return (NULL);
 }
 
-//No idea why it works
-static struct section	*get_section(struct segment_command *segc, uint32_t i)
-{
-	struct section	*section;
-
-	if (i == NO_SECT)
-		return (NULL);
-	if (i <= segc->nsects)
-	{
-		section = (struct section *)(segc + 1);
-		i -= 1; // index starts at one
-		return (section + i);
-	}
-	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - segc->nsects);
-}
-
 static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], char sectname[16])
 {
 	t_sym	*new_sym;
@@ -75,6 +59,22 @@ static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], c
 	return (new_sym);
 }
 
+//No idea why it works
+static struct section	*get_section(struct segment_command *segc, uint32_t i)
+{
+	struct section	*section;
+
+	if (i == NO_SECT)
+		return (NULL);
+	if (i <= segc->nsects)
+	{
+		section = (struct section *)(segc + 1);
+		i -= 1; // index starts at one
+		return (section + i);
+	}
+	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - segc->nsects);
+}
+
 static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap)
 {
 	t_sym					*head;
@@ -84,8 +84,6 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 	uint32_t				i;
 
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
-	if (swap)
-		sw_segment_command_32(segc);
 	head = NULL;
 	i = 0;
 	while (i < nsyms)

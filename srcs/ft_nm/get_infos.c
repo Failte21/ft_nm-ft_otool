@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:40:57 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/22 14:36:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-t_print_infos           *mh_infos(void *ptr, void *end)
+t_print_infos			*mh_infos(void *ptr, void *end)
 {
     uint32_t                magic;
     struct symtab_command   *sc;

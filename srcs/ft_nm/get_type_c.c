@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 09:37:33 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 10:00:38 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,14 @@ static char check_scope(char c, unsigned char type)
 }
 
 //Todo : also check segname ? 
-static char	from_names(char sectname[16], unsigned char type)
+static char	from_names(char sectname[16], unsigned char type, char segname[16])
 {
-	if (!ft_strcmp(sectname, SECT_TEXT))
+	if (!ft_strcmp(sectname, SECT_TEXT) && !ft_strcmp(segname, SEG_TEXT))
 		return (check_scope('t', type));
-	if (!ft_strcmp(sectname, SECT_DATA))
+	if (!ft_strcmp(sectname, SECT_DATA) && !ft_strcmp(segname, SEG_DATA))
 		return (check_scope('d', type));
-	if (!ft_strcmp(sectname, SECT_BSS))
+	if (!ft_strcmp(sectname, SECT_BSS) && !ft_strcmp(segname, SEG_DATA))
 		return (check_scope('b', type));
-	if (!ft_strcmp(sectname, SECT_COMMON))
-		return (check_scope('c', type));
 	return(check_scope('s', type));
 }
 
@@ -61,7 +59,7 @@ char		get_type_c(t_sym *sym)
 	if (m == N_ABS)
 		return (check_scope('a', sym->type));
 	if (m == N_SECT && sym->n_sect != NO_SECT && sym->n_sect <= MAX_SECT)
-		return (from_names(sym->sectname, sym->type));
+		return (from_names(sym->sectname, sym->type, sym->segname));
 	if (m == N_INDR)
 		return (check_scope('i', sym->type));
 	return (check_scope('?', sym->type));

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 08:49:03 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 12:04:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,27 @@ static void	print_header(char *fname)
 	ft_putstr(":\n");
 }
 
+static void print_header_lib(char *fname, char *oname)
+{
+	ft_putchar('\n');
+	ft_putstr(fname);
+	ft_putchar('(');
+	ft_putstr(oname);
+	ft_putstr("):\n");
+}
+
 static void print_nm(t_sym *sym, uint32_t space_len) // crap
 {
 	const char		*zeros = "000000000000000000";
 	const char 		*spaces = "                 ";
 	unsigned int	x_len;
 	unsigned int	arch_len;
+	char			c;
 
 	x_len = ft_hex_len(sym->value);
 	arch_len = space_len - x_len;
-	if (sym->value)
+	c = get_type_c(sym);
+	if (sym->value || c == 't' || c == 'T')
 	{
 		write(1, zeros, arch_len);
 		ft_put_ulong_x(sym->value);
@@ -101,7 +112,7 @@ static void	print_infos(t_print_infos *curr, char *name, enum ftype type, bool m
 		if (type == MH && multiple)
 			print_header(name);
 		if (type == LIB)
-			printf("\n%s(%s):\n", name, curr->name);
+			print_header_lib(name, curr->name);
 		if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
 			print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
 			// printf("\n%s(for architecture %s):\n",\

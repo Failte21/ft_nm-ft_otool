@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 15:06:26 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 08:48:41 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static t_sym		*init_sym(struct nlist_64 curr, char *stringable, char segname[16]
 		return (NULL);
 	new_sym->value = curr.n_value;
 	new_sym->name = stringable + curr.n_un.n_strx;
+	new_sym->n_sect = curr.n_sect;
 	new_sym->type = curr.n_type;
 	new_sym->left = NULL;
 	new_sym->right = NULL;

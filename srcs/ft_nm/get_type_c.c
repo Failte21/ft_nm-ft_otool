@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 14:15:11 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 09:37:33 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,43 @@
 
 #include "../../inc/ft_nm.h"
 
-static char get_masked_stuff(type)
+static char check_scope(char c, unsigned char type)
 {
-	if (type == N_UNDF)
-		return ('U');
-	if (type == N_ABS)
-		return ('A');
-	if (type == N_SECT)
-		return ('S');
-	// if (type == N_PBUD)
-	// 	return ('U');
-	// if (type == N_INDR)
-	// 	return ('U');
-	return ('U');
+	if ((type & N_EXT) && c != '?')
+		return (ft_toupper(c));
+	return (c);
 }
 
-static char	get_base_char(char sectname[16], unsigned char type)
+//Todo : also check segname ? 
+static char	from_names(char sectname[16], unsigned char type)
 {
 	if (!ft_strcmp(sectname, SECT_TEXT))
-		return ('T');
+		return (check_scope('t', type));
 	if (!ft_strcmp(sectname, SECT_DATA))
-		return ('D');
+		return (check_scope('d', type));
 	if (!ft_strcmp(sectname, SECT_BSS))
-		return ('B');
+		return (check_scope('b', type));
 	if (!ft_strcmp(sectname, SECT_COMMON))
-		return ('C');
-	return (get_masked_stuff(type & N_TYPE));
+		return (check_scope('c', type));
+	return(check_scope('s', type));
 }
 
-static char	check_scope(unsigned char type, char c)
+char		get_type_c(t_sym *sym)
 {
-	//Check here if the symbol is external => keep uppercase char
-	//Or internal => return lowercase char
-	return (type & N_EXT ? c : ft_tolower(c));
-}
-
-char	get_type_c(char sectname[16], unsigned char type)
-{
-	char	c;
-
-	c = get_base_char(sectname, type);
-	c = check_scope(type, c);
-	//Todo : Objective C stuff that I don't understand yet
-	return (c);
+	char 	m;
+	
+	if (sym->type & N_STAB)
+		return (check_scope('-', sym->type));
+	m = sym->type & N_TYPE;
+	if (m == N_UNDF)
+		return (check_scope(sym->value != 0 ? 'c' : 'u', sym->type));
+	if (m == N_PBUD)
+		return (check_scope('u', sym->type));
+	if (m == N_ABS)
+		return (check_scope('a', sym->type));
+	if (m == N_SECT && sym->n_sect != NO_SECT && sym->n_sect <= MAX_SECT)
+		return (from_names(sym->sectname, sym->type));
+	if (m == N_INDR)
+		return (check_scope('i', sym->type));
+	return (check_scope('?', sym->type));
 }

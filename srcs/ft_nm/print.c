@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 14:28:33 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 08:49:03 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void print_nm(t_sym *sym, uint32_t space_len) // crap
 	else
 		write(1, spaces, space_len);
 	ft_putchar(' ');
-	ft_putchar(get_type_c(sym->sectname, sym->type));
+	ft_putchar(get_type_c(sym));
 	ft_putchar(' ');
 	ft_putstr(sym->name);
 	ft_putchar('\n');

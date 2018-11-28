@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:41:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 09:01:18 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct	s_sym {
 	unsigned char	type;
 	unsigned char	sect;
 	unsigned char	sect_index;
+	unsigned char 	n_sect;
 	char			*name;
 	unsigned long	value;
 	struct s_sym	*left;
@@ -71,6 +72,6 @@ t_print_infos				*mh_infos_32(void *ptr, bool swap, void *end);
 t_sym						*push_back_tree(t_sym *curr, t_sym *to_insert);
 
 //Other
-char						get_type_c(char sectname[16], unsigned char type);
+char						get_type_c(t_sym *sym);
 
 #endif

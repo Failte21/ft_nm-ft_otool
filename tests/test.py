@@ -51,7 +51,7 @@ class Fat(Base):
 	
 	def test_fat(self):
 		self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash", 
-			"MachO-iOS-armv7-armv7s-arm64-Helloworld"])
+			"MachO-iOS-armv7-armv7s-arm64-Helloworld", "fat_hard"])
 
 if __name__ == '__main__':
 	ut.main()

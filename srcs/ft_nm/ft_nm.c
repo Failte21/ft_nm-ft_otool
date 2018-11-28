@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/20 16:38:55 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 10:46:16 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void							nm(int ac, char **av)
 			printf("error"); //Todo: handle print inside ?
 		else
 			print_file(curr, av[i], ac > 2);
-		//TODO: free infos
+		free_file(curr);
 		i++;
 	}
 }
@@ -62,5 +62,7 @@ int								main(int argc, char **argv)
 	// if (argc < 2)
 	// 	return (1);
 	nm(argc, argv);
+	// while (true)
+	// 	;
 	return (0);
 }

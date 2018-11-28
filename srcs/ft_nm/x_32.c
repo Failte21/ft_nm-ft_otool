@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 08:48:39 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 11:24:03 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	uint32_t				ncmds;
 
 	header = (struct mach_header *)ptr;
-	if (swap)
-		sw_mach_header_32(header);
 	if (!CHECKED(header, end))
 		return (NULL);
+	if (swap)
+		sw_mach_header_32(header);
 	lc = (struct load_command *)(header + 1);
 	if (!CHECKED((struct load_command *)((void *)lc + header->sizeofcmds), end))
 		return (NULL);

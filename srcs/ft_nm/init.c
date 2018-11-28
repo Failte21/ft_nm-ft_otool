@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:41:42 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 11:31:45 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ t_file			*init_file(char *name)
 	if ((f->type = get_ftype(f->ptr)) == UNDEFINED)
 		return (NULL);
 	if (!(f->head = get_infos_list(f)))
-		return (NULL);
+		return (handle_error_free(f));
 	return (f);
 }

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:29:34 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 11:30:55 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char    		*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
 //Errors
 int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
+void			*handle_error_free(void *ptr);
 
 //Security
 void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);

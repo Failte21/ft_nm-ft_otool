@@ -6,63 +6,38 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 10:46:16 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 11:17:10 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-struct symtab_command	*get_symtab(struct load_command *lc, uint32_t ncmds)
-{
-	if (ncmds == 0)
-		return NULL;
-	if (lc->cmd == LC_SYMTAB)
-		return ((struct symtab_command *)lc);
-	return get_symtab((void *)lc + lc->cmdsize, ncmds - 1);
-}
-
-// static struct symtab_command	*get_sc(t_macho_file *macho_file)
-// {
-// 	if (macho_file->is_64)
-// 		return (get_sc_64(macho_file));
-// 	//Todo: handle 32
-// 	return (NULL);
-// }
-
-// static t_sym					*get_symbols(struct symtab_command *sc, t_macho_file *mf)
-// {
-// 	char			*stringable;
-
-// 	stringable = mf->ptr + sc->stroff;
-// 	if (mf->is_64)
-// 		return (get_symbols_64(stringable, sc->nsyms, sc->symoff, mf));
-// 	//Todo: handle 32
-// 	return (NULL);
-// }
-
-void							nm(int ac, char **av)
+static int						nm(int ac, char **av)
 {
 	int				i;
 	t_file			*curr;
+	int				errors;
 
 	i = 1;
+	errors = 0;
 	while (i < ac)
 	{
 		if (!(curr = get_infos(av[i])))
-			printf("error"); //Todo: handle print inside ?
+		{
+			ft_putstr_fd("An error occured\n", 2); //Todo: handle print inside ?
+			errors++;
+		}
 		else
+		{
 			print_file(curr, av[i], ac > 2);
-		free_file(curr);
+			free_file(curr);
+		}
 		i++;
 	}
+	return (errors == 0 ? 0 : 1);
 }
 
 int								main(int argc, char **argv)
 {
-	// if (argc < 2)
-	// 	return (1);
-	nm(argc, argv);
-	// while (true)
-	// 	;
-	return (0);
+	return (nm(argc, argv));
 }

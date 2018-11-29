@@ -7,3 +7,5 @@ ft_otool
 *.pyc
 mine
 real
+a.out
+main.c

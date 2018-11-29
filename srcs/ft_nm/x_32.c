@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 12:20:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 13:30:25 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,24 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	return (NULL);
 }
 
-static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], char sectname[16])
+static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, void *end)
 {
 	t_sym	*new_sym;
+	char	*name;
 
 	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
 		return (NULL);
+	name = stringable + curr.n_un.n_strx;
 	new_sym->value = curr.n_value;
-	new_sym->name = stringable + curr.n_un.n_strx;
+	new_sym->name = name > (char *)end ? BAD_INDEX_STR : name;
 	new_sym->n_sect = curr.n_sect;
 	new_sym->type = curr.n_type;
 	new_sym->left = NULL;
 	new_sym->right = NULL;
-	if (segname)
-		strcpy(new_sym->segname, segname);
-	if (sectname)
-		strcpy(new_sym->sectname, sectname);
+	if (s)
+		strcpy(new_sym->segname, s->segname);
+	if (s)
+		strcpy(new_sym->sectname, s->sectname);
 	return (new_sym);
 }
 
@@ -79,7 +81,7 @@ static struct section	*get_section(struct segment_command *segc, uint32_t i, boo
 	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - nsects, swap);
 }
 
-static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap)
+static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap, void *end)
 {
 	t_sym					*head;
 	t_sym					*to_insert;
@@ -96,8 +98,8 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 
-			section ? section->segname : NULL,
-			section ? section->sectname : NULL
+			section,
+			end
 		)))
 		{
 			//Malloc error
@@ -123,7 +125,5 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap
 		return (NULL);
 	if (swap)
 		sw_nlist_32(arr, sc->nsyms);
-	if (!CHECKED(stringable + arr[sc->nsyms - 1].n_un.n_strx, end))
-		return (NULL);
-	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap));
+	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, end));
 }

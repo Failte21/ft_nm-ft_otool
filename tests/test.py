@@ -76,5 +76,13 @@ class FatLib(Base):
 		# "libate.dylib", "libblas.dylib", "libc++.1.dylib"])
 		self.compare(self.files)
 
+class Corrupted(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/corrupt")
+		self.files = ["bad_string_index"]
+	
+	def test_corrupted(self):
+		self.compare(self.files)
+
 if __name__ == '__main__':
 	ut.main()

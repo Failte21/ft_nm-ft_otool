@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 10:17:19 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 13:49:05 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 static char check_scope(char c, unsigned char type)
 {
-	if ((type & N_EXT) && c != '?')
+	if (type & N_EXT)
 		return (ft_toupper(c));
 	return (c);
 }
@@ -58,9 +58,9 @@ char		get_type_c(t_sym *sym)
 		return (check_scope('u', sym->type));
 	if (m == N_ABS)
 		return (check_scope('a', sym->type));
-	if (m == N_SECT && sym->n_sect != NO_SECT && sym->n_sect <= MAX_SECT)
+	if (m == N_SECT)
 		return (from_names(sym->sectname, sym->type, sym->segname));
 	if (m == N_INDR)
 		return (check_scope('i', sym->type));
-	return (check_scope('?', sym->type));
+	return ('?');
 }

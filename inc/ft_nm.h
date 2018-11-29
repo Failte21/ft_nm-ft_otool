@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 10:44:52 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 13:28:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct	s_file {
 	t_print_infos	*head;
 	enum ftype		type;
 }				t_file;
+
+#define BAD_INDEX_STR "bad string index"
 
 //Init
 t_print_infos				*init_pinfos(t_sym *sym, bool is_64);

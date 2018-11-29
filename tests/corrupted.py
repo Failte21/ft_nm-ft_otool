@@ -35,5 +35,5 @@ def test_corrupted(test_path, test_files):
 
 if __name__ == '__main__':
 	test_corrupted(os.path.join(dir_path, "custom_tests"), ['test_half_obj'])
-	harder = ['32_exe_hard_corupted', 'curl_truncated_load']
-	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), harder)
+	allc = os.listdir(os.path.join(dir_path, "custom_tests/corrupt"))
+	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), allc)

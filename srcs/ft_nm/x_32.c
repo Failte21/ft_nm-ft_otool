@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 11:42:22 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 12:20:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	while (ncmds)
 	{
 		lc = (struct load_command *)((void *)lc + lc->cmdsize);
+		if (!CHECKED(lc ,end))
+			return (NULL);
 		if (swap)
 			sw_load_command(lc);
 		if (lc->cmd == LC_SYMTAB) 
@@ -121,5 +123,7 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap
 		return (NULL);
 	if (swap)
 		sw_nlist_32(arr, sc->nsyms);
+	if (!CHECKED(stringable + arr[sc->nsyms - 1].n_un.n_strx, end))
+		return (NULL);
 	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap));
 }

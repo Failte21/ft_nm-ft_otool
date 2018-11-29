@@ -51,9 +51,9 @@ class Fat(Base):
 		self.files = os.listdir(self.test_path)
 	
 	def test_fat(self):
-		self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash", 
-			"MachO-iOS-armv7-armv7s-arm64-Helloworld", "fat_hard"])
-		# self.compare(self.files)
+		# self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash", 
+		# 	"MachO-iOS-armv7-armv7s-arm64-Helloworld", "fat_hard", "audiodevice"])
+		self.compare(self.files)
 
 class LibStat(Base):
 	def setUp(self):

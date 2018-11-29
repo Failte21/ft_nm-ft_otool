@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 11:24:03 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 11:42:22 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,21 @@ static t_sym		*init_sym(struct nlist curr, char *stringable, char segname[16], c
 	return (new_sym);
 }
 
-//No idea why it works
-static struct section	*get_section(struct segment_command *segc, uint32_t i)
+static struct section	*get_section(struct segment_command *segc, uint32_t i, bool swap)
 {
 	struct section	*section;
+	uint32_t		nsects;
 
 	if (i == NO_SECT)
 		return (NULL);
-	if (i <= segc->nsects)
+	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
+	if (i <= nsects)
 	{
 		section = (struct section *)(segc + 1);
 		i -= 1; // index starts at one
 		return (section + i);
 	}
-	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - segc->nsects);
+	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - nsects, swap);
 }
 
 static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap)
@@ -89,9 +90,7 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 	i = 0;
 	while (i < nsyms)
 	{
-		section = get_section(segc, arr[i].n_sect);
-		if (swap && section)
-			sw_section_32(section);
+		section = get_section(segc, arr[i].n_sect, swap);
 		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 

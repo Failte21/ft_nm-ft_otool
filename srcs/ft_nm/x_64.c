@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 08:48:41 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 11:39:05 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap)
 	}
 	return (NULL);
 }
-//No idea why it works
-static struct section_64	*get_section(struct segment_command_64 *segc, uint32_t i)
-{
-	struct section_64	*section;
-
-	if (i == NO_SECT)
-		return (NULL);
-	if (i <= segc->nsects)
-	{
-		section = (struct section_64 *)(segc + 1);
-		i -= 1; // index starts at one
-		return (section + i);
-	}
-	return get_section((struct segment_command_64 *)((void *)segc + segc->cmdsize), i - segc->nsects);
-}
 
 static t_sym		*init_sym(struct nlist_64 curr, char *stringable, char segname[16], char sectname[16])
 {
@@ -75,6 +60,23 @@ static t_sym		*init_sym(struct nlist_64 curr, char *stringable, char segname[16]
 	return (new_sym);
 }
 
+static struct section_64	*get_section(struct segment_command_64 *segc, uint32_t i, bool swap)
+{
+	struct section_64	*section;
+	uint32_t		nsects;
+
+	if (i == NO_SECT)
+		return (NULL);
+	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
+	if (i <= nsects)
+	{
+		section = (struct section_64 *)(segc + 1);
+		i -= 1; // index starts at one
+		return (section + i);
+	}
+	return get_section((struct segment_command_64 *)((void *)segc + segc->cmdsize), i - nsects, swap);
+}
+
 static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, char *stringable, bool swap)
 {
 	t_sym						*head;
@@ -88,9 +90,7 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, ch
 	i = 0;
 	while (i < nsyms)
 	{
-		section = get_section(segc, arr[i].n_sect);
-		if (swap && section)
-			sw_section_64(section);
+		section = get_section(segc, arr[i].n_sect, swap);
 		if (!(to_insert = init_sym(
 			arr[i],
 			stringable, 

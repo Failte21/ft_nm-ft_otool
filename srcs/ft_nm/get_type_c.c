@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 10:00:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 10:17:19 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		get_type_c(t_sym *sym)
 	char 	m;
 	
 	if (sym->type & N_STAB)
-		return (check_scope('-', sym->type));
+		return ('-');
 	m = sym->type & N_TYPE;
 	if (m == N_UNDF)
 		return (check_scope(sym->value != 0 ? 'c' : 'u', sym->type));

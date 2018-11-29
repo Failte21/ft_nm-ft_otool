@@ -18,10 +18,8 @@ class bcolors:
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 nm_path = os.path.join(dir_path, "../ft_nm")
-test_path = os.path.join(dir_path, "custom_tests")
 
-def test_corrupted():
-    test_files = ["test_half_obj"]
+def test_corrupted(test_path, test_files):
     for f in test_files:
         print(bcolors.OKBLUE + f)
         try:
@@ -36,4 +34,6 @@ def test_corrupted():
             print(bcolors.FAIL + "KO")
 
 if __name__ == '__main__':
-	test_corrupted()
+	test_corrupted(os.path.join(dir_path, "custom_tests"), ['test_half_obj'])
+	harder = ['32_exe_hard_corupted', 'curl_truncated_load']
+	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), harder)

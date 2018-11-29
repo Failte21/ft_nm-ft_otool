@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 12:04:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/29 10:50:59 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void print_nm(t_sym *sym, uint32_t space_len) // crap
 	x_len = ft_hex_len(sym->value);
 	arch_len = space_len - x_len;
 	c = get_type_c(sym);
-	if (sym->value || c == 't' || c == 'T')
+	//Todo: find cleaner comp
+	if (sym->value || c == 't' || c == 'T' || c == 'a' || c == 'A')
 	{
 		write(1, zeros, arch_len);
 		ft_put_ulong_x(sym->value);

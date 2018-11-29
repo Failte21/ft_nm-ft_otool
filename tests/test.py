@@ -48,10 +48,33 @@ class Easy(Base):
 class Fat(Base):
 	def setUp(self):
 		self.test_path = os.path.join(dir_path, "custom_tests/fat")
+		self.files = os.listdir(self.test_path)
 	
 	def test_fat(self):
 		self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash", 
 			"MachO-iOS-armv7-armv7s-arm64-Helloworld", "fat_hard"])
+		# self.compare(self.files)
+
+class LibStat(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/lib_stat")
+		self.files = os.listdir(self.test_path)
+	
+	def test_lib_stat(self):
+		# self.compare(["libft32.a", "lib_long_name.a", "libft_static.a", 
+		# "libftprintf.a", "libftprintf32.a", "libmalloc_test.a", "libmlx.a"])
+		self.compare(self.files)
+
+class FatLib(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/fat_lib")
+		self.files = os.listdir(self.test_path)
+
+	def test_fat_lib(self):
+		# self.compare(["PN548_API.dylib", "PN548_HAL_OSX.dylib", "PN548_OSX.dylib",
+		# "libAccountPolicyTranslation.dylib", "libFosl_dynamic.dylib", "libarchive.dylib",
+		# "libate.dylib", "libblas.dylib", "libc++.1.dylib"])
+		self.compare(self.files)
 
 if __name__ == '__main__':
 	ut.main()

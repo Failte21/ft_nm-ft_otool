@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 11:30:55 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/28 12:22:31 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/mman.h>
 # include <unistd.h>
 # include <errno.h>
+# include <ar.h>
 
 # include "../libft/libft.h"
 

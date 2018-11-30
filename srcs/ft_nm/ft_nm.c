@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 10:05:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 13:34:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int						nm(int ac, char **av)
 
 	i = 1;
 	errors = 0;
+	//TODO: a.out no args
 	while (i < ac)
 	{
 		if (!(curr = get_infos(av[i])))

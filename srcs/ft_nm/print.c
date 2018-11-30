@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 10:05:18 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 11:32:38 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,19 @@ static int	print_infos(t_print_infos *curr, char *name, enum ftype type, bool mu
 	err = 0;
 	if (curr)
 	{
-		if (!curr->failed)
-		{
-			if (type == MH && multiple)
-				print_header(name);
-			if (type == LIB)
-				print_header_lib(name, curr->name);
-			if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
-				print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
-			print_tree(curr->sym, curr->is_64);
-		}
-		else
+		if (type == MH && multiple)
+			print_header(name);
+		if (type == LIB)
+			print_header_lib(name, curr->name);
+		if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
+			print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
+		if (curr->failed)
 		{
 			ft_putstr_fd("An error occured\n", 2);
 			err++;
 		}
+		else
+			print_tree(curr->sym, curr->is_64);
 		print_infos(curr->next, name, type, multiple);
 	}
 	return (err);

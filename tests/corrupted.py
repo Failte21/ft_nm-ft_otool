@@ -38,6 +38,6 @@ if __name__ == '__main__':
 	allc = os.listdir(os.path.join(dir_path, "custom_tests/corrupt"))
 	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), [
 		"32_exe_hard_corupted", "64_exe_hard_corupted", "64_corrupted_string_table", "empty",
-		"fat_hard_corupted", "truncated_10_load", "truncated_load_2", "audiodevice_corupted",
+		"fat_hard_corupted", "truncated_load_2", "audiodevice_corupted",
 		"curl_truncated_load", "truncated_cputype"
 	])

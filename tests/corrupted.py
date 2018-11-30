@@ -21,15 +21,12 @@ nm_path = os.path.join(dir_path, "../ft_nm")
 
 def test_corrupted(test_path, test_files):
     for f in test_files:
-        print(bcolors.OKBLUE + f)
+        print(f)
         try:
             cmnd = [nm_path, os.path.join(test_path, f)]
             out = subprocess.check_output(cmnd, stderr=subprocess.STDOUT, universal_newlines=True)
         except subprocess.CalledProcessError as exc:
-            if exc.output == "An error occured\n":
-                print(bcolors.OKGREEN + "OK")
-            else:
-                print(bcolors.FAIL + "KO")
+            print(exc.output)
         else:
             print(bcolors.FAIL + "KO")
 

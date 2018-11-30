@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 13:28:59 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 13:05:07 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,17 @@ static t_sym		*init_sym(struct nlist_64 curr, char *stringable, struct section_6
 	new_sym->left = NULL;
 	new_sym->right = NULL;
 	if (s)
-		strcpy(new_sym->segname, s->segname);
-	if (s)
-		strcpy(new_sym->sectname, s->sectname);
+	{
+		ft_strcpy(new_sym->segname, s->segname);
+		ft_strcpy(new_sym->sectname, s->sectname);
+	}
 	return (new_sym);
 }
 
 static struct section_64	*get_section(struct segment_command_64 *segc, uint32_t i, bool swap)
 {
 	struct section_64	*section;
-	uint32_t		nsects;
+	uint32_t			nsects;
 
 	if (i == NO_SECT)
 		return (NULL);

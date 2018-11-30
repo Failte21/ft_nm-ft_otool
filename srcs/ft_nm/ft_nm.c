@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 11:17:10 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 10:05:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static int						nm(int ac, char **av)
 	{
 		if (!(curr = get_infos(av[i])))
 		{
-			ft_putstr_fd("An error occured\n", 2); //Todo: handle print inside ?
+			ft_putstr_fd("An error occured\n", 2); //Malloc error
 			errors++;
 		}
 		else
 		{
-			print_file(curr, av[i], ac > 2);
+			errors += print_file(curr, av[i], ac > 2);
 			free_file(curr);
 		}
 		i++;

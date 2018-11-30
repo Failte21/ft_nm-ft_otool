@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 09:47:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 10:07:19 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,16 @@ t_print_infos			*mh_infos(void *ptr, void *end)
     bool                    is_64;
     bool                    swap;
     t_sym                   *sym;
-    t_print_infos           *pinfos;
 
     magic = *(uint32_t *)ptr;
     is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
     swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
     if (!(sc = is_64 ? get_sc_64(ptr, end, swap) : get_sc_32(ptr, end, swap)))
-        return (NULL);
+        return (init_pinfos(NULL, is_64));
     if (swap)
         sw_symtab_command(sc);
-    if (!(sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap)))
-        return (NULL); //nothing to free (already handled)
-    if (!(pinfos = init_pinfos(sym, is_64)))
-        return (NULL);
-    return (pinfos);
+    sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap);
+	return (init_pinfos(sym, is_64));
 }
 
 static t_print_infos    *get_macho_infos(void *ptr, void *end)
@@ -72,17 +68,13 @@ static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, struct ar_hdr *
 	p = name + ft_strlen(name);
     while (!(*p))
         p++;
-    if (!(el = mh_infos(p, end)))
+    if (!(el = mh_infos(p, end))) //Malloc error only
         return (NULL);
     el->name = name;
 	curr = (struct ar_hdr *)(name + ft_atoi(curr->ar_size));
     if ((void *)curr == end)
         return (el);
-    if (!(el->next = get_lib_infos_lst(ptr, end, curr)))
-    {
-        //TODO: free el
-        return (NULL);
-    }
+    el->next = get_lib_infos_lst(ptr, end, curr);
     return (el);
 }
 

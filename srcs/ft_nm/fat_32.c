@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:16:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 12:35:26 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 10:35:46 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ static t_print_infos	*get_fat_infos(void *ptr, struct fat_arch *c, uint32_t n, v
 
 	if (!n)
 		return (NULL);
-	if (!(curr = get_fat_macho(ptr, c, end, swap)))
-	{
-		//TODO: find a way to free stuff
-		return (NULL);
-	}
+	curr = get_fat_macho(ptr, c, end, swap);
 	curr->next = get_fat_infos(ptr, c + 1, n - 1, end, swap);
 	return (curr);
 }

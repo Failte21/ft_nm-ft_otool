@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 10:50:59 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 10:05:18 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,26 +105,34 @@ static void	print_tree(t_sym *curr, bool is_64)
 		print_tree(curr->left, is_64);
 }
 
-static void	print_infos(t_print_infos *curr, char *name, enum ftype type, bool multiple)
+static int	print_infos(t_print_infos *curr, char *name, enum ftype type, bool multiple)
 {
+	int	err;
+
+	err = 0;
 	if (curr)
 	{
-		// printf("%s(%s)\n", name, curr->name);
-		if (type == MH && multiple)
-			print_header(name);
-		if (type == LIB)
-			print_header_lib(name, curr->name);
-		if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
-			print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
-			// printf("\n%s(for architecture %s):\n",\
-			// name,\
-			// get_archname(curr->cputype, curr->cpusubtype));
-		print_tree(curr->sym, curr->is_64);
+		if (!curr->failed)
+		{
+			if (type == MH && multiple)
+				print_header(name);
+			if (type == LIB)
+				print_header_lib(name, curr->name);
+			if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
+				print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
+			print_tree(curr->sym, curr->is_64);
+		}
+		else
+		{
+			ft_putstr_fd("An error occured\n", 2);
+			err++;
+		}
 		print_infos(curr->next, name, type, multiple);
 	}
+	return (err);
 }
 
-void		print_file(t_file *f, char *name, bool multiple)
+int			print_file(t_file *f, char *name, bool multiple)
 {
-	print_infos(f->head, name, f->type, multiple);
+	return (print_infos(f->head, name, f->type, multiple));
 }

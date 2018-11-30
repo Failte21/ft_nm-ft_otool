@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 13:28:47 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/11/30 10:03:40 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct 	print_infos {
 	cpu_type_t			cputype;
 	cpu_subtype_t		cpusubtype;
 	bool				is_64;
+	bool				failed;
 }				t_print_infos;
 
 typedef struct	s_file {
@@ -51,7 +52,7 @@ t_print_infos				*init_pinfos(t_sym *sym, bool is_64);
 t_file						*init_file(char *name);
 
 //Print
-void						print_file(t_file *f, char *name, bool multiple);
+int							print_file(t_file *f, char *name, bool multiple);
 
 //Infos
 t_print_infos	        	*get_infos_list(t_file *f);

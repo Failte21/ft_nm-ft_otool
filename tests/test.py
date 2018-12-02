@@ -76,6 +76,14 @@ class FatLib(Base):
 		# "libate.dylib", "libblas.dylib", "libc++.1.dylib"])
 		self.compare(self.files)
 
+class MoreDylib(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/dylib")
+		self.files = os.listdir(self.test_path)
+
+	def test_more_dylib(self):
+		self.compare(self.files)
+
 # class Corrupted(Base):
 # 	def setUp(self):
 # 		self.test_path = os.path.join(dir_path, "custom_tests/corrupt")

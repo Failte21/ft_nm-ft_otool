@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 10:03:40 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/02 12:55:18 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ t_print_infos           	*mh_infos(void *ptr, void *end);
 //x_64
 t_sym						*get_sym_64(struct symtab_command *sc, void *ptr, void *end, bool swap);
 struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap);
-t_print_infos				*get_fat_infos_64(void *ptr, void *end, uint32_t n, bool swap);
+t_print_infos				*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
 t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
 
 //x_32
 t_sym						*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap);
 struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap);
-t_print_infos				*get_fat_infos_32(void *ptr, void *end, uint32_t n, bool swap);
+t_print_infos				*get_fat_infos_32(t_file *f, uint32_t n, bool swap);
 t_print_infos				*mh_infos_32(void *ptr, bool swap, void *end);
 
 //Tree

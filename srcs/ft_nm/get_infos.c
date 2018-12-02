@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 11:20:52 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/02 12:56:01 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ t_print_infos			*mh_infos(void *ptr, void *end)
 	return (init_pinfos(sym, is_64));
 }
 
-static t_print_infos    *get_macho_infos(void *ptr, void *end)
+static t_print_infos    *get_macho_infos(t_file *f)
 {
-    return (mh_infos(ptr, end));
+    return (mh_infos(f->ptr, f->end));
 }
 
-static t_print_infos    *get_fat_infos(void *ptr, void *end)
+static t_print_infos    *get_fat_infos(t_file *f)
 {
     uint32_t            magic;
     struct fat_header   *header;
@@ -46,21 +46,21 @@ static t_print_infos    *get_fat_infos(void *ptr, void *end)
     bool                is_64;
     uint32_t            n;
 
-    magic = *(uint32_t *)ptr;
+    magic = *(uint32_t *)f->ptr;
     is_swap = magic == FAT_CIGAM || magic == FAT_CIGAM_64;
     is_64 = magic == FAT_CIGAM_64 || magic == FAT_MAGIC_64;
-    header = ptr;
+    header = (struct fat_header *)f->ptr;
     n = is_swap ? swap_int32(header->nfat_arch) : header->nfat_arch;
     if (is_64)
-        return (get_fat_infos_64(ptr, end, n, is_swap));
-    return (get_fat_infos_32(ptr, end, n, is_swap));
+        return (get_fat_infos_64(f, n, is_swap));
+    return (get_fat_infos_32(f, n, is_swap));
 }
 
 //Todo: reccursive maybe not a good idea,
 //Todo: find a way to clean list junk memory on error
 //Todo: x_64 ? x_32 ?
 //Todo: catch erors ?
-static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, struct ar_hdr *curr)
+static t_print_infos    *get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
 {
 	char			*name;
 	char			*p;
@@ -70,34 +70,34 @@ static t_print_infos    *get_lib_infos_lst(void *ptr, void *end, struct ar_hdr *
 	p = name + ft_strlen(name);
     while (!(*p))
         p++;
-    if (!(el = mh_infos(p, end))) //Malloc error only
+    if (!(el = mh_infos(p, f->end))) //Malloc error only
         return (NULL);
     el->name = name;
 	curr = (struct ar_hdr *)(name + ft_atoi(curr->ar_size));
-    if ((void *)curr == end)
+    if ((void *)curr == f->end)
         return (el);
-    el->next = get_lib_infos_lst(ptr, end, curr);
+    el->next = get_lib_infos_lst(f, curr);
     return (el);
 }
 
-static t_print_infos    *get_lib_infos(void *ptr, void *end)
+static t_print_infos    *get_lib_infos(t_file *f)
 {
 	struct ar_hdr	*h;
 	struct ar_hdr	*el;
 
-	h = (struct ar_hdr *)(ptr + SARMAG);
+	h = (struct ar_hdr *)(f->ptr + SARMAG);
 	el = (struct ar_hdr *)((void *)(h + 1) + ft_atoi(h->ar_size));
-    return (get_lib_infos_lst(ptr, end, el));
+    return (get_lib_infos_lst(f, el));
 }
 
 t_print_infos	        *get_infos_list(t_file *f)
 {
-	t_print_infos	*(*get_infos[3])(void *ptr, void *end) = {
+	t_print_infos	*(*get_infos[3])(t_file *f) = {
 		get_macho_infos,
 		get_fat_infos,
 		get_lib_infos
 	};
-	return ((*get_infos[f->type])(f->ptr, f->end));
+	return ((*get_infos[f->type])(f));
 }
 
 t_file			*get_infos(char *name)

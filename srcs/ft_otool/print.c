@@ -6,25 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 10:39:57 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 11:00:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
-
-//This files contains functions to print the symbols previously store in a 
-//binary tree of t_sym
-
-//Todo: remove printf
-
-// static void	print_header_o(char *fname, char *oname)
-// {
-// 	ft_putchar('\n');
-// 	ft_putstr(fname);
-// 	ft_putchar('(');
-// 	ft_putstr(oname);
-// 	ft_putstr("):\n");
-// }
 
 static void	print_header_fat(char *fname, char *archname)
 {
@@ -49,21 +35,41 @@ static void print_header_lib(char *fname, char *oname)
 	ft_putstr("):\n");
 }
 
-static void print_dump(t_hex_dump *hp)
+static void print_dump_64(t_hex_dump *hp)
 {
 	uint64_t i;
 
 	i = 0;
-	while (i < hp->sec->size)
+	while (i < hp->sec64->size)
 	{
 		if (i % 16 == 0)
 		{
 			if (i)
 				ft_putchar('\n');
-			ft_put_hex_precision(hp->sec->addr + i, 16);
+			ft_put_hex_precision(hp->sec64->addr + i, 16);
 			ft_putchar('\t');
 		}
-		// printf("%02X ", datas[i]);
+		ft_put_hex_precision(hp->datas[i], 2);
+		ft_putchar(' ');
+		i++;
+	}
+	ft_putchar('\n');
+}
+
+static void print_dump_32(t_hex_dump *hp)
+{
+	uint32_t i;
+
+	i = 0;
+	while (i < hp->sec32->size)
+	{
+		if (i % 16 == 0)
+		{
+			if (i)
+				ft_putchar('\n');
+			ft_put_hex_precision(hp->sec32->addr + i, 8);
+			ft_putchar('\t');
+		}
 		ft_put_hex_precision(hp->datas[i], 2);
 		ft_putchar(' ');
 		i++;
@@ -91,7 +97,10 @@ static int	print_infos(t_print_infos *curr, char *name, enum ftype type)
 		}
 		//TODO: print main stuff
 		ft_putstr("Contents of (__TEXT,__text) section\n");
-		print_dump(curr->hex_dump);
+		if (curr->is_64)
+			print_dump_64(curr->hex_dump);
+		else
+			print_dump_32(curr->hex_dump);
 		print_infos(curr->next, name, type);
 	}
 	return (err);

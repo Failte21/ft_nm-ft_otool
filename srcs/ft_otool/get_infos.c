@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 10:21:58 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:58:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,16 @@
 
 t_print_infos			*mh_infos(void *ptr, void *end)
 {
-    // uint32_t                magic;
-    // struct symtab_command   *sc;
-    // bool                    is_64;
-    // bool                    swap;
-    // t_sym                   *sym;
+    uint32_t                magic;
+    bool                    is_64;
+    bool                    swap;
 	t_hex_dump				*hex_dump;
 
-	hex_dump = get_hex_dump_64(ptr, end);
-	// if (!CHECKED((uint32_t *)ptr, end))
-	// 	return (init_pinfos(NULL, false));
-    // magic = *(uint32_t *)ptr;
-    // is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
-    // swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
-    // if (!(sc = is_64 ? get_sc_64(ptr, end, swap) : get_sc_32(ptr, end, swap)))
-    //     return (init_pinfos(NULL, is_64));
-    // if (swap)
-    //     sw_symtab_command(sc);
-    // sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap);
-	// return (init_pinfos(sym, is_64));
-	//TODO: do real stuff
-	return (init_pinfos(hex_dump));
+    magic = *(uint32_t *)ptr;
+    is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
+    swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
+	hex_dump = is_64 ? get_hex_dump_64(ptr, end, swap) : get_hex_dump_32(ptr, end, swap);
+	return (init_pinfos(hex_dump, is_64));
 }
 
 static t_print_infos    *get_macho_infos(t_file *f)

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 10:32:18 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:59:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 typedef struct	s_hex_dump {
 	char				*datas;
-	struct section_64	*sec;
+	void				*addr;
+	struct section		*sec32;
+	struct section_64	*sec64;
 }				t_hex_dump;
 
 typedef struct 	print_infos {
@@ -41,7 +43,7 @@ typedef struct	s_file {
 
 //Init
 t_file						*init_file(char *name);
-t_print_infos				*init_pinfos(t_hex_dump *hp);
+t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64);
 
 //Print
 int							print_file(t_file *f, char *name);
@@ -55,12 +57,13 @@ t_print_infos           	*mh_infos(void *ptr, void *end);
 struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap);
 t_print_infos				*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
 t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
-t_hex_dump					*get_hex_dump_64(void *ptr, void *end);
+t_hex_dump					*get_hex_dump_64(void *ptr, void *end, bool swap);
 
 //x_32
 struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap);
 t_print_infos				*get_fat_infos_32(t_file *f, uint32_t n, bool swap);
 t_print_infos				*mh_infos_32(void *ptr, bool swap, void *end);
+t_hex_dump					*get_hex_dump_32(void *ptr, void *end, bool swap);
 
 //free
 int							free_file(t_file *f);

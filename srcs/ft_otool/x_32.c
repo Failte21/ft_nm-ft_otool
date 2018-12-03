@@ -6,56 +6,59 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:14:20 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:57:23 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
+static struct section	*get_text_section(struct segment_command *segc, bool swap, void *end)
 {
-	struct load_command		*lc;
-	struct mach_header		*header;
-	uint32_t				ncmds;
+	struct section	*section;
+	uint32_t			nsects;
+	unsigned int		i;
 
-	header = (struct mach_header *)ptr;
-	if (!CHECKED(header, end))
+	section = (struct section *)(segc + 1);
+	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
+	if (!CHECKED(section + nsects, end))
 		return (NULL);
-	if (swap)
-		sw_mach_header_32(header);
-	lc = (struct load_command *)(header + 1);
-	if (!CHECKED((struct load_command *)((void *)lc + header->sizeofcmds), end))
-		return (NULL);
-	if (swap)
-		sw_load_command(lc);
-	ncmds = header->ncmds;
-	while (ncmds)
+	if (!ft_strcmp(section->segname, SEG_TEXT))
 	{
-		lc = (struct load_command *)((void *)lc + lc->cmdsize);
-		if (!CHECKED(lc ,end))
-			return (NULL);
-		if (swap)
-			sw_load_command(lc);
-		if (lc->cmd == LC_SYMTAB) 
-			return (struct symtab_command *)lc;
-		ncmds--;
+		i = 0;
+		while (i < nsects)
+		{
+			if (!ft_strcmp(section[i].sectname, SECT_TEXT))
+				return (section + i);
+			i++;
+		}
+		return (NULL);
 	}
-	return (NULL);
+	//todo: stop at some point 
+	return get_text_section((struct segment_command *)((void *)segc + segc->cmdsize), swap, end);
 }
 
-// static struct section	*get_section(struct segment_command *segc, uint32_t i, bool swap)
-// {
-// 	struct section	*section;
-// 	uint32_t		nsects;
+static t_hex_dump			*init_hex_dump(struct section *sec, void *ptr, void *end)
+{
+	char		*datas;
+	t_hex_dump	*hd;			
 
-// 	if (i == NO_SECT)
-// 		return (NULL);
-// 	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
-// 	if (i <= nsects)
-// 	{
-// 		section = (struct section *)(segc + 1);
-// 		i -= 1; // index starts at one
-// 		return (section + i);
-// 	}
-// 	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - nsects, swap);
-// }
+	datas = (char *)(ptr + sec->offset);
+	if (!CHECKED(datas + sec->size, end))
+		return (NULL);
+	if (!(hd = (t_hex_dump *)malloc(sizeof(t_hex_dump))))
+		return (NULL);
+	hd->datas = datas;
+	hd->sec32 = sec;
+	return (hd);
+}
+
+t_hex_dump					*get_hex_dump_32(void *ptr, void *end, bool swap)
+{
+	struct segment_command	*segc;
+	struct section			*sec;
+
+	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
+	if (!(sec = get_text_section(segc, swap, end)))
+		return (NULL);
+	return (init_hex_dump(sec, ptr, end));
+}

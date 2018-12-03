@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 11:00:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 11:55:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,31 @@ static void print_dump_32(t_hex_dump *hp)
 	ft_putchar('\n');
 }
 
+static void print_dump_32_swap(t_hex_dump *hp)
+{
+	uint32_t 	i;
+	uint32_t	off;
+	uint32_t	e;
+
+	i = 0;
+	off = sizeof(uint32_t);
+	while (i < hp->sec32->size)
+	{
+		if (i % 16 == 0)
+		{
+			if (i)
+				ft_putchar('\n');
+			ft_put_hex_precision(hp->sec32->addr + i, 8);
+			ft_putchar('\t');
+		}
+		e = *((uint32_t *)(hp->datas + i));
+		ft_put_hex_precision(swap_int32(e), 8);
+		ft_putchar(' ');
+		i += off;
+	}
+	ft_putchar('\n');
+}
+
 static int	print_infos(t_print_infos *curr, char *name, enum ftype type)
 {
 	int	err;
@@ -97,10 +122,20 @@ static int	print_infos(t_print_infos *curr, char *name, enum ftype type)
 		}
 		//TODO: print main stuff
 		ft_putstr("Contents of (__TEXT,__text) section\n");
-		if (curr->is_64)
-			print_dump_64(curr->hex_dump);
+		if (!curr->swap)
+		{
+			if (curr->is_64)
+				print_dump_64(curr->hex_dump);
+			else
+				print_dump_32(curr->hex_dump);
+		}
 		else
-			print_dump_32(curr->hex_dump);
+		{
+			if (curr->is_64)
+				print_dump_64(curr->hex_dump);
+			else
+				print_dump_32_swap(curr->hex_dump);
+		}
 		print_infos(curr->next, name, type);
 	}
 	return (err);

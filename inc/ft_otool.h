@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 10:59:04 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 11:42:07 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct 	print_infos {
 	cpu_subtype_t		cpusubtype;
 	bool				is_64;
 	bool				failed;
+	bool				swap;
 	t_hex_dump			*hex_dump;
 }				t_print_infos;
 
@@ -43,7 +44,7 @@ typedef struct	s_file {
 
 //Init
 t_file						*init_file(char *name);
-t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64);
+t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64, bool swap);
 
 //Print
 int							print_file(t_file *f, char *name);

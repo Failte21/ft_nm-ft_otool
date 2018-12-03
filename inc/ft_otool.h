@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:12:01 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 08:30:00 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "commons.h"
 
+typedef struct	s_hex_dump {
+	char		*name;
+}				t_hex_dump;
+
 typedef struct 	print_infos {
 	char				*name;
 	struct print_infos	*next;
@@ -22,6 +26,7 @@ typedef struct 	print_infos {
 	cpu_subtype_t		cpusubtype;
 	bool				is_64;
 	bool				failed;
+	t_hex_dump			*hex_dump;
 }				t_print_infos;
 
 typedef struct	s_file {
@@ -48,6 +53,7 @@ t_print_infos           	*mh_infos(void *ptr, void *end);
 struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap);
 t_print_infos				*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
 t_print_infos				*mh_infos_64(void *ptr, bool swap, void *end);
+t_hex_dump					*get_hex_dump_64(void *ptr, void *end);
 
 //x_32
 struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap);

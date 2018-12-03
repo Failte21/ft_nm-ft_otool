@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:11:18 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 08:30:07 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ t_print_infos			*mh_infos(void *ptr, void *end)
     // bool                    is_64;
     // bool                    swap;
     // t_sym                   *sym;
+	t_hex_dump				*hex_dump;
 
+	hex_dump = get_hex_dump_64(ptr, end);
 	// if (!CHECKED((uint32_t *)ptr, end))
 	// 	return (init_pinfos(NULL, false));
     // magic = *(uint32_t *)ptr;

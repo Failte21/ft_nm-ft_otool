@@ -3,7 +3,7 @@
 libft
 objs
 /ft_nm
-ft_otool
+/ft_otool
 *.pyc
 mine
 real

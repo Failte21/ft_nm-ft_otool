@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:30:07 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:21:58 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_print_infos			*mh_infos(void *ptr, void *end)
     // sym = is_64 ? get_sym_64(sc, ptr, end, swap) : get_sym_32(sc, ptr, end, swap);
 	// return (init_pinfos(sym, is_64));
 	//TODO: do real stuff
-	return (t_print_infos *)(end - ptr);
+	return (init_pinfos(hex_dump));
 }
 
 static t_print_infos    *get_macho_infos(t_file *f)

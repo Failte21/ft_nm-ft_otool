@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:30:00 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:32:18 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "commons.h"
 
 typedef struct	s_hex_dump {
-	char		*name;
+	char				*datas;
+	struct section_64	*sec;
 }				t_hex_dump;
 
 typedef struct 	print_infos {
@@ -40,9 +41,10 @@ typedef struct	s_file {
 
 //Init
 t_file						*init_file(char *name);
+t_print_infos				*init_pinfos(t_hex_dump *hp);
 
 //Print
-int							print_file(t_file *f, char *name, bool multiple);
+int							print_file(t_file *f, char *name);
 
 //Infos
 t_print_infos	        	*get_infos_list(t_file *f);

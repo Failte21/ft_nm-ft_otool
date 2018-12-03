@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 08:13:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 10:23:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ enum ftype get_ftype(void *ptr)
 	return (LIB); //Not sure at all this is enough to check
 }
 
-t_print_infos	*init_pinfos(bool is_64)
+t_print_infos	*init_pinfos(t_hex_dump *hp)
 {
 	t_print_infos	*pinfos;
 
 	if (!(pinfos = (t_print_infos *)malloc(sizeof(t_print_infos))))
 		return (NULL);
-	pinfos->failed = true; //TODO: unmock
+	pinfos->failed = false; //TODO: unmock
 	pinfos->next = NULL;
-	pinfos->is_64 = is_64;
+	pinfos->is_64 = true; //TODO: unmock
+	pinfos->hex_dump = hp;
 	return (pinfos);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 12:22:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/03 16:13:38 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,34 @@ enum			ftype {
 	UNDEFINED
 };
 
-typedef struct	s_macho_file {
-	void				*ptr;
-	void				*end;
-	uint32_t			ncmds;
-	bool				is_64;
-	bool				is_swap;
-	bool				is_fat;
-	struct s_macho_file	*next;
-}				t_macho_file;
-
 typedef struct	s_arch_info {
 	char			*name;
 	cpu_type_t		cpu_type;
 	cpu_subtype_t	cpu_subtype;
 }				t_arch_info;
 
+typedef struct 	print_infos {
+	struct s_sym		*sym;
+	char				*name;
+	struct print_infos	*next;
+	cpu_type_t			cputype;
+	cpu_subtype_t		cpusubtype;
+	bool				is_64;
+	bool				failed;
+	bool				swap;
+	struct s_hex_dump	*hex_dump;
+}				t_print_infos;
+
+typedef struct	s_file {
+	void			*ptr;
+	void			*end;
+	t_print_infos	*head;
+	enum ftype		type;
+}				t_file;
+
+
 //Init
-t_macho_file	*init_macho_file(int ac, char **av);
+t_file			*init_file(char *name);
 
 //CPU
 char    		*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
@@ -64,6 +74,14 @@ char    		*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
 int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
 void			*handle_error_free(void *ptr);
+
+//Infos
+t_print_infos	*get_infos_list(t_file *f);
+t_file			*get_infos(char *name);
+
+//Fat
+t_print_infos	*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
+t_print_infos	*get_fat_infos_32(t_file *f, uint32_t n, bool swap);
 
 //Security
 void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);

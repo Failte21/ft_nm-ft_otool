@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/03 08:14:55 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/03 16:14:13 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,22 +32,18 @@ NM_SRC_NAMES += x_64.c
 NM_SRC_NAMES += x_32.c
 NM_SRC_NAMES += tree.c
 NM_SRC_NAMES += get_type_c.c
-NM_SRC_NAMES += get_infos.c
-NM_SRC_NAMES += fat_32.c
-NM_SRC_NAMES += fat_64.c
 NM_SRC_NAMES += free.c
+NM_SRC_NAMES += mh_infos.c
 
 OTOOL_SRC_NAMES = ft_otool.c
 OTOOL_SRC_NAMES += init.c
 OTOOL_SRC_NAMES += print.c
 OTOOL_SRC_NAMES += x_64.c
 OTOOL_SRC_NAMES += x_32.c
-OTOOL_SRC_NAMES += get_infos.c
-OTOOL_SRC_NAMES += fat_32.c
-OTOOL_SRC_NAMES += fat_64.c
 OTOOL_SRC_NAMES += free.c
+OTOOL_SRC_NAMES += mh_infos.c
 
-COMMONS_SRC_NAMES = init.c
+COMMONS_SRC_NAMES += get_infos.c
 COMMONS_SRC_NAMES += errors.c
 COMMONS_SRC_NAMES += get_ptr.c
 COMMONS_SRC_NAMES += swap.c
@@ -55,6 +51,9 @@ COMMONS_SRC_NAMES += swap_32.c
 COMMONS_SRC_NAMES += swap_64.c
 COMMONS_SRC_NAMES += swap_common.c
 COMMONS_SRC_NAMES += get_archname.c
+COMMONS_SRC_NAMES += fat_32.c
+COMMONS_SRC_NAMES += fat_64.c
+COMMONS_SRC_NAMES += init.c
 
 NM_SRCS = $(addprefix $(SRCS_DIR)/$(NM_DIR)/, $(NM_SRC_NAMES))
 OTOOL_SRCS = $(addprefix $(SRCS_DIR)/$(OTOOL_DIR)/, $(OTOOL_SRC_NAMES))

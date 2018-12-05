@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:37:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:38:59 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:57:40 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void print_dump_64_block(t_hex_dump *hp, bool swap)
 	uint32_t	e;
 
 	i = 0;
-	off = sizeof(uint64_t);
+	off = sizeof(uint32_t);
 	while (i < hp->sec64->size)
 	{
 		if (i % 16 == 0)

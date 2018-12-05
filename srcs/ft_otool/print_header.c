@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:00:51 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:01:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:54:47 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 static void	print_header_fat(char *fname, char *archname)
 {
 	ft_putstr(fname);
-	ft_putstr(" (");
-	ft_putstr("for architecture ");
-	ft_putstr(archname);
-	ft_putstr("):\n");
+	if (ft_strcmp(archname, ""))
+	{
+		ft_putstr(" (");
+		ft_putstr("architecture ");
+		ft_putstr(archname);
+		ft_putchar(')');
+	}
+	ft_putstr(":\n");
 }
 
 static void	print_header_simple(char *fname)

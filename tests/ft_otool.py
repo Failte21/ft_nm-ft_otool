@@ -61,15 +61,14 @@ class M64(Base):
 	def test_64(self):
 		self.compare(self.files)
 
-# class Fat(Base):
-# 	def setUp(self):
-# 		self.test_path = os.path.join(dir_path, "custom_tests/fat")
-# 		self.files = os.listdir(self.test_path)
+class Fat(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/fat")
+		self.files = os.listdir(self.test_path)
 	
-# 	def test_fat(self):
-# 		# self.compare(["appsleepd", "MachO-OSX-ppc-and-i386-bash", 
-# 		# 	"MachO-iOS-armv7-armv7s-arm64-Helloworld", "fat_hard", "audiodevice"])
-# 		self.compare(self.files)
+	def test_fat(self):
+		# self.compare(["MachO-OSX-ppc-and-i386-bash", "MachO-iOS-armv7-armv7s-arm64-Helloworld"])
+		self.compare(self.files)
 
 # class LibStat(Base):
 # 	def setUp(self):

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:22:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:39:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64, bool swap, void *ptr);
 //Print
 int							print_file(t_file *f, char *name);
 void						print_header(enum ftype type, char *name, t_print_infos *curr);
+void 						print_dump_64_block(t_hex_dump *hp, bool swap);
+void 						print_dump_32_block(t_hex_dump *hp, bool swap);
+void 						print_dump_64_space(t_hex_dump *hp);
+void 						print_dump_32_space(t_hex_dump *hp);
 
 //Infos
 t_print_infos           	*mh_infos(void *ptr, void *end);

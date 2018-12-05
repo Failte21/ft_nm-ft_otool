@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:37:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:57:40 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 11:17:20 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void print_dump_64_space(t_hex_dump *hp)
 		ft_putchar(' ');
 		i++;
 	}
-	ft_putchar('\n');
+	if (i)
+		ft_putchar('\n');
 }
 
 void print_dump_64_block(t_hex_dump *hp, bool swap)
@@ -56,5 +57,6 @@ void print_dump_64_block(t_hex_dump *hp, bool swap)
 		ft_putchar(' ');
 		i += off;
 	}
-	ft_putchar('\n');
+	if (i)
+		ft_putchar('\n');
 }

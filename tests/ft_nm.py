@@ -45,6 +45,22 @@ class Easy(Base):
 		self.compare_multiple(["test_facile", "test_moins_facile"], 3)
 		self.compare_multiple(["test_facile", "test_moins_facile"], 4)
 
+class M32(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/32")
+		self.files = os.listdir(self.test_path)
+
+	def test_32(self):
+		self.compare(self.files)
+
+class M64(Base):
+	def setUp(self):
+		self.test_path = os.path.join(dir_path, "custom_tests/64")
+		self.files = os.listdir(self.test_path)
+
+	def test_64(self):
+		self.compare(self.files)
+
 class Fat(Base):
 	def setUp(self):
 		self.test_path = os.path.join(dir_path, "custom_tests/fat")

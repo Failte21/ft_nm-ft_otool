@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:03:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:03:08 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:19:49 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ t_print_infos			*mh_infos(void *ptr, void *end)
     is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
     swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;
 	hex_dump = is_64 ? get_hex_dump_64(ptr, end, swap) : get_hex_dump_32(ptr, end, swap);
-	return (init_pinfos(hex_dump, is_64, swap));
+	return (init_pinfos(hex_dump, is_64, swap, ptr));
 }

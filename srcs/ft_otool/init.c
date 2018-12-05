@@ -6,13 +6,29 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:12:13 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:23:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-t_print_infos	*init_pinfos(t_hex_dump *hp, bool is_64, bool swap)
+static cpu_type_t	get_cpu64(void *ptr)
+{
+	struct mach_header_64	*header;
+
+	header = (struct mach_header_64 *)ptr;
+	return (header->cputype);
+}
+
+static cpu_type_t	get_cpu32(void *ptr)
+{
+	struct mach_header	*header;
+
+	header = (struct mach_header *)ptr;
+	return (header->cputype);
+}
+
+t_print_infos		*init_pinfos(t_hex_dump *hp, bool is_64, bool swap, void *ptr)
 {
 	t_print_infos	*pinfos;
 
@@ -23,5 +39,6 @@ t_print_infos	*init_pinfos(t_hex_dump *hp, bool is_64, bool swap)
 	pinfos->is_64 = is_64;
 	pinfos->hex_dump = hp;
 	pinfos->swap = swap;
+	pinfos->cputype = is_64 ? get_cpu64(ptr) : get_cpu32(ptr);
 	return (pinfos);
 }

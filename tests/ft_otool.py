@@ -51,7 +51,7 @@ class M32(Base):
 		self.files = os.listdir(self.test_path)
 
 	def test_easy(self):
-		self.compare(["32_exe_hard", "MachO-OSX-ppc-openssl-1.0.1h", "MachO-OSX-x86-ls", "MachO-iOS-arm1176JZFS-bash"])
+		self.compare(self.files)
 
 
 # class Fat(Base):

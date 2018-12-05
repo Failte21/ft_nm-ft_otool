@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:02:14 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 09:22:38 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct	s_hex_dump {
 #define BAD_INDEX_STR "bad string index"
 
 //Init
-t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64, bool swap);
+t_print_infos				*init_pinfos(t_hex_dump *hp, bool is_64, bool swap, void *ptr);
 
 //Print
 int							print_file(t_file *f, char *name);

@@ -28,13 +28,14 @@ def test_corrupted(test_path, test_files):
         except subprocess.CalledProcessError as exc:
             print(exc.output)
         else:
-            print(bcolors.FAIL + "KO")
+            print("pass somehow\n")
 
 if __name__ == '__main__':
-	test_corrupted(os.path.join(dir_path, "custom_tests"), ['test_half_obj'])
+	# test_corrupted(os.path.join(dir_path, "custom_tests"), ['test_half_obj'])
 	allc = os.listdir(os.path.join(dir_path, "custom_tests/corrupt"))
-	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), [
-		"32_exe_hard_corupted", "64_exe_hard_corupted", "64_corrupted_string_table", "empty",
-		"fat_hard_corupted", "truncated_load_2", "audiodevice_corupted",
-		"curl_truncated_load", "truncated_cputype"
-	])
+	# test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), [
+	# 	"32_exe_hard_corupted", "64_exe_hard_corupted", "64_corrupted_string_table", "empty",
+	# 	"fat_hard_corupted", "truncated_load_2", "audiodevice_corupted",
+	# 	"curl_truncated_load", "truncated_cputype"
+	# ])
+	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), allc)

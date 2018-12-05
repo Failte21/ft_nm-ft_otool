@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:40:45 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 10:13:58 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,11 @@ static int	print_infos(t_print_infos *curr, char *name, enum ftype type)
 
 int			print_file(t_file *f, char *name)
 {
+	if (f->type == LIB)
+	{
+		ft_putstr("Archive : ");
+		ft_putstr(name);
+		ft_putchar('\n');
+	}
 	return (print_infos(f->head, name, f->type));
 }

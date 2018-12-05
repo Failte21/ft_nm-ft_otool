@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:00:51 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 09:54:47 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/05 10:17:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		print_header(enum ftype type, char *name, t_print_infos *curr)
 {
 	if (type == LIB)
 		print_header_lib(name, curr->name);
-	if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
+	else if (type == FAT && curr->cputype != CPU_TYPE_X86_64)
 		print_header_fat(name, get_archname(curr->cputype, curr->cpusubtype));
 	else
 		print_header_simple(name);

@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/03 16:14:13 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/05 09:02:05 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ OTOOL_SRC_NAMES += x_64.c
 OTOOL_SRC_NAMES += x_32.c
 OTOOL_SRC_NAMES += free.c
 OTOOL_SRC_NAMES += mh_infos.c
+OTOOL_SRC_NAMES += print_header.c
 
 COMMONS_SRC_NAMES += get_infos.c
 COMMONS_SRC_NAMES += errors.c

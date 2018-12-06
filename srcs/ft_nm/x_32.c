@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 12:25:44 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 09:08:40 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	return (NULL);
 }
 
-static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, void *end)
+static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, char *strend)
 {
 	t_sym	*new_sym;
 	char	*name;
@@ -51,8 +51,10 @@ static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, 
 	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
 		return (NULL);
 	name = stringable + curr.n_un.n_strx;
+	if (!CHECKED(name, strend))
+		return (NULL);
 	new_sym->value = curr.n_value;
-	new_sym->name = name > (char *)end ? BAD_INDEX_STR : name;
+	new_sym->name = name;
 	new_sym->n_sect = curr.n_sect;
 	new_sym->type = curr.n_type;
 	new_sym->left = NULL;
@@ -82,7 +84,7 @@ static struct section	*get_section(struct segment_command *segc, uint32_t i, boo
 	return get_section((struct segment_command *)((void *)segc + segc->cmdsize), i - nsects, swap);
 }
 
-static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap, void *end)
+static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char *stringable, bool swap, char *strend)
 {
 	t_sym					*head;
 	t_sym					*to_insert;
@@ -100,10 +102,9 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 			arr[i],
 			stringable, 
 			section,
-			end
+			strend
 		)))
 		{
-			//Malloc error
 			//Todo: free current tree
 			return (NULL);
 		}
@@ -118,13 +119,15 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap
 	char					*stringable;
 	struct nlist			*arr;
 	struct segment_command	*segc;
+	char					*strend;
 
 	stringable = (char *)ptr + sc->stroff;
+	strend = (char *)ptr + sc->stroff + sc->strsize;
 	arr = ptr + sc->symoff;
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
 	if (!CHECKED(&(arr[sc->nsyms]), end))
 		return (NULL);
 	if (swap)
 		sw_nlist_32(arr, sc->nsyms);
-	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, end));
+	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, strend));
 }

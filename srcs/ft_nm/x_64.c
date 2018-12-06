@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 13:05:07 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 09:08:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct symtab_command		*get_sc_64(void *ptr, void *end, bool swap)
 	return (NULL);
 }
 
-static t_sym		*init_sym(struct nlist_64 curr, char *stringable, struct section_64 *s, void *end)
+static t_sym		*init_sym(struct nlist_64 curr, char *stringable, struct section_64 *s, char *strend)
 {
 	t_sym	*new_sym;
 	char	*name;
@@ -51,8 +51,10 @@ static t_sym		*init_sym(struct nlist_64 curr, char *stringable, struct section_6
 	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
 		return (NULL);
 	name = stringable + curr.n_un.n_strx;
+	if (!CHECKED(name, strend))
+		return (NULL);
 	new_sym->value = curr.n_value;
-	new_sym->name = name > (char *)end ? BAD_INDEX_STR : name;
+	new_sym->name = name;
 	new_sym->n_sect = curr.n_sect;
 	new_sym->type = curr.n_type;
 	new_sym->left = NULL;
@@ -82,7 +84,7 @@ static struct section_64	*get_section(struct segment_command_64 *segc, uint32_t 
 	return get_section((struct segment_command_64 *)((void *)segc + segc->cmdsize), i - nsects, swap);
 }
 
-static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, char *stringable, bool swap, void *end)
+static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, char *stringable, bool swap, char *strend)
 {
 	t_sym						*head;
 	t_sym						*to_insert;
@@ -100,10 +102,9 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist_64 *arr, uint32_t nsyms, ch
 			arr[i],
 			stringable, 
 			section ? section : NULL,
-			end
+			strend
 		)))
 		{
-			//Malloc error
 			//Todo: free current tree
 			return (NULL);
 		}
@@ -118,13 +119,15 @@ t_sym					*get_sym_64(struct symtab_command *sc, void *ptr, void *end, bool swap
 	char						*stringable;
 	struct nlist_64				*arr;
 	struct segment_command_64	*segc;
+	char						*str_end;
 
 	stringable = (char *)ptr + sc->stroff;
+	str_end = (char *)ptr + sc->stroff + sc->strsize;
 	arr = ptr + sc->symoff;
 	segc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
 	if (!CHECKED((arr + sc->nsyms - 1), end))
 		return (NULL);
 	if (swap)
 		sw_nlist_64(arr, sc->nsyms);
-	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, end));
+	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, str_end));
 }

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:13:05 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 09:44:05 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static enum ftype	get_ftype(void *ptr)
 		return (FAT);
 	if (magic == MH_MAGIC || magic == MH_MAGIC_64 || magic == MH_CIGAM || magic == MH_CIGAM_64)
 		return (MH);
-	return (LIB); //Not sure at all this is enough to check
+	if (!ft_strncmp((char *)ptr, ARMAG, SARMAG))
+		return (LIB);
+	return (0);
 }
 
 t_file				*init_file(char *name)

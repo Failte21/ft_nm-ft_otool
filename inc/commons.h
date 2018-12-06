@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:13:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 09:05:23 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void 			sw_arch_64(struct fat_arch_64 *arch);
 void    		sw_symtab_command(struct symtab_command *sc);
 void			sw_load_command(struct load_command *lc);
 
-#define CHECKED(s,e) ((void *)(s + 1) < e)
+#define CHECKED(s,e) ((void *)(s + 1) < (void *)e)
 #define S_32(e,s) (s ? swap_int32(e) : e)
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:58:27 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 13:10:01 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,17 @@ t_hex_dump					*get_hex_dump_64(void *ptr, void *end, bool swap)
 {
 	struct segment_command_64	*segc;
 	struct section_64			*sec;
+	struct mach_header_64		*header;
+	void						*endlc;
 
-	segc = (struct segment_command_64 *)((struct mach_header_64 *)ptr + 1);
+	header = (struct mach_header_64 *)ptr;
+	if (swap)
+		sw_mach_header_64(header);
+	segc = (struct segment_command_64 *)(header + 1);
+	endlc = (void *)segc + header->sizeofcmds;
+
+	if (endlc > end)
+		return (NULL);
 	if (!(sec = get_text_section(segc, swap, end)))
 		return (NULL);
 	return (init_hex_dump(sec, ptr, end));

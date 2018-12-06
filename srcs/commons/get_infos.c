@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:23:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 13:39:14 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,15 @@ static t_print_infos    *get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
 
 	name = (char *)(curr + 1);
 	p = name + ft_strlen(name);
+	if (!CHECKED(p, f->end)) return (NULL);
     while (!(*p))
         p++;
 	size = ft_atoi(curr->ar_size);
-    if (!(el = mh_infos(p, f->end)))
-        return (NULL);
+    if (!(el = mh_infos(p, f->end))) return (NULL);
     el->name = name;
 	curr = (struct ar_hdr *)(name + size);
-	if ((void *)curr > f->end)
-		return (NULL);
-    if ((void *)curr == f->end)
-        return (el);
+	if ((void *)curr > f->end) return (NULL);
+    if ((void *)curr == f->end) return (el);
     el->next = get_lib_infos_lst(f, curr);
     return (el);
 }
@@ -66,7 +64,7 @@ static t_print_infos    *get_lib_infos(t_file *f)
 
 	h = (struct ar_hdr *)(f->ptr + SARMAG);
 	el = (struct ar_hdr *)((void *)(h + 1) + ft_atoi(h->ar_size));
-    return (get_lib_infos_lst(f, el)); //TODO: change to non reccursive stuff
+    return (get_lib_infos_lst(f, el));
 }
 
 t_print_infos	        *get_infos_list(t_file *f)

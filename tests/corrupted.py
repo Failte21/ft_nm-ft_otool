@@ -27,6 +27,8 @@ def test_corrupted(test_path, test_files, path):
             out = subprocess.check_output(cmnd, stderr=subprocess.STDOUT, universal_newlines=True)
         except subprocess.CalledProcessError as exc:
             print(exc.output)
+        except UnicodeError:
+            print("Unittest error\n")
         else:
             print("pass somehow\n")
 

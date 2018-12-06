@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 11:12:10 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 13:49:08 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_print_infos		*init_pinfos(t_hex_dump *hp, bool is_64, bool swap, void *ptr)
 	if (!(pinfos = (t_print_infos *)malloc(sizeof(t_print_infos))))
 		return (NULL);
 	pinfos->failed = hp == NULL;
+	pinfos->next = NULL;
 	if (pinfos->failed)
 		return (pinfos);
-	pinfos->next = NULL;
 	pinfos->is_64 = is_64;
 	pinfos->hex_dump = hp;
 	pinfos->swap = swap;

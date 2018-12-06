@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 09:44:05 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:07:55 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ t_file				*init_file(char *name)
 	struct stat	buf;
 
 	if (!(f = (t_file *)malloc(sizeof(t_file))))
-		return (handle_error_null("Malloc error"));
+		return (handle_error_null("Malloc error\n"));
 	if ((fd = open(name, O_RDONLY)) < 0)
 		return (handle_error_null("Could not open file\n"));
 	if (fstat(fd, &buf) < 0)
-		return (handle_error_null("Could not retrieve stats on file"));
+		return (handle_error_null("Could not retrieve stats on file\n"));
 	if ((f->ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
-		return (handle_error_null("Failed to map file into virtual memory"));
+		return (handle_error_null("Failed to map file into virtual memory\n"));
 	f->end = f->ptr + buf.st_size;
 	if ((close(fd)) < 0)
 		return (handle_error_null("An error occured while closing the file\n"));

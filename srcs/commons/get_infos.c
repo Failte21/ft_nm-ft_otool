@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:03:40 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:05:11 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,19 @@ static t_print_infos    *get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
 	char			*name;
 	char			*p;
 	t_print_infos	*el;
+	uint32_t		size;
 
 	name = (char *)(curr + 1);
 	p = name + ft_strlen(name);
     while (!(*p))
         p++;
-    if (!(el = mh_infos(p, f->end))) //Malloc error only
+	size = ft_atoi(curr->ar_size);
+    if (!(el = mh_infos(p, f->end)))
         return (NULL);
     el->name = name;
-	curr = (struct ar_hdr *)(name + ft_atoi(curr->ar_size));
+	curr = (struct ar_hdr *)(name + size);
+	if ((void *)curr > f->end)
+		return (NULL);
     if ((void *)curr == f->end)
         return (el);
     el->next = get_lib_infos_lst(f, curr);
@@ -66,7 +70,7 @@ static t_print_infos    *get_lib_infos(t_file *f)
 
 	h = (struct ar_hdr *)(f->ptr + SARMAG);
 	el = (struct ar_hdr *)((void *)(h + 1) + ft_atoi(h->ar_size));
-    return (get_lib_infos_lst(f, el));
+    return (get_lib_infos_lst(f, el)); //TODO: change to non reccursive stuff
 }
 
 t_print_infos	        *get_infos_list(t_file *f)

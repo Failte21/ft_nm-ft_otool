@@ -6,11 +6,30 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/30 13:34:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:34:28 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
+
+static int						no_args(void)
+{
+	int				errors;
+	t_file			*curr;
+
+	errors = 0;
+	if (!(curr = get_infos("a.out")))
+	{
+		ft_putstr_fd("An error occured\n", 2);
+		errors++;
+	}
+	else
+	{
+		errors += print_file(curr, "a.out", false);
+		free_file(curr);
+	}
+	return (errors);
+}
 
 static int						nm(int ac, char **av)
 {
@@ -20,12 +39,13 @@ static int						nm(int ac, char **av)
 
 	i = 1;
 	errors = 0;
-	//TODO: a.out no args
+	if (ac < 2)
+		return (no_args());
 	while (i < ac)
 	{
 		if (!(curr = get_infos(av[i])))
 		{
-			ft_putstr_fd("An error occured\n", 2); //Malloc error
+			ft_putstr_fd("An error occured\n", 2);
 			errors++;
 		}
 		else

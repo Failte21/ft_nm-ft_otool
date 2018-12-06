@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:03:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:59:47 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 11:10:53 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_print_infos			*mh_infos(void *ptr, void *end)
     bool                    swap;
 	t_hex_dump				*hex_dump;
 
+	if (!CHECKED((uint32_t *)ptr, end))
+		return (init_pinfos(NULL, false, false, ptr));
     magic = *(uint32_t *)ptr;
     is_64 = magic == MH_CIGAM_64 || magic == MH_MAGIC_64;
     swap = magic == MH_CIGAM_64 || magic == MH_CIGAM;

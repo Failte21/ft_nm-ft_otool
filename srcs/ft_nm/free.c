@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 10:28:56 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/28 10:45:25 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:37:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-static void		free_tree(t_sym *curr)
+void			free_tree(t_sym *curr)
 {
 	if (!curr)
 		return ;

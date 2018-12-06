@@ -5,6 +5,7 @@ from subprocess import Popen, PIPE
 import os
 from unittest import TestCase
 import unittest as ut
+import sys
 
 class bcolors:
     HEADER = '\033[95m'
@@ -17,13 +18,12 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-nm_path = os.path.join(dir_path, "../ft_nm")
 
-def test_corrupted(test_path, test_files):
+def test_corrupted(test_path, test_files, path):
     for f in test_files:
         print(f)
         try:
-            cmnd = [nm_path, os.path.join(test_path, f)]
+            cmnd = [path, os.path.join(test_path, f)]
             out = subprocess.check_output(cmnd, stderr=subprocess.STDOUT, universal_newlines=True)
         except subprocess.CalledProcessError as exc:
             print(exc.output)
@@ -31,6 +31,8 @@ def test_corrupted(test_path, test_files):
             print("pass somehow\n")
 
 if __name__ == '__main__':
+	program = sys.argv[1]
+	path = os.path.join(dir_path, f'../{program}')
 	# test_corrupted(os.path.join(dir_path, "custom_tests"), ['test_half_obj'])
 	allc = os.listdir(os.path.join(dir_path, "custom_tests/corrupt"))
 	# test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), [
@@ -38,4 +40,4 @@ if __name__ == '__main__':
 	# 	"fat_hard_corupted", "truncated_load_2", "audiodevice_corupted",
 	# 	"curl_truncated_load", "truncated_cputype"
 	# ])
-	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), allc)
+	test_corrupted(os.path.join(dir_path, "custom_tests/corrupt"), allc, path)

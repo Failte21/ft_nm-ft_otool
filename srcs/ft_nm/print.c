@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:21:42 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:36:30 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	print_tree(t_sym *curr, bool is_64)
 {
 	if (curr->right)
 		print_tree(curr->right, is_64);
-	if (!(curr->type & N_STAB)) //TODO: shandle otherwise if -a option
+	if (!(curr->type & N_STAB)) //TODO_OPT: handle otherwise if -a option
 	{
 		if (is_64)
 			print_nm_64(curr);

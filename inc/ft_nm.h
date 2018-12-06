@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 16:14:03 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:38:14 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char						get_type_c(t_sym *sym);
 
 //free
 int							free_file(t_file *f);
+void						free_tree(t_sym *curr);
 
 
 #endif

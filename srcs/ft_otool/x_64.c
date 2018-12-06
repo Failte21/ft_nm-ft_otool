@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:22:29 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:58:27 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ static struct section_64	*get_text_section(struct segment_command_64 *segc, bool
 {
 	struct section_64	*section;
 	uint32_t			nsects;
+	uint32_t			cmdsize;
 	unsigned int		i;
 
+	if (!CHECKED(segc, end)) return (NULL);
+	cmdsize = swap ? swap_int32(segc->cmdsize) : segc->cmdsize;
 	section = (struct section_64 *)(segc + 1);
 	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
-	if (!CHECKED(section + nsects, end))
-		return (NULL);
+	if (!CHECKED(section + nsects, end)) return (NULL);
 	if (!ft_strncmp(section->segname, SEG_TEXT, 16))
 	{
 		i = 0;
@@ -33,7 +35,7 @@ static struct section_64	*get_text_section(struct segment_command_64 *segc, bool
 		}
 		return (NULL);
 	}
-	return get_text_section((struct segment_command_64 *)((void *)segc + segc->cmdsize), swap, end);
+	return get_text_section((struct segment_command_64 *)((void *)segc + cmdsize), swap, end);
 }
 
 static t_hex_dump			*init_hex_dump(struct section_64 *sec, void *ptr, void *end)

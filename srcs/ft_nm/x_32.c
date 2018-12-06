@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 09:08:40 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:37:46 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static t_sym		*fill_sym_list(void *ptr, struct nlist *arr, uint32_t nsyms, char 
 			strend
 		)))
 		{
-			//Todo: free current tree
+			free_tree(head);
 			return (NULL);
 		}
 		head = push_back_tree(head, to_insert);

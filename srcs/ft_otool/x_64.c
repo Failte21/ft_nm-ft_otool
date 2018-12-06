@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 10:50:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:22:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static struct section_64	*get_text_section(struct segment_command_64 *segc, bool
 		}
 		return (NULL);
 	}
-	//todo: stop at some point 
 	return get_text_section((struct segment_command_64 *)((void *)segc + segc->cmdsize), swap, end);
 }
 

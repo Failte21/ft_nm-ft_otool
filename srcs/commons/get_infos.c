@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:05:11 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:23:38 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ static t_print_infos    *get_fat_infos(t_file *f)
     return (get_fat_infos_32(f, n, is_swap));
 }
 
-//Todo: reccursive maybe not a good idea,
-//Todo: find a way to clean list junk memory on error
-//Todo: x_64 ? x_32 ?
-//Todo: catch erors ?
 static t_print_infos    *get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
 {
 	char			*name;

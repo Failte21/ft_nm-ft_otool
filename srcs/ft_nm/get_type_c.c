@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/29 13:49:05 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:20:59 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static char check_scope(char c, unsigned char type)
 	return (c);
 }
 
-//Todo : also check segname ? 
 static char	from_names(char sectname[16], unsigned char type, char segname[16])
 {
 	if (!ft_strcmp(sectname, SECT_TEXT) && !ft_strcmp(segname, SEG_TEXT))

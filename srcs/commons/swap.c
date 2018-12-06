@@ -6,13 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 13:58:17 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/21 12:50:22 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:20:34 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/commons.h"
-
-//Todo: understand this stuff
 
 uint32_t	swap_int32(uint32_t x)
 {

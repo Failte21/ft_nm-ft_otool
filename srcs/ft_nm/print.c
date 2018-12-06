@@ -6,25 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 09:38:21 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:21:42 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
-
-//This files contains functions to print the symbols previously store in a 
-//binary tree of t_sym
-
-//Todo: remove printf
-
-// static void	print_header_o(char *fname, char *oname)
-// {
-// 	ft_putchar('\n');
-// 	ft_putstr(fname);
-// 	ft_putchar('(');
-// 	ft_putstr(oname);
-// 	ft_putstr("):\n");
-// }
 
 static void	print_header_fat(char *fname, char *archname)
 {
@@ -63,7 +49,6 @@ static void print_nm(t_sym *sym, uint32_t space_len) // crap
 	x_len = ft_hex_len(sym->value);
 	arch_len = space_len - x_len;
 	c = get_type_c(sym);
-	//Todo: find cleaner comp
 	if (sym->value || c == 't' || c == 'T' || c == 'a' || c == 'A')
 	{
 		write(1, zeros, arch_len);
@@ -88,13 +73,11 @@ static void	print_nm_32(t_sym *sym)
 	print_nm(sym, 8);
 }
 
-//The binary tree has been sorted previously, for no reasons this function has
-//to handle the sorting
 static void	print_tree(t_sym *curr, bool is_64)
 {
 	if (curr->right)
 		print_tree(curr->right, is_64);
-	if (!(curr->type & N_STAB)) //handle otherwise if -a option
+	if (!(curr->type & N_STAB)) //TODO: shandle otherwise if -a option
 	{
 		if (is_64)
 			print_nm_64(curr);

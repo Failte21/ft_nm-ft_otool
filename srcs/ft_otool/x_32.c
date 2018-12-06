@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 10:49:32 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 10:22:21 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static struct section	*get_text_section(struct segment_command *segc, bool swap,
 	cmdsize = swap ? swap_int32(segc->cmdsize) : segc->cmdsize;
 	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
 	section = (struct section *)(segc + 1);
+	if (!CHECKED(section + nsects, end))
+		return (NULL);
 	if (!ft_strncmp(section->segname, SEG_TEXT, 16))
 	{
-		if (!CHECKED(section + nsects, end))
-			return (NULL);
 		i = 0;
 		while (i < nsects)
 		{
@@ -35,7 +35,6 @@ static struct section	*get_text_section(struct segment_command *segc, bool swap,
 		}
 		return (NULL);
 	}
-	//todo: stop at some point 
 	return get_text_section((struct segment_command *)((void *)segc + cmdsize), swap, end);
 }
 

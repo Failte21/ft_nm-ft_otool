@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:37:46 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 14:25:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 
 	header = (struct mach_header *)ptr;
 	if (!CHECKED(header, end))
-		return (NULL);
+		return (handle_error_null("Truncated file\n"));
 	if (swap)
 		sw_mach_header_32(header);
 	lc = (struct load_command *)(header + 1);
 	if (!CHECKED((struct load_command *)((void *)lc + header->sizeofcmds), end))
-		return (NULL);
+		return (handle_error_null("Truncated load commands\n"));
 	if (swap)
 		sw_load_command(lc);
 	ncmds = header->ncmds;
@@ -33,14 +33,14 @@ struct symtab_command		*get_sc_32(void *ptr, void *end, bool swap)
 	{
 		lc = (struct load_command *)((void *)lc + lc->cmdsize);
 		if (!CHECKED(lc ,end))
-			return (NULL);
+			return (handle_error_null("Truncated load commands\n"));
 		if (swap)
 			sw_load_command(lc);
 		if (lc->cmd == LC_SYMTAB) 
 			return (struct symtab_command *)lc;
 		ncmds--;
 	}
-	return (NULL);
+	return (handle_error_null("Symtab command not found\n"));
 }
 
 static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, char *strend)
@@ -49,10 +49,10 @@ static t_sym		*init_sym(struct nlist curr, char *stringable, struct section *s, 
 	char	*name;
 
 	if (!(new_sym = (t_sym *)malloc(sizeof(t_sym))))
-		return (NULL);
+		return (handle_error_null("Malloc error\n"));
 	name = stringable + curr.n_un.n_strx;
 	if (!CHECKED(name, strend))
-		return (NULL);
+		return (handle_error_null("Bad string index\n"));
 	new_sym->value = curr.n_value;
 	new_sym->name = name;
 	new_sym->n_sect = curr.n_sect;
@@ -126,7 +126,7 @@ t_sym					*get_sym_32(struct symtab_command *sc, void *ptr, void *end, bool swap
 	arr = ptr + sc->symoff;
 	segc = (struct segment_command *)((struct mach_header *)ptr + 1);
 	if (!CHECKED(&(arr[sc->nsyms]), end))
-		return (NULL);
+		return (handle_error_null("Truncated string table\n"));
 	if (swap)
 		sw_nlist_32(arr, sc->nsyms);
 	return (fill_sym_list(ptr, arr, sc->nsyms, stringable, swap, strend));

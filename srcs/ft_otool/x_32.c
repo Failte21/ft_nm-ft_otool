@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 13:08:35 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 14:39:24 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static struct section	*get_text_section(struct segment_command *segc, bool swap,
 
 
 	if (!CHECKED(segc, end)) 
-		return (NULL);
+		return (handle_error_null("Truncated segment command\n"));
 	cmdsize = swap ? swap_int32(segc->cmdsize) : segc->cmdsize;
 	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
 	section = (struct section *)(segc + 1);
 	if (!CHECKED(section + nsects, end)) 
-		return (NULL);
+		return (handle_error_null("Trucated sections\n"));
 	if (!ft_strncmp(section->segname, SEG_TEXT, 16))
 	{
 		i = 0;
@@ -36,7 +36,7 @@ static struct section	*get_text_section(struct segment_command *segc, bool swap,
 				return (section + i);
 			i++;
 		}
-		return (NULL);
+		return (handle_error_null("Missing __TEXT, __text section"));
 	}
 	return get_text_section((struct segment_command *)((void *)segc + cmdsize), swap, end);
 }
@@ -47,9 +47,9 @@ static t_hex_dump			*init_hex_dump(struct section *sec, void *ptr, void *end)
 	t_hex_dump	*hd;
 	datas = (char *)(ptr + sec->offset);
 	if (!CHECKED(datas + sec->size, end))
-		return (NULL);
+		return (handle_error_null("Truncated datas\n"));
 	if (!(hd = (t_hex_dump *)malloc(sizeof(t_hex_dump))))
-		return (NULL);
+		return (handle_error_null("Malloc errors\n"));
 	hd->datas = datas;
 	hd->sec32 = sec;
 	return (hd);
@@ -69,7 +69,7 @@ t_hex_dump					*get_hex_dump_32(void *ptr, void *end, bool swap)
 	endlc = (void *)segc + header->sizeofcmds;
 
 	if (endlc > end)
-		return (NULL);
+		return (handle_error_null("Truncated load commands"));
 	if (!(sec = get_text_section(segc, swap, endlc)))
 		return (NULL);
 	if (swap)

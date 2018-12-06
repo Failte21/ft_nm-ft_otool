@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:07:55 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 14:21:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_file				*init_file(char *name)
 	if ((close(fd)) < 0)
 		return (handle_error_null("An error occured while closing the file\n"));
 	if ((f->type = get_ftype(f->ptr)) == UNDEFINED)
-		return (NULL);
+		return (handle_error_null("Unknown file type\n"));
 	if (!(f->head = get_infos_list(f)))
 		return (handle_error_free(f));
 	return (f);

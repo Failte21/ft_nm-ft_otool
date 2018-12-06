@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:16:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/02 13:16:23 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/06 14:18:34 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_print_infos			    *get_fat_infos_32(t_file *f, uint32_t n, bool swap)
 	header = (struct fat_header *)f->ptr;
 	arch = (struct fat_arch *)(header + 1);
 	if (!CHECKED((arch + n), f->end))
-		return (NULL);
+		return (handle_error_null("Truncated file\n"));
 	if ((host = get_host_arch(f->ptr, arch, n, f->end, swap)))
         return (get_fat_macho(f, host, swap));
 	return (get_fat_infos(f, arch, n, swap)); //recursive is not necessary a good idea here

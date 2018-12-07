@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 13:12:41 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:36:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 10:52:57 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,3 @@ t_sym					*push_back_tree(t_sym *curr, t_sym *to_insert)
 	}
 	return (curr);
 }
-
-//TODO_OPT: -v flag ?
-// t_sym					*push_back_tree_v(t_sym *curr, t_sym *to_insert)
-// {
-// 	if (!curr)
-// 		return (to_insert);
-// 	if (curr->value > to_insert->value)
-// 		curr->right = push_back_tree(curr->right, to_insert);
-// 	else
-// 		curr->left = push_back_tree(curr->left, to_insert);
-// 	return (curr);
-// }

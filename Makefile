@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/05 09:40:20 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/07 10:43:40 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,11 @@ OTOOL_DIR = ft_otool
 NM_SRC_NAMES = ft_nm.c
 NM_SRC_NAMES += init.c
 NM_SRC_NAMES += print.c
-NM_SRC_NAMES += x_64.c
-NM_SRC_NAMES += x_32.c
+NM_SRC_NAMES += print_header.c
+NM_SRC_NAMES += sym32.c
+NM_SRC_NAMES += symtab_cmd32.c
+NM_SRC_NAMES += sym64.c
+NM_SRC_NAMES += symtab_cmd64.c
 NM_SRC_NAMES += tree.c
 NM_SRC_NAMES += get_type_c.c
 NM_SRC_NAMES += free.c

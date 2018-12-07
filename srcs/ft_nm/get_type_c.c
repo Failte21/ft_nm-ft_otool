@@ -6,27 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 14:00:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:20:59 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 09:10:24 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-// ---------------- interesting section from man nm -------------------------
-// this
-// value  is  followed  by one of the following characters, representing the symbol type: U (undefined), A (abso-
-// lute), T (text section symbol), D (data section symbol), B (bss section symbol), C  (common  symbol),  -  (for
-// debugger  symbol  table entries; see -a below), S (symbol in a section other than those above), or I (indirect
-// symbol).  If the symbol is local (non-external), the symbol's type is instead represented by the corresponding
-// lowercase  letter.   A  lower  case u in a dynamic shared library indicates a undefined reference to a private
-// external in another module in the same library.
-
-// If the symbol is a Objective C method, the symbol name is  +-[Class_name(category_name)	method:name:],	where
-// `+'  is for class methods, `-' is for instance methods, and (category_name) is present only when the method is
-// in a category.
-
 #include "../../inc/ft_nm.h"
 
-static char check_scope(char c, unsigned char type)
+static char	check_scope(char c, unsigned char type)
 {
 	if (type & N_EXT)
 		return (ft_toupper(c));
@@ -41,13 +27,13 @@ static char	from_names(char sectname[16], unsigned char type, char segname[16])
 		return (check_scope('d', type));
 	if (!ft_strcmp(sectname, SECT_BSS) && !ft_strcmp(segname, SEG_DATA))
 		return (check_scope('b', type));
-	return(check_scope('s', type));
+	return (check_scope('s', type));
 }
 
 char		get_type_c(t_sym *sym)
 {
-	char 	m;
-	
+	char	m;
+
 	if (sym->type & N_STAB)
 		return ('-');
 	m = sym->type & N_TYPE;

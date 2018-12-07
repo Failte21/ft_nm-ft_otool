@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 11:59:58 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:38:14 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 10:42:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ typedef struct	s_sym {
 	char			sectname[16];
 }				t_sym;
 
+typedef struct	s_sym_r32 {
+	uint32_t		nsyms;
+	char			*stringable;
+	struct nlist	*arr;
+}				t_sym_r;
+
+typedef struct	s_sym_r64 {
+	uint32_t		nsyms;
+	char			*stringable;
+	struct nlist_64	*arr;
+}				t_sym_r64;
+
 #define BAD_INDEX_STR "bad string index"
 
 //Init
@@ -35,6 +47,7 @@ t_print_infos				*init_pinfos(t_sym *sym, bool is_64);
 
 //Print
 int							print_file(t_file *f, char *name, bool multiple);
+void						print_header(enum ftype type, bool multiple, char *name, t_print_infos *curr);
 
 //Infos
 t_print_infos				*mh_infos(void *ptr, void *end);

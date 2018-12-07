@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:37:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 11:17:20 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 11:00:50 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-void print_dump_64_space(t_hex_dump *hp)
+void	print_dump_64_space(t_hex_dump *hp)
 {
 	uint64_t	i;
 
@@ -34,7 +34,7 @@ void print_dump_64_space(t_hex_dump *hp)
 		ft_putchar('\n');
 }
 
-void print_dump_64_block(t_hex_dump *hp, bool swap)
+void	print_dump_64_block(t_hex_dump *hp, bool swap)
 {
 	uint64_t	i;
 	uint32_t	off;

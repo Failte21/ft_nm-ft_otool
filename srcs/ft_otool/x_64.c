@@ -6,25 +6,26 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:58:08 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 14:38:30 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 13:06:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-static struct section_64	*get_text_section(struct segment_command_64 *segc, bool swap, void *end)
+static struct section_64	*get_text_section(struct segment_command_64 *segc,\
+												bool swap, void *end)
 {
 	struct section_64	*section;
 	uint32_t			nsects;
 	uint32_t			cmdsize;
 	unsigned int		i;
 
-	if (!CHECKED(segc, end)) 
+	if (!CHECKED(segc, end))
 		return (handle_error_null("Truncated segment command\n"));
 	cmdsize = swap ? swap_int32(segc->cmdsize) : segc->cmdsize;
 	section = (struct section_64 *)(segc + 1);
 	nsects = swap ? swap_int32(segc->nsects) : segc->nsects;
-	if (!CHECKED(section + nsects, end)) 
+	if (!CHECKED(section + nsects, end))
 		return (handle_error_null("Truncated sections\n"));
 	if (!ft_strncmp(section->segname, SEG_TEXT, 16))
 	{
@@ -37,13 +38,15 @@ static struct section_64	*get_text_section(struct segment_command_64 *segc, bool
 		}
 		return (handle_error_null("Missing section __Text, __text\n"));
 	}
-	return get_text_section((struct segment_command_64 *)((void *)segc + cmdsize), swap, end);
+	return (get_text_section((struct segment_command_64 *)\
+				((void *)segc + cmdsize), swap, end));
 }
 
-static t_hex_dump			*init_hex_dump(struct section_64 *sec, void *ptr, void *end)
+static t_hex_dump			*init_hex_dump(struct section_64 *sec,\
+									void *ptr, void *end)
 {
 	char		*datas;
-	t_hex_dump	*hd;			
+	t_hex_dump	*hd;
 
 	datas = (char *)(ptr + sec->offset);
 	if (!CHECKED(datas + sec->size, end))
@@ -67,7 +70,6 @@ t_hex_dump					*get_hex_dump_64(void *ptr, void *end, bool swap)
 		sw_mach_header_64(header);
 	segc = (struct segment_command_64 *)(header + 1);
 	endlc = (void *)segc + header->sizeofcmds;
-
 	if (endlc > end)
 		return (handle_error_null("Truncated load commands\n"));
 	if (!(sec = get_text_section(segc, swap, end)))

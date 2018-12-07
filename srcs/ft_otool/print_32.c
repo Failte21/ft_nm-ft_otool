@@ -6,15 +6,15 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:36:01 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 11:17:39 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 11:05:20 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-void print_dump_32_block(t_hex_dump *hp, bool swap)
+void	print_dump_32_block(t_hex_dump *hp, bool swap)
 {
-	uint32_t 	i;
+	uint32_t	i;
 	uint32_t	off;
 	uint32_t	e;
 
@@ -39,7 +39,7 @@ void print_dump_32_block(t_hex_dump *hp, bool swap)
 		ft_putchar('\n');
 }
 
-void print_dump_32_space(t_hex_dump *hp)
+void	print_dump_32_space(t_hex_dump *hp)
 {
 	uint32_t	i;
 

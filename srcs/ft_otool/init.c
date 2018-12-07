@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 14:29:33 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 10:59:44 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static cpu_type_t	get_cpu32(void *ptr)
 	return (header->cputype);
 }
 
-t_print_infos		*init_pinfos(t_hex_dump *hp, bool is_64, bool swap, void *ptr)
+t_print_infos		*init_pinfos(t_hex_dump *hp,\
+					bool is_64, bool swap, void *ptr)
 {
 	t_print_infos	*pinfos;
 

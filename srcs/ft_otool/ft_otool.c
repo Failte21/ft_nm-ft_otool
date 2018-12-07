@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/03 10:32:31 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 11:02:27 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@ static int	otool(int ac, char **av)
 	{
 		if (!(curr = get_infos(av[i])))
 		{
-			ft_putstr_fd("An error occured\n", 2); //Malloc error
+			ft_putstr_fd("An error occured\n", 2);
 			errors++;
 		}
 		else
 		{
 			errors += print_file(curr, av[i]);
-			// free_file(curr);
+			free_file(curr);
 		}
 		i++;
 	}
 	return (errors == 0 ? 0 : 1);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	return (otool(argc, argv));
 }

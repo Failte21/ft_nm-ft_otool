@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:00:51 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/05 10:17:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 11:10:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_header_simple(char *fname)
 	ft_putstr(":\n");
 }
 
-static void print_header_lib(char *fname, char *oname)
+static void	print_header_lib(char *fname, char *oname)
 {
 	ft_putstr(fname);
 	ft_putchar('(');

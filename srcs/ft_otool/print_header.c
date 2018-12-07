@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 09:00:51 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 11:10:04 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 13:29:17 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	print_header_lib(char *fname, char *oname)
 	ft_putstr("):\n");
 }
 
-void		print_header(enum ftype type, char *name, t_print_infos *curr)
+void		print_header(enum e_ftype type, char *name, t_print_infos *curr)
 {
 	if (type == LIB)
 		print_header_lib(name, curr->name);

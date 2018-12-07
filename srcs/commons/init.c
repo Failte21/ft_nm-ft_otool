@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 14:21:04 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 13:28:39 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_otool.h"
 
-static enum ftype	get_ftype(void *ptr)
+static enum e_ftype	get_ftype(void *ptr)
 {
 	uint32_t	magic;
 

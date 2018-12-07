@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 09:05:23 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:04:59 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # include "../libft/libft.h"
 
-enum			ftype {
+enum			e_ftype {
 	MH,
 	FAT,
 	LIB,
@@ -44,10 +44,10 @@ typedef struct	s_arch_info {
 	cpu_subtype_t	cpu_subtype;
 }				t_arch_info;
 
-typedef struct 	print_infos {
+typedef struct	s_print_infos {
 	struct s_sym		*sym;
 	char				*name;
-	struct print_infos	*next;
+	struct s_print_infos	*next;
 	cpu_type_t			cputype;
 	cpu_subtype_t		cpusubtype;
 	bool				is_64;
@@ -60,51 +60,37 @@ typedef struct	s_file {
 	void			*ptr;
 	void			*end;
 	t_print_infos	*head;
-	enum ftype		type;
+	enum e_ftype	type;
 }				t_file;
 
-
-//Init
 t_file			*init_file(char *name);
-
-//CPU
-char    		*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
-
-//Errors
+char			*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
 int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
 void			*handle_error_free(void *ptr);
-
-//Infos
 t_print_infos	*get_infos_list(t_file *f);
 t_file			*get_infos(char *name);
-
-//Fat
 t_print_infos	*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
 t_print_infos	*get_fat_infos_32(t_file *f, uint32_t n, bool swap);
-
-//Security
 void			*get_ptr(void *end, void *curr, uint32_t offset, size_t s_size);
-
-//Swap
 uint64_t		swap_int64(uint64_t x);
 uint32_t		swap_int32(uint32_t x);
 
-void    		sw_mach_header_32(struct mach_header *h);
-void    		sw_mach_header_64(struct mach_header_64 *h);
-void    		sw_segment_command_32(struct segment_command *sc);
-void    		sw_segment_command_64(struct segment_command_64 *sc);
-void 			sw_section_32(struct section *section);
-void 			sw_section_64(struct section_64 *section);
-void 			sw_nlist_64(struct nlist_64 *nl, uint32_t nsyms);
-void 			sw_nlist_32(struct nlist *nl, uint32_t nsyms);
-void 			sw_arch_32(struct fat_arch *arch);
-void 			sw_arch_64(struct fat_arch_64 *arch);
+void			sw_mach_header_32(struct mach_header *h);
+void			sw_mach_header_64(struct mach_header_64 *h);
+void			sw_segment_command_32(struct segment_command *sc);
+void			sw_segment_command_64(struct segment_command_64 *sc);
+void			sw_section_32(struct section *section);
+void			sw_section_64(struct section_64 *section);
+void			sw_nlist_64(struct nlist_64 *nl, uint32_t nsyms);
+void			sw_nlist_32(struct nlist *nl, uint32_t nsyms);
+void			sw_arch_32(struct fat_arch *arch);
+void			sw_arch_64(struct fat_arch_64 *arch);
 
-void    		sw_symtab_command(struct symtab_command *sc);
+void			sw_symtab_command(struct symtab_command *sc);
 void			sw_load_command(struct load_command *lc);
 
-#define CHECKED(s,e) ((void *)(s + 1) < (void *)e)
-#define S_32(e,s) (s ? swap_int32(e) : e)
+# define CHECKED(s,e) ((void *)(s + 1) < (void *)e)
+# define S_32(e,s) (s ? swap_int32(e) : e)
 
 #endif

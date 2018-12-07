@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 09:28:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 13:30:14 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	print_tree(t_sym *curr, bool is_64)
 }
 
 static int	print_infos(t_print_infos *curr,\
-	char *name, enum ftype type, bool multiple)
+	char *name, enum e_ftype type, bool multiple)
 {
 	int	err;
 

@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 13:28:39 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:49:52 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ static enum e_ftype	get_ftype(void *ptr)
 	uint32_t	magic;
 
 	magic = *(uint32_t *)ptr;
-	if (magic == FAT_MAGIC_64 || magic == FAT_MAGIC || magic == FAT_CIGAM || magic == FAT_CIGAM_64)
+	if (magic == FAT_MAGIC_64 || magic == FAT_MAGIC ||\
+		magic == FAT_CIGAM || magic == FAT_CIGAM_64)
 		return (FAT);
-	if (magic == MH_MAGIC || magic == MH_MAGIC_64 || magic == MH_CIGAM || magic == MH_CIGAM_64)
+	if (magic == MH_MAGIC || magic == MH_MAGIC_64 ||\
+		magic == MH_CIGAM || magic == MH_CIGAM_64)
 		return (MH);
 	if (!ft_strncmp((char *)ptr, ARMAG, SARMAG))
 		return (LIB);
@@ -38,7 +40,8 @@ t_file				*init_file(char *name)
 		return (handle_error_null("Could not open file\n"));
 	if (fstat(fd, &buf) < 0)
 		return (handle_error_null("Could not retrieve stats on file\n"));
-	if ((f->ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
+	if ((f->ptr = mmap(0, buf.st_size, PROT_READ |\
+		PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 		return (handle_error_null("Failed to map file into virtual memory\n"));
 	f->end = f->ptr + buf.st_size;
 	if ((close(fd)) < 0)

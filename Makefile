@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/07 10:43:40 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/07 14:58:29 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ COMMONS_SRC_NAMES += get_archname.c
 COMMONS_SRC_NAMES += fat_32.c
 COMMONS_SRC_NAMES += fat_64.c
 COMMONS_SRC_NAMES += init.c
+COMMONS_SRC_NAMES += swap_list.c
 
 NM_SRCS = $(addprefix $(SRCS_DIR)/$(NM_DIR)/, $(NM_SRC_NAMES))
 OTOOL_SRCS = $(addprefix $(SRCS_DIR)/$(OTOOL_DIR)/, $(OTOOL_SRC_NAMES))

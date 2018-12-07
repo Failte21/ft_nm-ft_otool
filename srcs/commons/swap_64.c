@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 10:59:26 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 13:47:36 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:53:04 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void    sw_mach_header_64(struct mach_header_64 *h)
 {
-	// h->cputype = ?; swap ?
-	// h->cpusubtype = ?; swap ?
 	h->filetype = swap_int32(h->filetype);
 	h->ncmds = swap_int32(h->ncmds);
 	h->sizeofcmds = swap_int32(h->sizeofcmds);
@@ -27,21 +25,16 @@ void    sw_segment_command_64(struct segment_command_64 *sc)
 {
 	sc->cmd = swap_int32(sc->cmd);
 	sc->cmdsize = swap_int32(sc->cmdsize);
-	// sc->segname = ?; //swap ?
 	sc->vmaddr = swap_int64(sc->vmaddr);
 	sc->vmsize = swap_int64(sc->vmsize);
 	sc->fileoff = swap_int64(sc->fileoff);
 	sc->filesize = swap_int64(sc->filesize);
-	// sc->maxprot = ?; //swap ?
-	// sc->initprot = ?; //swap ?
 	sc->nsects = swap_int32(sc->nsects);
 	sc->flags = swap_int32(sc->flags);
 };
 
 void sw_section_64(struct section_64 *section)
 {
-	// section->sectname = ? // swap ?;
-	// section->segname = ? // swap ?;
 	section->addr = swap_int64(section->addr);
 	section->size = swap_int64(section->size);
 	section->offset = swap_int64(section->offset);
@@ -62,26 +55,3 @@ void sw_arch_64(struct fat_arch_64 *arch)
 	arch->align = swap_int32(arch->align);
 	arch->reserved = swap_int32(arch->reserved);
 };
-
-
-void sw_nlist(struct nlist_64 *nl)
-{
-	nl->n_un.n_strx = swap_int64(nl->n_un.n_strx); //not tested
-	// nl->n_un.n_strx = ? // swap ?;
-	// nl->n_type = ? // swap ?;
-	// nl->n_sect = ? // swap ?;
-    // nl->n_desc = ? // swap ?;
-	nl->n_value = swap_int64(nl->n_value);
-};
-
-void sw_nlist_64(struct nlist_64 *nl, uint32_t nsyms)
-{
-    uint32_t    i;
-
-    i = 0;
-    while (i < nsyms)
-    {
-        sw_nlist(nl + i);
-        i++;
-    }
-}

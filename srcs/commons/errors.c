@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:48:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 10:06:57 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/07 14:18:12 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-int 	handle_error(char *msg)
+int		handle_error(char *msg)
 {
 	ft_putstr_fd(msg, 2);
 	return (1);

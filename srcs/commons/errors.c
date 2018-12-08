@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:48:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 14:18:12 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:27:41 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	*handle_error_null(char *msg)
 	return (NULL);
 }
 
-void	*handle_error_free(void *ptr)
+void	*handle_error_free(void *ptr, char *msg)
 {
 	free(ptr);
-	return (NULL);
+	return (msg ? handle_error_null(msg) : NULL);
 }

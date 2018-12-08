@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:13:02 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:35:54 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ t_file				*init_file(char *name)
 	if (!(f = (t_file *)malloc(sizeof(t_file))))
 		return (handle_error_null("Malloc error\n"));
 	if ((fd = open(name, O_RDONLY)) < 0)
-		return (handle_error_null("Could not open file\n"));
+		return (handle_error_free(f, "Could not open file\n"));
 	if (fstat(fd, &buf) < 0)
-		return (handle_error_null("Could not retrieve stats on file\n"));
+		return (handle_error_free(f, "Could not retrieve stats on file\n"));
 	if ((f->ptr = mmap(0, buf.st_size, PROT_READ |\
 		PROT_WRITE, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
-		return (handle_error_null("Failed to map file into virtual memory\n"));
+		return (handle_error_free(f, "Failed to map file into memory\n"));
 	f->end = f->ptr + buf.st_size;
 	if ((close(fd)) < 0)
-		return (handle_error_null("An error occured while closing the file\n"));
+		return (handle_error_free(f, "Error closing the file\n"));
 	if ((f->type = get_ftype(f->ptr)) == UNDEFINED)
-		return (handle_error_null("Unknown file type\n"));
+		return (handle_error_free(f, "Unknown file type\n"));
 	if (!(f->head = get_infos_list(f)))
-		return (handle_error_free(f));
+		return (handle_error_free(f, NULL));
 	return (f);
 }

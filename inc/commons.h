@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:14:48 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:33:57 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ typedef struct	s_arch_info {
 }				t_arch_info;
 
 typedef struct	s_print_infos {
-	struct s_sym		*sym;
-	char				*name;
+	struct s_sym			*sym;
+	char					*name;
 	struct s_print_infos	*next;
-	cpu_type_t			cputype;
-	cpu_subtype_t		cpusubtype;
-	bool				is_64;
-	bool				failed;
-	bool				swap;
-	struct s_hex_dump	*hex_dump;
+	cpu_type_t				cputype;
+	cpu_subtype_t			cpusubtype;
+	bool					is_64;
+	bool					failed;
+	bool					swap;
+	struct s_hex_dump		*hex_dump;
 }				t_print_infos;
 
 typedef struct	s_file {
@@ -67,7 +67,7 @@ t_file			*init_file(char *name);
 char			*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype);
 int				handle_error(char *msg);
 void			*handle_error_null(char *msg);
-void			*handle_error_free(void *ptr);
+void			*handle_error_free(void *ptr, char *msg);
 t_print_infos	*get_infos_list(t_file *f);
 t_file			*get_infos(char *name);
 t_print_infos	*get_fat_infos_64(t_file *f, uint32_t n, bool swap);

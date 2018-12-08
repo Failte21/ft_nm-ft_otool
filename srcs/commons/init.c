@@ -6,11 +6,11 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:38:36 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 14:49:52 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 10:13:02 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/ft_otool.h"
+#include "../../inc/commons.h"
 
 static enum e_ftype	get_ftype(void *ptr)
 {

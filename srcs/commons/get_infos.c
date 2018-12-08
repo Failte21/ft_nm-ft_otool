@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 12:27:37 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 09:55:55 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 10:14:01 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,42 +33,6 @@ static t_print_infos	*get_fat_infos(t_file *f)
 	if (is_64)
 		return (get_fat_infos_64(f, n, is_swap));
 	return (get_fat_infos_32(f, n, is_swap));
-}
-
-static t_print_infos	*get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
-{
-	char			*name;
-	char			*p;
-	t_print_infos	*el;
-	uint32_t		size;
-
-	name = (char *)(curr + 1);
-	p = name + ft_strlen(name);
-	if (!CHECKED(p, f->end))
-		return (handle_error_null("Truncated file\n"));
-	while (!(*p))
-		p++;
-	size = ft_atoi(curr->ar_size);
-	if (!(el = mh_infos(p, f->end)))
-		return (NULL);
-	el->name = name;
-	curr = (struct ar_hdr *)(name + size);
-	if ((void *)curr > f->end)
-		return (handle_error_null("Truncated file\n"));
-	if ((void *)curr == f->end)
-		return (el);
-	el->next = get_lib_infos_lst(f, curr);
-	return (el);
-}
-
-static t_print_infos	*get_lib_infos(t_file *f)
-{
-	struct ar_hdr	*h;
-	struct ar_hdr	*el;
-
-	h = (struct ar_hdr *)(f->ptr + SARMAG);
-	el = (struct ar_hdr *)((void *)(h + 1) + ft_atoi(h->ar_size));
-	return (get_lib_infos_lst(f, el));
 }
 
 t_print_infos			*get_infos_list(t_file *f)

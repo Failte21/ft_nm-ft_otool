@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 10:55:18 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 09:57:11 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 10:14:48 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_file			*get_infos(char *name);
 t_print_infos	*get_fat_infos_64(t_file *f, uint32_t n, bool swap);
 t_print_infos	*get_fat_infos_32(t_file *f, uint32_t n, bool swap);
 t_print_infos	*mh_infos(void *ptr, void *end);
+t_print_infos	*get_lib_infos(t_file *f);
 uint64_t		swap_int64(uint64_t x);
 uint32_t		swap_int32(uint32_t x);
 void			sw_mach_header_32(struct mach_header *h);

@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/08 10:14:58 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/08 13:45:52 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,12 +90,15 @@ $(OTOOL_NAME): $(OTOOL_OBJS) $(COMMON_OBJS) libft/libft.a
 	$(CC) -o $@ $^
 
 $(NM_OBJS_DIR)/%.o: $(SRCS_DIR)/$(NM_DIR)/%.c
+	@mkdir -p $(NM_OBJS_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 $(OTOOL_OBJS_DIR)/%.o: $(SRCS_DIR)/$(OTOOL_DIR)/%.c
+	@mkdir -p $(OTOOL_OBJS_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 $(COMMON_OBJS_DIR)/%.o: $(SRCS_DIR)/$(COMMONS_DIR)/%.c
+	@mkdir -p $(COMMON_OBJS_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 clean:

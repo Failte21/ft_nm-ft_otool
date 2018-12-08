@@ -6,13 +6,14 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:16:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/06 14:18:34 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 09:33:36 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_nm.h"
 
-static t_print_infos        *get_fat_macho(t_file *f, struct fat_arch *c, bool swap)
+static t_print_infos		*get_fat_macho(t_file *f,\
+							struct fat_arch *c, bool swap)
 {
 	t_print_infos	*curr;
 
@@ -24,19 +25,21 @@ static t_print_infos        *get_fat_macho(t_file *f, struct fat_arch *c, bool s
 	return (curr);
 }
 
-static struct fat_arch   *get_host_arch(void *ptr, struct fat_arch *c, uint32_t n, void *end, bool swap)
+static struct fat_arch		*get_host_arch(struct fat_arch *c,\
+											uint32_t n, bool swap)
 {
-	cpu_type_t  cpu_type;
+	cpu_type_t	cpu_type;
 
 	if (!n)
 		return (NULL);
 	cpu_type = swap ? swap_int32(c->cputype) : c->cputype;
-    if (cpu_type != CPU_TYPE_X86_64)
-        return (get_host_arch(ptr, c + 1, n - 1, end, swap));
-    return (c);
+	if (cpu_type != CPU_TYPE_X86_64)
+		return (get_host_arch(c + 1, n - 1, swap));
+	return (c);
 }
 
-static t_print_infos	    *get_fat_infos(t_file *f, struct fat_arch *c, uint32_t n, bool swap)
+static t_print_infos		*get_fat_infos(t_file *f, struct fat_arch *c,\
+										uint32_t n, bool swap)
 {
 	t_print_infos	*curr;
 
@@ -47,7 +50,7 @@ static t_print_infos	    *get_fat_infos(t_file *f, struct fat_arch *c, uint32_t 
 	return (curr);
 }
 
-t_print_infos			    *get_fat_infos_32(t_file *f, uint32_t n, bool swap)
+t_print_infos				*get_fat_infos_32(t_file *f, uint32_t n, bool swap)
 {
 	struct fat_header	*header;
 	struct fat_arch		*arch;
@@ -57,7 +60,7 @@ t_print_infos			    *get_fat_infos_32(t_file *f, uint32_t n, bool swap)
 	arch = (struct fat_arch *)(header + 1);
 	if (!CHECKED((arch + n), f->end))
 		return (handle_error_null("Truncated file\n"));
-	if ((host = get_host_arch(f->ptr, arch, n, f->end, swap)))
-        return (get_fat_macho(f, host, swap));
-	return (get_fat_infos(f, arch, n, swap)); //recursive is not necessary a good idea here
+	if ((host = get_host_arch(arch, n, swap)))
+		return (get_fat_macho(f, host, swap));
+	return (get_fat_infos(f, arch, n, swap));
 }

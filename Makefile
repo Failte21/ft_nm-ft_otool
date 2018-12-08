@@ -6,7 +6,7 @@
 #    By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/17 11:11:59 by lsimon            #+#    #+#              #
-#    Updated: 2018/12/07 14:58:29 by lsimon           ###   ########.fr        #
+#    Updated: 2018/12/08 09:37:55 by lsimon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ OTOOL_SRC_NAMES += print_32.c
 
 COMMONS_SRC_NAMES += get_infos.c
 COMMONS_SRC_NAMES += errors.c
-COMMONS_SRC_NAMES += get_ptr.c
 COMMONS_SRC_NAMES += swap.c
 COMMONS_SRC_NAMES += swap_32.c
 COMMONS_SRC_NAMES += swap_64.c

@@ -6,13 +6,13 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 15:11:10 by lsimon            #+#    #+#             */
-/*   Updated: 2018/11/22 10:29:01 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 09:35:28 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/commons.h"
 
-static const t_arch_info infos[] = {
+static const t_arch_info g_infos[] = {
 	{"any", CPU_TYPE_ANY, CPU_SUBTYPE_MULTIPLE},
 	{"arm", CPU_TYPE_ARM, CPU_SUBTYPE_ARM_ALL},
 	{"arm64", CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_ALL},
@@ -68,16 +68,17 @@ static const t_arch_info infos[] = {
 	{NULL, 0, 0}
 };
 
-char    *get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype)
+char	*get_archname(cpu_type_t cputype, cpu_subtype_t cpusubtype)
 {
-    unsigned int i;
+	unsigned int i;
 
-    i = 0;
-    while (infos[i].name)
-    {
-        if (cputype == infos[i].cpu_type && cpusubtype == infos[i].cpu_subtype)
-            return (infos[i].name);
-        i++;
-    }
-    return ("");
+	i = 0;
+	while (g_infos[i].name)
+	{
+		if (cputype == g_infos[i].cpu_type &&\
+			cpusubtype == g_infos[i].cpu_subtype)
+			return (g_infos[i].name);
+		i++;
+	}
+	return ("");
 }

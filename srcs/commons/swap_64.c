@@ -6,22 +6,22 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 10:59:26 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 14:53:04 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 13:12:13 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/commons.h"
 
-void    sw_mach_header_64(struct mach_header_64 *h)
+void	sw_mach_header_64(struct mach_header_64 *h)
 {
 	h->filetype = swap_int32(h->filetype);
 	h->ncmds = swap_int32(h->ncmds);
 	h->sizeofcmds = swap_int32(h->sizeofcmds);
-	h->flags = swap_int32(h->flags);		
+	h->flags = swap_int32(h->flags);
 	h->reserved = swap_int32(h->reserved);
 }
 
-void    sw_segment_command_64(struct segment_command_64 *sc)
+void	sw_segment_command_64(struct segment_command_64 *sc)
 {
 	sc->cmd = swap_int32(sc->cmd);
 	sc->cmdsize = swap_int32(sc->cmdsize);
@@ -31,9 +31,9 @@ void    sw_segment_command_64(struct segment_command_64 *sc)
 	sc->filesize = swap_int64(sc->filesize);
 	sc->nsects = swap_int32(sc->nsects);
 	sc->flags = swap_int32(sc->flags);
-};
+}
 
-void sw_section_64(struct section_64 *section)
+void	sw_section_64(struct section_64 *section)
 {
 	section->addr = swap_int64(section->addr);
 	section->size = swap_int64(section->size);
@@ -44,9 +44,9 @@ void sw_section_64(struct section_64 *section)
 	section->flags = swap_int64(section->flags);
 	section->reserved1 = swap_int64(section->reserved1);
 	section->reserved2 = swap_int64(section->reserved2);
-};
+}
 
-void sw_arch_64(struct fat_arch_64 *arch)
+void	sw_arch_64(struct fat_arch_64 *arch)
 {
 	arch->cputype = swap_int64(arch->cputype);
 	arch->cpusubtype = swap_int64(arch->cpusubtype);
@@ -54,4 +54,4 @@ void sw_arch_64(struct fat_arch_64 *arch)
 	arch->size = swap_int64(arch->size);
 	arch->align = swap_int32(arch->align);
 	arch->reserved = swap_int32(arch->reserved);
-};
+}

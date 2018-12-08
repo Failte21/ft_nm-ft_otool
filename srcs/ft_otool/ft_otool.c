@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:26:10 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 11:17:30 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ static int	otool(int ac, char **av)
 			errors++;
 		}
 		else
-		{
 			errors += print_file(curr, av[i]);
-			free_file(curr);
-		}
+		free_file(curr);
 		i++;
 	}
 	return (errors == 0 ? 0 : 1);

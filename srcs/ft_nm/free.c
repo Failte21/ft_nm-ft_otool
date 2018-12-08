@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 10:28:56 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:19:38 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:07:24 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void		free_infos(t_print_infos *curr)
 
 int				free_file(t_file *f)
 {
+	if (!f)
+		return (0);
 	free_infos(f->head);
 	if (munmap(f->ptr, (f->end - f->ptr)) == -1)
 		return (-1);

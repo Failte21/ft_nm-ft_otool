@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 10:14:11 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:15:25 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:11:48 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ static t_print_infos	*get_lib_infos_lst(t_file *f, struct ar_hdr *curr)
 	size = ft_atoi(curr->ar_size);
 	if (!(el = mh_infos(p, f->end)))
 		return (NULL);
-	el->name = name;
+	el->name = el->failed ? "" : name;
 	curr = (struct ar_hdr *)(name + size);
-	if ((void *)curr > f->end)
-		return (handle_error_null("Truncated file\n"));
-	if ((void *)curr == f->end)
+	if ((void *)curr >= f->end)
 		return (el);
 	el->next = get_lib_infos_lst(f, curr);
 	return (el);

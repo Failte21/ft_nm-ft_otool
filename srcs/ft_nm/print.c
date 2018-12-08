@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 12:44:03 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/07 13:30:14 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:16:35 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	print_infos(t_print_infos *curr,\
 		}
 		else
 			print_tree(curr->sym, curr->is_64);
-		print_infos(curr->next, name, type, multiple);
+		return (err + print_infos(curr->next, name, type, multiple));
 	}
 	return (err);
 }

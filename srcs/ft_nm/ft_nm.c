@@ -6,7 +6,7 @@
 /*   By: lsimon <lsimon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:50:04 by lsimon            #+#    #+#             */
-/*   Updated: 2018/12/08 10:24:15 by lsimon           ###   ########.fr       */
+/*   Updated: 2018/12/08 12:19:29 by lsimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ static int						nm(int ac, char **av)
 			errors++;
 		}
 		else
-		{
 			errors += print_file(curr, av[i], ac > 2);
-			free_file(curr);
-		}
+		free_file(curr);
 		i++;
 	}
 	return (errors == 0 ? 0 : 1);
